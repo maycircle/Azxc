@@ -8,33 +8,33 @@ using HarmonyLib;
 using DuckGame;
 
 using Azxc.Bindings;
+using Azxc.UI;
 
 namespace Azxc
 {
     public class Azxc : Mod
     {
-        public Harmony harmony;
-        public static BindingManager _bindingManager;
+        public static AzxcCore core;
 
         public Azxc()
         {
-            harmony = new Harmony("harmony_ultra_unique_id");
+            core = new AzxcCore();
             // Probably, in future i will create a special AutoPatcher for this
-            harmony.PatchAll();
-
-            _bindingManager = new BindingManager();
+            core.harmony.PatchAll();
+            core.Prepare();
         }
 
         protected override void OnPostInitialize()
         {
             // Call OnTick on every tick. Some sort of Update, but actually no
-            harmony.Patch(typeof(RockWeather).GetMethod("TickWeather"),
+            core.harmony.Patch(typeof(RockWeather).GetMethod("TickWeather"),
                 postfix: new HarmonyMethod(typeof(Azxc), "OnTick"));
         }
 
         public static void OnTick()
         {
-            _bindingManager.Update();
+            core.bindingManager.Update();
+            core.uiManager.Update();
         }
     }
 }

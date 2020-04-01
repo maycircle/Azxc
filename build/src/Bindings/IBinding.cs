@@ -4,6 +4,6 @@ namespace Azxc.Bindings
 {
     public interface IBinding
     {
-        void AddBinding();
+        void Update();
     }
 }
