@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-using HarmonyLib;
+using Harmony;
 using DuckGame;
 
 using Azxc.Bindings;

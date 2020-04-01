@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-using HarmonyLib;
+using Harmony;
 using DuckGame;
 
 using Azxc.Bindings;
@@ -14,14 +14,14 @@ namespace Azxc
 {
     public class AzxcCore
     {
-        public Harmony harmony;
+        public HarmonyInstance harmony;
 
         public BindingManager bindingManager;
         public UserInterfaceManager uiManager;
 
         public AzxcCore()
         {
-            harmony = new Harmony("harmony_ultra_unique_id");
+            harmony = HarmonyInstance.Create("harmony_ultra_unique_id");
         }
 
         public void Prepare()
