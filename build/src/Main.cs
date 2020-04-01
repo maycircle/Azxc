@@ -7,6 +7,8 @@ using System.Reflection;
 using HarmonyLib;
 using DuckGame;
 
+using Azxc.Bindings;
+
 namespace Azxc
 {
     public class Azxc : Mod

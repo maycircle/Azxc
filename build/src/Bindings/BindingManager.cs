@@ -5,7 +5,7 @@ using System.Reflection;
 
 using DuckGame;
 
-namespace Azxc
+namespace Azxc.Bindings
 {
     public class BindingManager : IEnumerable<IBinding>, IAutoUpdate
     {

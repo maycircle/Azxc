@@ -2,7 +2,7 @@ using System;
 
 using DuckGame;
 
-namespace Azxc
+namespace Azxc.Bindings
 {
     class BindingAttribute : Attribute
     {
