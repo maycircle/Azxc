@@ -10,8 +10,6 @@ set TargetFile=%~nx2
 echo TargetFile: %TargetFile%
 set TargetDir=%~dp2
 echo TargetDir: %TargetDir%
-set ConfigurationName=%3
-echo ConfigurationName: %ConfigurationName%
 
 set Outdir=%TargetDir%%Output%
 echo Outdir: %Outdir%

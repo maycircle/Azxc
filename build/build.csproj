@@ -89,6 +89,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>SET MODPATH=%25USERPROFILE%25\Documents\DuckGame\Mods\$(TargetName)
+SET MERGED="$(TargetDir)merged\$(TargetName)"
 SET GAMEPATH=D:\games\Steam\steamapps\common\Duck Game\
 SET GAMEEXE=DuckGame.exe
 ECHO "%25MODPATH%25"
@@ -96,7 +97,7 @@ IF NOT EXIST "%25MODPATH%25" (
     MKDIR "%25MODPATH%25"
 )
 COPY "%25GAMEPATH%25%25GAMEEXE%25" "$(TargetDir)"
-COPY "$(TargetPath)" "%25MODPATH%25\$(TargetFileName)"
+COPY "%25MERGED%25" "%25MODPATH%25\$(TargetFileName)"
 COPY "$(ProjectDir)mod.conf" "%25MODPATH%25\"
 RMDIR /S /Q "%25MODPATH%25\content\"
 XCOPY "$(ProjectDir)\content" "%25MODPATH%25\content\" /E /Y /Q
