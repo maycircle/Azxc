@@ -8,8 +8,12 @@ set TargetPath=%2
 echo TargetPath: %TargetPath%
 set TargetFile=%~nx2
 echo TargetFile: %TargetFile%
+set TargetName=%~n2
+echo TargetName: %TargetName%
 set TargetDir=%~dp2
 echo TargetDir: %TargetDir%
+set ModPath=%3
+echo ModPath: %ModPath%
 
 set Outdir=%TargetDir%%Output%
 echo Outdir: %Outdir%
@@ -20,3 +24,7 @@ IF EXIST "%Outdir%" rmdir /S /Q "%Outdir%"
 md "%Outdir%"
 
 "%ILMerge%" /wildcards /targetplatform:%NET% /out:%Result% %TargetPath% "%TargetDir%0Harmony.dll" /allowDup:HarmonyLib.*
+
+set Merged="%TargetDir%merged"
+ECHO "%Merged%"
+COPY "%Merged%\%TargetFile%" "%ModPath%\%TargetFile%"

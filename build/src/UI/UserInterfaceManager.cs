@@ -22,6 +22,7 @@ namespace Azxc.UI
     public class UserInterfaceManager : IAutoUpdate, IBinding
     {
         private UserInterfaceState _state;
+        private Queue<Control> _controls;
 
         public UserInterfaceState state
         {
@@ -31,6 +32,7 @@ namespace Azxc.UI
         public UserInterfaceManager(UserInterfaceState state)
         {
             _state = state;
+            _controls = new Queue<Control>();
 
             // So our GUI will draw everywhere
             Azxc.core.harmony.Patch(typeof(Level).GetMethod("DoDraw"),
@@ -49,11 +51,20 @@ namespace Azxc.UI
         public void Update()
         {
             BindingManager.UsedBinding(this, "Open");
+
+            foreach (Control control in _controls.OfType<IAutoUpdate>())
+            {
+                IAutoUpdate updatable = control as IAutoUpdate;
+                updatable.Update();
+            }
         }
 
         public void Draw()
         {
-
+            foreach (Control control in _controls)
+            {
+                control.Draw();
+            }
         }
     }
 }
