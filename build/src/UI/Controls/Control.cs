@@ -7,15 +7,13 @@ using System.Reflection;
 using Harmony;
 using DuckGame;
 
-namespace Azxc
+namespace Azxc.UI.Controls
 {
     class Control
     {
-        public Vec2 position;
-
-        public Control(Vec2 position)
+        public Control()
         {
-            this.position = position;
+            
         }
 
         public virtual void Draw()

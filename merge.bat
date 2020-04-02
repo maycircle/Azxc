@@ -23,7 +23,7 @@ echo Result: %Result%
 IF EXIST "%Outdir%" rmdir /S /Q "%Outdir%"
 md "%Outdir%"
 
-"%ILMerge%" /wildcards /targetplatform:%NET% /out:%Result% %TargetPath% "%TargetDir%0Harmony.dll" /allowDup:HarmonyLib.*
+"%ILMerge%" /wildcards /targetplatform:%NET% /out:%Result% %TargetPath% "%TargetDir%0Harmony.dll" /allowDup
 
 set Merged="%TargetDir%merged"
 ECHO "%Merged%"
