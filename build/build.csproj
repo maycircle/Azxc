@@ -86,6 +86,7 @@
     <Compile Include="src\Bindings\BindingManager.cs" />
     <Compile Include="src\Bindings\IAutoBinding.cs" />
     <Compile Include="src\Bindings\IBinding.cs" />
+    <Compile Include="src\Bindings\MouseButtons.cs" />
     <Compile Include="src\CommandAttribute.cs" />
     <Compile Include="src\Console.cs" />
     <Compile Include="src\Core.cs" />

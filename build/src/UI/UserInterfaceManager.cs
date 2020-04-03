@@ -28,6 +28,7 @@ namespace Azxc.UI
     public class UserInterfaceManager : IAutoUpdate, IBinding
     {
         private UserInterfaceState _state;
+        // Only for controls which needs to be auto-updated (Windows)
         private Queue<Control> _controls;
 
         private Cursor _cursor;
@@ -65,7 +66,7 @@ namespace Azxc.UI
             resolution = __instance.camera.width / 320f;
         }
 
-        [Binding(Keys.Insert)]
+        [Binding(Keys.Insert, InputState.Pressed)]
         public void Open()
         {
             if (_state.HasFlag(UserInterfaceState.Open))

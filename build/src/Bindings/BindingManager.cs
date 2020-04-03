@@ -50,14 +50,14 @@ namespace Azxc.Bindings
             if (binding == null)
                 return;
 
-            if (Keyboard.Pressed(binding.key))
+            if (binding.UsedBinding())
                 method.Invoke(original, null);
         }
 
         public static void UsedBinding(IBinding original, string methodName, BindingAttribute binding)
         {
             MethodInfo method = original.GetType().GetMethod(methodName);
-            if (Keyboard.Pressed(binding.key))
+            if (binding.UsedBinding())
                 method.Invoke(original, null);
         }
 
@@ -74,7 +74,7 @@ namespace Azxc.Bindings
                         if (attribute is BindingAttribute)
                         {
                             BindingAttribute found = (attribute as BindingAttribute);
-                            if (Keyboard.Pressed(found.key))
+                            if (found.UsedBinding())
                                 method.Invoke(binding, null);
                         }
                     }
