@@ -9,7 +9,7 @@ using DuckGame;
 
 namespace Azxc.UI.Controls
 {
-    class Cursor : Control, IAutoUpdate, IPosition
+    public class Cursor : Control, IAutoUpdate, IPosition
     {
         public Vec2 position { get; set; }
 

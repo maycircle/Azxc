@@ -27,25 +27,34 @@ namespace Azxc.UI
 
     public class UserInterfaceManager : IAutoUpdate, IBinding
     {
-        private UserInterfaceState _state;
-        // Only for controls which needs to be auto-updated (Windows)
-        private List<Control> _controls;
-
-        private Cursor _cursor;
+        private UserInterfaceCore core;
 
         private static float resolution;
 
         public UserInterfaceState state
         {
-            get { return _state; }
+            get { return core.state; }
+        }
+
+        public List<Control> controls
+        {
+            get { return core.controls; }
+        }
+
+        public Cursor cursor
+        {
+            get { return core.cursor; }
+        }
+
+        public FancyBitmapFont font
+        {
+            get { return core.font; }
         }
 
         public UserInterfaceManager(UserInterfaceState state)
         {
-            _state = state;
-            _controls = new List<Control>();
-
-            _cursor = new Cursor(1f, Vec2.One);
+            core = new UserInterfaceCore();
+            core.state = state;
 
             // So our GUI will draw everywhere
             Azxc.core.harmony.Patch(typeof(Level).GetMethod("DoDraw"),
@@ -69,33 +78,33 @@ namespace Azxc.UI
         [Binding(Keys.Insert, InputState.Pressed)]
         public void Open()
         {
-            if (_state.HasFlag(UserInterfaceState.Open))
+            if (core.state.HasFlag(UserInterfaceState.Open))
             {
-                _state &= ~UserInterfaceState.Open;
-                _state |= UserInterfaceState.Freeze;
+                core.state &= ~UserInterfaceState.Open;
+                core.state |= UserInterfaceState.Freeze;
             }
             else
             {
-                _state |= UserInterfaceState.Open;
-                _state &= ~UserInterfaceState.Freeze;
+                core.state |= UserInterfaceState.Open;
+                core.state &= ~UserInterfaceState.Freeze;
             }
         }
 
         public void Update()
         {
-            if (!_state.HasFlag(UserInterfaceState.Enabled))
+            if (!core.state.HasFlag(UserInterfaceState.Enabled))
                 return;
 
             BindingManager.UsedBinding(this, "Open");
 
-            if (_state.HasFlag(UserInterfaceState.Freeze))
+            if (core.state.HasFlag(UserInterfaceState.Freeze))
                 return;
 
-            _cursor.scale = new Vec2(resolution / 2f);
-            _cursor.position = Mouse.position;
-            _cursor.Update();
+            core.cursor.scale = new Vec2(resolution / 2f);
+            core.cursor.position = Mouse.position;
+            core.cursor.Update();
 
-            foreach (Control control in _controls.OfType<IAutoUpdate>())
+            foreach (Control control in core.controls.OfType<IAutoUpdate>())
             {
                 IAutoUpdate updatable = control as IAutoUpdate;
                 updatable.Update();
@@ -104,12 +113,12 @@ namespace Azxc.UI
 
         public void Draw()
         {
-            if (!_state.HasFlag(UserInterfaceState.Open))
+            if (!core.state.HasFlag(UserInterfaceState.Open))
                 return;
 
-            _cursor.Draw();
+            core.cursor.Draw();
 
-            foreach (Control control in _controls)
+            foreach (Control control in core.controls)
             {
                 control.Draw();
             }
@@ -117,12 +126,12 @@ namespace Azxc.UI
 
         public void AddControl(Control control)
         {
-            _controls.Add(control);
+            core.controls.Add(control);
         }
 
         public void RemoveControl(Control control)
         {
-            _controls.Remove(control);
+            core.controls.Remove(control);
         }
     }
 }
