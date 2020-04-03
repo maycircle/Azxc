@@ -9,16 +9,18 @@ using DuckGame;
 
 namespace Azxc.UI.Controls
 {
-    class Control
+    public class Control
     {
+        public bool visible { get; set; }
+
         public Control()
         {
-            
+            visible = true;
         }
 
         public virtual void Draw()
         {
-
+            
         }
     }
 }

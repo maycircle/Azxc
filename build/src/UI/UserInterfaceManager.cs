@@ -29,7 +29,7 @@ namespace Azxc.UI
     {
         private UserInterfaceState _state;
         // Only for controls which needs to be auto-updated (Windows)
-        private Queue<Control> _controls;
+        private List<Control> _controls;
 
         private Cursor _cursor;
 
@@ -43,7 +43,7 @@ namespace Azxc.UI
         public UserInterfaceManager(UserInterfaceState state)
         {
             _state = state;
-            _controls = new Queue<Control>();
+            _controls = new List<Control>();
 
             _cursor = new Cursor(1f, Vec2.One);
 
@@ -113,6 +113,16 @@ namespace Azxc.UI
             {
                 control.Draw();
             }
+        }
+
+        public void AddControl(Control control)
+        {
+            _controls.Add(control);
+        }
+
+        public void RemoveControl(Control control)
+        {
+            _controls.Remove(control);
         }
     }
 }

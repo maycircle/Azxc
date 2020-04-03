@@ -94,6 +94,8 @@
     <Compile Include="src\UI\Controls\Control.cs" />
     <Compile Include="src\UI\Controls\Cursor.cs" />
     <Compile Include="src\UI\Controls\IPosition.cs" />
+    <Compile Include="src\UI\Controls\ISize.cs" />
+    <Compile Include="src\UI\Controls\Window.cs" />
     <Compile Include="src\UI\UserInterfaceState.cs" />
     <Compile Include="src\UI\UserInterfaceManager.cs" />
   </ItemGroup>
