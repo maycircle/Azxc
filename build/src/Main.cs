@@ -9,6 +9,7 @@ using DuckGame;
 
 using Azxc.Bindings;
 using Azxc.UI;
+using Azxc.UI.Controls;
 
 namespace Azxc
 {
@@ -29,6 +30,9 @@ namespace Azxc
             // Call OnTick on every tick. Some sort of Update, but actually no
             core.harmony.Patch(typeof(RockWeather).GetMethod("TickWeather"),
                 postfix: new HarmonyMethod(typeof(Azxc), "OnTick"));
+
+            MainWindow mainWindow = new MainWindow(new Vec2(5f), new Vec2(48f, 24f));
+            mainWindow.Show();
         }
 
         public static void OnTick()

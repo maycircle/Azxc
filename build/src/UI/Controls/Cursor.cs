@@ -9,10 +9,8 @@ using DuckGame;
 
 namespace Azxc.UI.Controls
 {
-    public class Cursor : Control, IAutoUpdate, IPosition
+    public class Cursor : Control, IAutoUpdate
     {
-        public Vec2 position { get; set; }
-
         private SpriteMap _sprite;
 
         public Vec2 scale

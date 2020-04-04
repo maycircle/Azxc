@@ -9,16 +9,9 @@ using DuckGame;
 
 namespace Azxc.UI.Controls
 {
-    class Window : Control, IAutoUpdate, IPosition, ISize
+    class Window : Control, IAutoUpdate
     {
-        public Vec2 position { get; set; }
-        public Vec2 size { get; set; }
-
-        // The position and size where all controls would start drawing
-        public Vec2 workPlacePosition;
-        public Vec2 workPlaceSize;
-
-        protected List<Control> _items;
+        protected Workplace workPlace;
 
         // Not very important variable
         public Vec2 indent;
@@ -27,16 +20,19 @@ namespace Azxc.UI.Controls
         {
             this.position = position;
             this.size = size;
+
             // This is only for pretty look, so i'll use standart value everywhere
             indent = Vec2.One / 2;
 
-            _items = new List<Control>();
+            workPlace = new Workplace();
         }
 
         public void Update()
         {
-            workPlacePosition = position + indent * 2;
-            workPlaceSize = size - indent * 2;
+            workPlace.position = position + indent * 2;
+            workPlace.size = size - indent * 2;
+
+            workPlace.Update();
         }
 
         public override void Draw()
@@ -46,8 +42,20 @@ namespace Azxc.UI.Controls
 
             // Window borders themselves
             Graphics.DrawRect(position, position + size, Color.Black);
-            Graphics.DrawRect(workPlacePosition - indent, workPlacePosition + workPlaceSize - indent,
+            Graphics.DrawRect(workPlace.position - indent, workPlace.position + workPlace.size - indent,
                 Color.DarkSlateGray, 0.1f, false, 0.5f);
+
+            workPlace.Draw();
+        }
+
+        public virtual void AddItem(Control item)
+        {
+            workPlace.Add(item);
+        }
+
+        public virtual void RemoveItem(Control item)
+        {
+            workPlace.Remove(item);
         }
 
         public virtual void Show()

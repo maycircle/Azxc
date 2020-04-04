@@ -19,13 +19,16 @@ namespace Azxc.UI
         public List<Control> controls;
 
         public Cursor cursor;
+
         public FancyBitmapFont font;
 
         public UserInterfaceCore()
         {
             controls = new List<Control>();
             cursor = new Cursor(1f, Vec2.One);
+
             font = new FancyBitmapFont("smallFont");
+            font.scale = new Vec2(0.35f);
         }
     }
 }
