@@ -31,7 +31,7 @@ namespace Azxc
             core.harmony.Patch(typeof(RockWeather).GetMethod("TickWeather"),
                 postfix: new HarmonyMethod(typeof(Azxc), "OnTick"));
 
-            MainWindow mainWindow = new MainWindow(new Vec2(5f), new Vec2(48f, 24f));
+            MainWindow mainWindow = new MainWindow(new Vec2(5f), SizeModes.Flexible);
             mainWindow.Show();
         }
 

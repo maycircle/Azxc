@@ -71,7 +71,9 @@ namespace Azxc.UI.Controls
                 }
                 item.x = x + inner.x;
                 item.y = y + CalculateHeights(i) + (inner.y * (i + 1));
-                item.width = width - inner.x * 4;
+                IIndent impl = item as IIndent;
+                if (item.width + impl.indent.x < width)
+                    item.width = width - inner.x * 4;
             }
         }
 

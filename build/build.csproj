@@ -94,7 +94,9 @@
     <Compile Include="src\UI\Controls\Button.cs" />
     <Compile Include="src\UI\Controls\Control.cs" />
     <Compile Include="src\UI\Controls\Cursor.cs" />
+    <Compile Include="src\UI\Controls\IIndent.cs" />
     <Compile Include="src\UI\Controls\Label.cs" />
+    <Compile Include="src\UI\Controls\SizeModes.cs" />
     <Compile Include="src\UI\Controls\Window.cs" />
     <Compile Include="src\UI\Controls\Workplace.cs" />
     <Compile Include="src\UI\MainWindow.cs" />

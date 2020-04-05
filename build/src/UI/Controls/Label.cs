@@ -9,13 +9,13 @@ using DuckGame;
 
 namespace Azxc.UI.Controls
 {
-    public class Label<T> : Control, IAutoUpdate
+    public class Label<T> : Control, IAutoUpdate, IIndent
     {
         public string text { get; set; }
         public T font { get; set; }
         public int characterHeight { get; }
 
-        public Vec2 indent;
+        public Vec2 indent { get; set; }
 
         public Label(string text, T font)
         {
@@ -57,7 +57,8 @@ namespace Azxc.UI.Controls
         public override void Draw()
         {
             // Using AccessTools.Method because i'm too lazy to use basic typeof ;)
-            MethodInfo draw = AccessTools.Method(typeof(T), "Draw", new Type[] { typeof(string), typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
+            MethodInfo draw = AccessTools.Method(typeof(T), "Draw",new Type[] { typeof(string),
+                typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
             draw.Invoke(font, new object[] { text, position, Color.White, new Depth(1f), true });
         }
     }

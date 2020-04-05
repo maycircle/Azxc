@@ -11,20 +11,46 @@ namespace Azxc.UI.Controls
 {
     class Window : Control, IAutoUpdate
     {
+        public SizeModes sizeMode { get; }
+
         protected Workplace workPlace;
 
         // Not very important variable
         public Vec2 indent;
 
-        public Window(Vec2 position, Vec2 size)
+        public Window(Vec2 position, SizeModes sizeMode = SizeModes.Static)
         {
             this.position = position;
-            this.size = size;
+
+            this.size = Vec2.Zero;
+            this.sizeMode = sizeMode;
 
             // This is only for pretty look, so i'll use standart value everywhere
             indent = Vec2.One / 2;
 
             workPlace = new Workplace();
+        }
+
+        private void FitToItems()
+        {
+            float longest = 0f;
+            float sumHeight = 0f;
+            foreach (Control item in workPlace)
+            {
+                if (item is IAutoUpdate)
+                {
+                    IAutoUpdate updatable = item as IAutoUpdate;
+                    updatable.Update();
+                }
+                if (item.width > longest)
+                {
+                    IIndent impl = item as IIndent;
+                    longest = item.width + impl.indent.x;
+                }
+                sumHeight += item.height;
+            }
+            width = longest + indent.x * 4;
+            height = sumHeight + (workPlace.inner.y * workPlace.Count()) + indent.y * 5;
         }
 
         public void Update()
@@ -51,6 +77,8 @@ namespace Azxc.UI.Controls
         public virtual void AddItem(Control item)
         {
             workPlace.Add(item);
+            if (sizeMode == SizeModes.Flexible)
+                FitToItems();
         }
 
         public virtual void RemoveItem(Control item)
