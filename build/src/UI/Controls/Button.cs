@@ -9,17 +9,31 @@ using DuckGame;
 
 namespace Azxc.UI.Controls
 {
-    public class Button<T> : Label<T>, IAutoUpdate, ISelect
+    public class Button<T> : Label<T>, IAutoUpdate, ITooltip, ISelect
     {
+        public bool showToolTip { get; set; }
+        public string toolTipText { get; set; }
+
         public bool selected { get; set; }
 
         public Button(string text, T font) : base(text, font)
         {
+            toolTipText = "";
+            showToolTip = false;
             indent = Vec2.One;
         }
 
-        public Button(string text, T font, Vec2 position) : base(text, font, position)
+        public Button(string text, string toolTipText, T font) : base(text, font)
         {
+            this.toolTipText = toolTipText;
+            showToolTip = true;
+            indent = Vec2.One;
+        }
+
+        public Button(string text, string toolTipText, T font, Vec2 position) : base(text, font, position)
+        {
+            this.toolTipText = toolTipText;
+            showToolTip = true;
             indent = Vec2.One;
         }
 
@@ -29,9 +43,27 @@ namespace Azxc.UI.Controls
             height = characterHeight * GetScale().y + indent.y * 2;
         }
 
+        public void DrawTooltip()
+        {
+            float toolTipIndent = 2f;
+            Vec2 start = new Vec2(x + width + toolTipIndent, y);
+            MethodInfo getWidth = AccessTools.Method(typeof(T), "GetWidth");
+            float toolTipWidth = (float)getWidth.Invoke(font, new object[] { toolTipText, false });
+            Vec2 end = new Vec2(toolTipWidth + indent.x * 2, characterHeight * GetScale().y + indent.y * 2);
+
+            Graphics.DrawRect(start, start + end, Color.Black * 0.5f, 1f);
+
+            MethodInfo draw = AccessTools.Method(typeof(T), "Draw", new Type[] { typeof(string), typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
+            draw.Invoke(font, new object[] { toolTipText, start + indent, Color.White, new Depth(1f), true });
+        }
+
         public override void Draw()
         {
+            if (selected && showToolTip)
+                DrawTooltip();
+
             Graphics.DrawRect(position, position + size, selected ? Color.DarkSlateGray : new Color(17, 39, 39), 1f);
+
             // Draw text itself
             MethodInfo draw = AccessTools.Method(typeof(T), "Draw", new Type[] { typeof(string), typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
             draw.Invoke(font, new object[] { text, position + indent, Color.White, new Depth(1f), true });

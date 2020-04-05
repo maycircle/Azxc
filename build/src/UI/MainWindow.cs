@@ -27,8 +27,8 @@ namespace Azxc.UI
             label1 = new Label<FancyBitmapFont>("Label #1", Azxc.core.uiManager.font);
             label2 = new Label<FancyBitmapFont>("Testing new label #2 UwU", Azxc.core.uiManager.font);
             button1 = new Button<FancyBitmapFont>("Button #1", Azxc.core.uiManager.font);
-            button2 = new Button<FancyBitmapFont>("Testing button #2", Azxc.core.uiManager.font);
-            button3 = new Button<FancyBitmapFont>("Testing new button number 3 UwU", Azxc.core.uiManager.font);
+            button2 = new Button<FancyBitmapFont>("Testing button #2", "with tooltip.", Azxc.core.uiManager.font);
+            button3 = new Button<FancyBitmapFont>("Testing new button number 3 UwU", "with much longer tootlip.", Azxc.core.uiManager.font);
         }
 
         public void Prepare()
@@ -37,7 +37,7 @@ namespace Azxc.UI
            AddItem(button1);
            AddItem(label2);
            AddItem(button2);
-           //AddItem(button3);
+           AddItem(button3);
         }
     }
 }

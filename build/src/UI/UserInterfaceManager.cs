@@ -27,37 +27,37 @@ namespace Azxc.UI
 
     public class UserInterfaceManager : IAutoUpdate, IBinding
     {
-        private UserInterfaceCore core;
-        private UserInterfaceInteract interact;
+        private UserInterfaceCore _core;
+        private UserInterfaceInteract _interact;
 
-        private static float resolution;
+        private static float _resolution;
 
         public UserInterfaceState state
         {
-            get { return core.state; }
+            get { return _core.state; }
         }
 
         public List<Control> controls
         {
-            get { return core.controls; }
+            get { return _core.controls; }
         }
 
         public Cursor cursor
         {
-            get { return core.cursor; }
+            get { return _core.cursor; }
         }
 
         public FancyBitmapFont font
         {
-            get { return core.font; }
+            get { return _core.font; }
         }
 
         public UserInterfaceManager(UserInterfaceState state)
         {
-            core = new UserInterfaceCore();
-            core.state = state;
+            _core = new UserInterfaceCore();
+            _core.state = state;
 
-            interact = new UserInterfaceInteract();
+            _interact = new UserInterfaceInteract();
 
             // So our GUI will draw everywhere
             Azxc.core.harmony.Patch(typeof(Level).GetMethod("DoDraw"),
@@ -75,41 +75,41 @@ namespace Azxc.UI
         // The method would be called each time any level loads
         private static void OnLevelLoad(Level __instance)
         {
-            resolution = __instance.camera.width / 320f;
+            _resolution = __instance.camera.width / 320f;
         }
 
         [Binding(Keys.Insert, InputState.Pressed)]
         public void Open()
         {
-            if (core.state.HasFlag(UserInterfaceState.Open))
+            if (_core.state.HasFlag(UserInterfaceState.Open))
             {
-                core.state &= ~UserInterfaceState.Open;
-                core.state |= UserInterfaceState.Freeze;
+                _core.state &= ~UserInterfaceState.Open;
+                _core.state |= UserInterfaceState.Freeze;
             }
             else
             {
-                core.state |= UserInterfaceState.Open;
-                core.state &= ~UserInterfaceState.Freeze;
+                _core.state |= UserInterfaceState.Open;
+                _core.state &= ~UserInterfaceState.Freeze;
             }
         }
 
         public void Update()
         {
-            if (!core.state.HasFlag(UserInterfaceState.Enabled))
+            if (!_core.state.HasFlag(UserInterfaceState.Enabled))
                 return;
-
-            interact.Update();
 
             BindingManager.UsedBinding(this, "Open");
 
-            if (core.state.HasFlag(UserInterfaceState.Freeze))
+            if (_core.state.HasFlag(UserInterfaceState.Freeze))
                 return;
 
-            core.cursor.scale = new Vec2(resolution / 2f);
-            core.cursor.position = Mouse.position;
-            core.cursor.Update();
+            _interact.Update();
 
-            foreach (Control control in core.controls.OfType<IAutoUpdate>())
+            _core.cursor.scale = new Vec2(_resolution / 2f);
+            _core.cursor.position = Mouse.position;
+            _core.cursor.Update();
+
+            foreach (Control control in _core.controls.OfType<IAutoUpdate>())
             {
                 IAutoUpdate updatable = control as IAutoUpdate;
                 updatable.Update();
@@ -118,12 +118,12 @@ namespace Azxc.UI
 
         public void Draw()
         {
-            if (!core.state.HasFlag(UserInterfaceState.Open))
+            if (!_core.state.HasFlag(UserInterfaceState.Open))
                 return;
 
-            core.cursor.Draw();
+            _core.cursor.Draw();
 
-            foreach (Control control in core.controls)
+            foreach (Control control in _core.controls)
             {
                 control.Draw();
             }
@@ -131,12 +131,12 @@ namespace Azxc.UI
 
         public void AddControl(Control control)
         {
-            core.controls.Add(control);
+            _core.controls.Add(control);
         }
 
         public void RemoveControl(Control control)
         {
-            core.controls.Remove(control);
+            _core.controls.Remove(control);
         }
     }
 }
