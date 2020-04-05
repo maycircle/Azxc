@@ -26,6 +26,17 @@ namespace Azxc.UI
             get { return _selectedItem; }
         }
 
+        [Binding(Keys.Enter, InputState.Pressed)]
+        public void ActivateItem()
+        {
+            Control item = GetItem();
+            if (item == null || !(item is IClickable))
+                return;
+
+            IClickable impl = item as IClickable;
+            impl.Click();
+        }
+
         [Binding(Keys.Up, InputState.Pressed)]
         public void MoveUp()
         {
@@ -58,6 +69,7 @@ namespace Azxc.UI
 
             _selectedItem = GetSelectedItem();
 
+            BindingManager.UsedBinding(this, "ActivateItem");
             BindingManager.UsedBinding(this, "MoveUp");
             BindingManager.UsedBinding(this, "MoveDown");
 

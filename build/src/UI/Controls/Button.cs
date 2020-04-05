@@ -7,9 +7,11 @@ using System.Reflection;
 using Harmony;
 using DuckGame;
 
+using Azxc.UI.Events;
+
 namespace Azxc.UI.Controls
 {
-    public class Button<T> : Label<T>, IAutoUpdate, ITooltip, ISelect
+    public class Button<T> : Label<T>, IAutoUpdate, IClickable, ITooltip, ISelect
     {
         public bool showToolTip { get; set; }
         public string toolTipText { get; set; }
@@ -43,7 +45,7 @@ namespace Azxc.UI.Controls
             height = characterHeight * GetScale().y + indent.y * 2;
         }
 
-        public void DrawTooltip()
+        public virtual void DrawTooltip()
         {
             float toolTipIndent = 2f;
             Vec2 start = new Vec2(x + width + toolTipIndent, y);
@@ -67,6 +69,17 @@ namespace Azxc.UI.Controls
             // Draw text itself
             MethodInfo draw = AccessTools.Method(typeof(T), "Draw", new Type[] { typeof(string), typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
             draw.Invoke(font, new object[] { text, position + indent, Color.White, new Depth(1f), true });
+        }
+
+        public virtual void Click()
+        {
+            OnClicked(new ControlEventArgs(this));
+        }
+
+        public event EventHandler<ControlEventArgs> clicked;
+        protected void OnClicked(ControlEventArgs e)
+        {
+            clicked?.Invoke(this, e);
         }
     }
 }
