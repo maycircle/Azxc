@@ -15,12 +15,15 @@ namespace Azxc.UI.Controls
         public T font { get; set; }
         public int characterHeight { get; }
 
+        public Vec2 indent;
+
         public Label(string text, T font)
         {
             this.text = text;
             this.font = font;
 
             characterHeight = 7;
+            indent = Vec2.One / 2;
         }
 
         public Label(string text, T font, Vec2 position)
@@ -30,6 +33,7 @@ namespace Azxc.UI.Controls
             this.position = position;
 
             characterHeight = 7;
+            indent = Vec2.One / 2;
         }
 
         public virtual float GetWidth()
@@ -46,8 +50,8 @@ namespace Azxc.UI.Controls
 
         public virtual void Update()
         {
-            width = GetWidth();
-            height = characterHeight * GetScale().y;
+            width = GetWidth() + indent.x;
+            height = characterHeight * GetScale().y + indent.y;
         }
 
         public override void Draw()

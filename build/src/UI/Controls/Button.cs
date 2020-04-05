@@ -11,8 +11,6 @@ namespace Azxc.UI.Controls
 {
     public class Button<T> : Label<T>, IAutoUpdate
     {
-        public Vec2 indent;
-
         public Button(string text, T font) : base(text, font)
         {
             indent = Vec2.One;
