@@ -48,6 +48,17 @@ namespace Azxc.UI.Controls
             _items.Remove(item);
         }
 
+        private float CalculateHeights(int index)
+        {
+            float sumHeight = 0f;
+            for (int i = 0; i < index; i++)
+            {
+                Control item = _items[i] as Control;
+                sumHeight += item.height;
+            }
+            return sumHeight;
+        }
+
         public void Update()
         {
             for (int i = 0; i < _items.Count; i++)
@@ -59,7 +70,8 @@ namespace Azxc.UI.Controls
                     updatable.Update();
                 }
                 item.x = x + inner.x;
-                item.y = (y + item.height * i) + (inner.y * (i + 1));
+                item.y = y + CalculateHeights(i) + (inner.y * (i + 1));
+                item.width = width - inner.x * 4;
             }
         }
 

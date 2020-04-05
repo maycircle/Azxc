@@ -44,7 +44,7 @@ namespace Azxc.UI.Controls
             return (Vec2)scale.GetValue(font, null);
         }
 
-        public void Update()
+        public virtual void Update()
         {
             width = GetWidth();
             height = characterHeight * GetScale().y;
