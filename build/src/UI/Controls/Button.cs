@@ -9,8 +9,10 @@ using DuckGame;
 
 namespace Azxc.UI.Controls
 {
-    public class Button<T> : Label<T>, IAutoUpdate
+    public class Button<T> : Label<T>, IAutoUpdate, ISelect
     {
+        public bool selected { get; set; }
+
         public Button(string text, T font) : base(text, font)
         {
             indent = Vec2.One;
@@ -29,7 +31,7 @@ namespace Azxc.UI.Controls
 
         public override void Draw()
         {
-            Graphics.DrawRect(position, position + size, Color.DarkSlateGray, 1f);
+            Graphics.DrawRect(position, position + size, selected ? Color.DarkSlateGray : new Color(17, 39, 39), 1f);
             // Draw text itself
             MethodInfo draw = AccessTools.Method(typeof(T), "Draw", new Type[] { typeof(string), typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
             draw.Invoke(font, new object[] { text, position + indent, Color.White, new Depth(1f), true });

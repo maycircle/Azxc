@@ -28,6 +28,7 @@ namespace Azxc.UI
     public class UserInterfaceManager : IAutoUpdate, IBinding
     {
         private UserInterfaceCore core;
+        private UserInterfaceInteract interact;
 
         private static float resolution;
 
@@ -55,6 +56,8 @@ namespace Azxc.UI
         {
             core = new UserInterfaceCore();
             core.state = state;
+
+            interact = new UserInterfaceInteract();
 
             // So our GUI will draw everywhere
             Azxc.core.harmony.Patch(typeof(Level).GetMethod("DoDraw"),
@@ -94,6 +97,8 @@ namespace Azxc.UI
         {
             if (!core.state.HasFlag(UserInterfaceState.Enabled))
                 return;
+
+            interact.Update();
 
             BindingManager.UsedBinding(this, "Open");
 

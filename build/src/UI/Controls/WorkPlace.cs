@@ -10,7 +10,7 @@ using DuckGame;
 
 namespace Azxc.UI.Controls
 {
-    class Workplace : Control, IEnumerable<Control>, IAutoUpdate
+    public class Workplace : Control, IEnumerable<Control>, IAutoUpdate
     {
         public Vec2 inner;
 

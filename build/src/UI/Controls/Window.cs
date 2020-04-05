@@ -9,7 +9,7 @@ using DuckGame;
 
 namespace Azxc.UI.Controls
 {
-    class Window : Control, IAutoUpdate
+    public class Window : Control, IAutoUpdate
     {
         public SizeModes sizeMode { get; }
 
@@ -17,6 +17,11 @@ namespace Azxc.UI.Controls
 
         // Not very important variable
         public Vec2 indent;
+
+        public IEnumerable<Control> items
+        {
+            get { return workPlace; }
+        }
 
         public Window(Vec2 position, SizeModes sizeMode = SizeModes.Static)
         {
@@ -84,6 +89,8 @@ namespace Azxc.UI.Controls
         public virtual void RemoveItem(Control item)
         {
             workPlace.Remove(item);
+            if (sizeMode == SizeModes.Flexible)
+                FitToItems();
         }
 
         public virtual void Show()
