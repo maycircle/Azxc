@@ -15,6 +15,7 @@ namespace Azxc.UI
     {
         public Label<FancyBitmapFont> label1, label2;
         public Button<FancyBitmapFont> button1, button2, button3;
+        public CheckBox<FancyBitmapFont> checkBox1;
 
         public MainWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
@@ -29,6 +30,7 @@ namespace Azxc.UI
             button1 = new Button<FancyBitmapFont>("Button #1", Azxc.core.uiManager.font);
             button2 = new Button<FancyBitmapFont>("Testing button #2", "with tooltip.", Azxc.core.uiManager.font);
             button3 = new Button<FancyBitmapFont>("Testing new button number 3 UwU", "with much longer tootlip.", Azxc.core.uiManager.font);
+            checkBox1 = new CheckBox<FancyBitmapFont>("CheckBox #1", Azxc.core.uiManager.font);
         }
 
         public void Prepare()
@@ -38,6 +40,7 @@ namespace Azxc.UI
            AddItem(label2);
            AddItem(button2);
            AddItem(button3);
+           AddItem(checkBox1);
         }
     }
 }

@@ -55,7 +55,8 @@ namespace Azxc.UI.Controls
 
             Graphics.DrawRect(start, start + end, Color.Black * 0.5f, 1f);
 
-            MethodInfo draw = AccessTools.Method(typeof(T), "Draw", new Type[] { typeof(string), typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
+            MethodInfo draw = AccessTools.Method(typeof(T), "Draw",
+                new Type[] { typeof(string), typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
             draw.Invoke(font, new object[] { toolTipText, start + indent, Color.White, new Depth(1f), true });
         }
 
@@ -64,10 +65,12 @@ namespace Azxc.UI.Controls
             if (selected && showToolTip)
                 DrawTooltip();
 
-            Graphics.DrawRect(position, position + size, selected ? Color.DarkSlateGray : new Color(17, 39, 39), 1f);
+            Graphics.DrawRect(position, position + size,
+                selected ? Color.DarkSlateGray : new Color(17, 39, 39), 1f);
 
             // Draw text itself
-            MethodInfo draw = AccessTools.Method(typeof(T), "Draw", new Type[] { typeof(string), typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
+            MethodInfo draw = AccessTools.Method(typeof(T), "Draw",
+                new Type[] { typeof(string), typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
             draw.Invoke(font, new object[] { text, position + indent, Color.White, new Depth(1f), true });
         }
 
@@ -76,10 +79,10 @@ namespace Azxc.UI.Controls
             OnClicked(new ControlEventArgs(this));
         }
 
-        public event EventHandler<ControlEventArgs> clicked;
+        public event EventHandler<ControlEventArgs> onClicked;
         protected void OnClicked(ControlEventArgs e)
         {
-            clicked?.Invoke(this, e);
+            onClicked?.Invoke(this, e);
         }
     }
 }

@@ -92,6 +92,7 @@
     <Compile Include="src\Core.cs" />
     <Compile Include="src\Main.cs" />
     <Compile Include="src\UI\Controls\Button.cs" />
+    <Compile Include="src\UI\Controls\CheckBox.cs" />
     <Compile Include="src\UI\Controls\Control.cs" />
     <Compile Include="src\UI\Controls\Cursor.cs" />
     <Compile Include="src\UI\Controls\IClickable.cs" />
