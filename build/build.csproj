@@ -95,11 +95,11 @@
     <Compile Include="src\UI\Controls\CheckBox.cs" />
     <Compile Include="src\UI\Controls\Control.cs" />
     <Compile Include="src\UI\Controls\Cursor.cs" />
-    <Compile Include="src\UI\Controls\IClickable.cs" />
+    <Compile Include="src\UI\Controls\Interfaces\IClickable.cs" />
+    <Compile Include="src\UI\Controls\Interfaces\IIndent.cs" />
+    <Compile Include="src\UI\Controls\Interfaces\ISelect.cs" />
+    <Compile Include="src\UI\Controls\Interfaces\IToolTip.cs" />
     <Compile Include="src\UI\Events\ControlEventArgs.cs" />
-    <Compile Include="src\UI\Controls\IIndent.cs" />
-    <Compile Include="src\UI\Controls\ISelect.cs" />
-    <Compile Include="src\UI\Controls\ITooltip.cs" />
     <Compile Include="src\UI\Controls\Label.cs" />
     <Compile Include="src\UI\Controls\SizeModes.cs" />
     <Compile Include="src\UI\Controls\Window.cs" />
