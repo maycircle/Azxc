@@ -13,7 +13,7 @@ using Azxc.UI.Controls;
 
 namespace Azxc
 {
-    public class Azxc : Mod
+    public class Azxc : DisabledMod
     {
         public static AzxcCore core;
 
