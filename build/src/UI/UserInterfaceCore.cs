@@ -15,6 +15,7 @@ namespace Azxc.UI
     public class UserInterfaceCore
     {
         public UserInterfaceState state;
+        public UserInterfaceInteract interact;
         // Only for controls which needs to be auto-updated (Windows)
         public List<Control> controls;
 
@@ -24,6 +25,8 @@ namespace Azxc.UI
 
         public UserInterfaceCore()
         {
+            interact = new UserInterfaceInteract();
+
             controls = new List<Control>();
             cursor = new Cursor(1f, Vec2.One);
 

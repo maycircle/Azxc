@@ -95,6 +95,7 @@
     <Compile Include="src\UI\Controls\CheckBox.cs" />
     <Compile Include="src\UI\Controls\Control.cs" />
     <Compile Include="src\UI\Controls\Cursor.cs" />
+    <Compile Include="src\UI\Controls\Expander.cs" />
     <Compile Include="src\UI\Controls\Interfaces\IClickable.cs" />
     <Compile Include="src\UI\Controls\Interfaces\IIndent.cs" />
     <Compile Include="src\UI\Controls\Interfaces\ISelect.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="src\UI\Controls\Window.cs" />
     <Compile Include="src\UI\Controls\Workplace.cs" />
     <Compile Include="src\UI\MainWindow.cs" />
+    <Compile Include="src\UI\MiscWindow.cs" />
     <Compile Include="src\UI\UserInterfaceCore.cs" />
     <Compile Include="src\UI\UserInterfaceInteract.cs" />
     <Compile Include="src\UI\UserInterfaceState.cs" />

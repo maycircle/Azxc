@@ -36,7 +36,7 @@ namespace Azxc.UI.Controls
 
         public override void Update()
         {
-            width = GetWidth() + indent.x * 2 + checkSize.x;
+            width = GetWidth() + indent.x * 2 + checkSize.x + 2f;
             height = characterHeight * GetScale().y + indent.y * 2;
         }
 
@@ -44,8 +44,8 @@ namespace Azxc.UI.Controls
         {
             base.Draw();
 
-            Vec2 start = new Vec2(position.x + size.x - checkSize.x - indent.x,
-                position.y + size.y / 2 - checkSize.y / 2);
+            Vec2 start = new Vec2(x + width - checkSize.x - indent.x,
+                y + height / 2 - checkSize.y / 2);
 
             float border = 0.5f;
 

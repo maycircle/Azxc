@@ -81,6 +81,7 @@ namespace Azxc.UI.Controls
 
         public virtual void AddItem(Control item)
         {
+            item.parent = this;
             workPlace.Add(item);
             if (sizeMode == SizeModes.Flexible)
                 FitToItems();

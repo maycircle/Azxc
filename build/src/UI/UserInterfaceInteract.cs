@@ -60,6 +60,20 @@ namespace Azxc.UI
                 _selectedItem += 1;
         }
 
+        [Binding(Keys.Left, InputState.Pressed)]
+        public void MoveLeft()
+        {
+            if (Azxc.core.uiManager.controls.OfType<Controls.Window>().Count() > 1)
+                _activeWindow.Close();
+        }
+
+        [Binding(Keys.Right, InputState.Pressed)]
+        public void MoveRight()
+        {
+            // Alternative for Enter
+            ActivateItem();
+        }
+
         public void Update()
         {
             if (Azxc.core.uiManager.controls.OfType<Controls.Window>().Count() > 0)
@@ -72,6 +86,8 @@ namespace Azxc.UI
             BindingManager.UsedBinding(this, "ActivateItem");
             BindingManager.UsedBinding(this, "MoveUp");
             BindingManager.UsedBinding(this, "MoveDown");
+            BindingManager.UsedBinding(this, "MoveLeft");
+            BindingManager.UsedBinding(this, "MoveRight");
 
             ISelect impl = GetItem() as ISelect;
             impl.selected = true;

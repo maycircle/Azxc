@@ -13,34 +13,19 @@ namespace Azxc.UI
 {
     class MainWindow : Controls.Window
     {
-        public Label<FancyBitmapFont> label1, label2;
-        public Button<FancyBitmapFont> button1, button2, button3;
-        public CheckBox<FancyBitmapFont> checkBox1;
+        public Expander<FancyBitmapFont> misc;
 
         public MainWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
-            CreateControls();
-            Prepare();
-        }
+            misc = new Expander<FancyBitmapFont>(new MiscWindow(position, SizeModes.Flexible),
+                "Misc", "Random hacks.", Azxc.core.uiManager.font);
 
-        private void CreateControls()
-        {
-            label1 = new Label<FancyBitmapFont>("Label #1", Azxc.core.uiManager.font);
-            label2 = new Label<FancyBitmapFont>("Testing new label #2 UwU", Azxc.core.uiManager.font);
-            button1 = new Button<FancyBitmapFont>("Button #1", Azxc.core.uiManager.font);
-            button2 = new Button<FancyBitmapFont>("Testing button #2", "with tooltip.", Azxc.core.uiManager.font);
-            button3 = new Button<FancyBitmapFont>("Testing new button number 3 UwU", "with much longer tootlip.", Azxc.core.uiManager.font);
-            checkBox1 = new CheckBox<FancyBitmapFont>("CheckBox #1", Azxc.core.uiManager.font);
+            Prepare();
         }
 
         public void Prepare()
         {
-           AddItem(label1);
-           AddItem(button1);
-           AddItem(label2);
-           AddItem(button2);
-           AddItem(button3);
-           AddItem(checkBox1);
+           AddItem(misc);
         }
     }
 }

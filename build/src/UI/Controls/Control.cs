@@ -11,6 +11,8 @@ namespace Azxc.UI.Controls
 {
     public class Control
     {
+        public Window parent;
+
         public float x, y;
         public virtual Vec2 position
         {

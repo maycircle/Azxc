@@ -47,7 +47,7 @@ namespace Azxc.UI.Controls
 
         public virtual void DrawTooltip()
         {
-            float toolTipIndent = 2f;
+            float toolTipIndent = 4f;
             Vec2 start = new Vec2(x + width + toolTipIndent, y);
             MethodInfo getWidth = AccessTools.Method(typeof(T), "GetWidth");
             float toolTipWidth = (float)getWidth.Invoke(font, new object[] { toolTipText, false });
@@ -62,7 +62,7 @@ namespace Azxc.UI.Controls
 
         public override void Draw()
         {
-            if (selected && showToolTip)
+            if (selected && showToolTip && Azxc.core.uiManager.interact.activeWindow == parent)
                 DrawTooltip();
 
             Graphics.DrawRect(position, position + size,

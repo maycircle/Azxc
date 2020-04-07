@@ -28,9 +28,13 @@ namespace Azxc.UI
     public class UserInterfaceManager : IAutoUpdate, IBinding
     {
         private UserInterfaceCore _core;
-        private UserInterfaceInteract _interact;
 
         private static float _resolution;
+
+        public UserInterfaceInteract interact
+        {
+            get { return _core.interact; }
+        }
 
         public UserInterfaceState state
         {
@@ -56,8 +60,6 @@ namespace Azxc.UI
         {
             _core = new UserInterfaceCore();
             _core.state = state;
-
-            _interact = new UserInterfaceInteract();
 
             // So our GUI will draw everywhere
             Azxc.core.harmony.Patch(typeof(Level).GetMethod("DoDraw"),
@@ -103,7 +105,7 @@ namespace Azxc.UI
             if (_core.state.HasFlag(UserInterfaceState.Freeze))
                 return;
 
-            _interact.Update();
+            _core.interact.Update();
 
             _core.cursor.scale = new Vec2(_resolution / 2f);
             _core.cursor.position = Mouse.position;
