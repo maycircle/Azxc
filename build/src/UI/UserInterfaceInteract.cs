@@ -74,6 +74,36 @@ namespace Azxc.UI
             ActivateItem();
         }
 
+        [Binding(MouseButtons.Left, InputState.Pressed)]
+        public void MouseLeft()
+        {
+            if (InRange(GetItem()))
+                ActivateItem();
+            else
+                MoveLeft();
+        }
+
+        [Binding(MouseButtons.Right, InputState.Pressed)]
+        public void MouseRight()
+        {
+            MoveLeft();
+        }
+
+        public void UpdateSelection()
+        {
+            foreach (Control control in _activeWindow.items.OfType<ISelect>())
+            {
+                ISelect impl = control as ISelect;
+                if (InRange(control) && !impl.selected)
+                {
+                    Deselect();
+                    _selectedItem = GetItemIndex(control);
+                    impl.selected = true;
+                    break;
+                }
+            }
+        }
+
         public void Update()
         {
             if (Azxc.core.uiManager.controls.OfType<Controls.Window>().Count() > 0)
@@ -82,12 +112,17 @@ namespace Azxc.UI
                 return;
 
             _selectedItem = GetSelectedItem();
+            UpdateSelection();
 
             BindingManager.UsedBinding(this, "ActivateItem");
+
             BindingManager.UsedBinding(this, "MoveUp");
             BindingManager.UsedBinding(this, "MoveDown");
             BindingManager.UsedBinding(this, "MoveLeft");
             BindingManager.UsedBinding(this, "MoveRight");
+
+            BindingManager.UsedBinding(this, "MouseLeft");
+            BindingManager.UsedBinding(this, "MouseRight");
 
             ISelect impl = GetItem() as ISelect;
             impl.selected = true;
@@ -121,6 +156,31 @@ namespace Azxc.UI
                 index += 1;
             }
             return null;
+        }
+
+        private int GetItemIndex(Control item)
+        {
+            int index = 0;
+            foreach (Control control in _activeWindow.items.OfType<ISelect>())
+            {
+                if (control == item)
+                    return index;
+                index += 1;
+            }
+            return 0;
+        }
+
+        private bool InRange(Control item)
+        {
+            Cursor cursor = Azxc.core.uiManager.cursor;
+
+            Vec2 end = item.position + item.size;
+            if ((item.x <= cursor.x && item.y <= cursor.y) &&
+                (end.x >= cursor.x && end.y >= cursor.y))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
