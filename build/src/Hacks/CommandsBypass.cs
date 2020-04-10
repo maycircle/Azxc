@@ -9,6 +9,8 @@ using System.Reflection.Emit;
 using DuckGame;
 using Harmony;
 
+using Azxc.Hacks.Scanning;
+
 namespace Azxc.Hacks
 {
     // I will don't add original method name in class name only for hacks patches, in other cases

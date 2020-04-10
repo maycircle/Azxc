@@ -7,7 +7,7 @@ using System.Reflection;
 
 using Harmony;
 
-namespace Azxc.Hacks
+namespace Azxc.Hacks.Scanning
 {
     // Requires Transpiler
     public class Pattern
@@ -46,15 +46,15 @@ namespace Azxc.Hacks
 
             bool contains = instruction.Contains(text);
             if (contains && !test)
-                return Hacks.Format.True;
+                return Scanning.Format.True;
             else if (test)
             {
                 if (contains)
-                    return Hacks.Format.True;
+                    return Scanning.Format.True;
                 else
-                    return Hacks.Format.Skip;
+                    return Scanning.Format.Skip;
             }
-            return Hacks.Format.False;
+            return Scanning.Format.False;
         }
 
         public List<Tuple<int, int>> Search()
@@ -65,9 +65,9 @@ namespace Azxc.Hacks
             while (index < instructions.Count)
             {
                 Format output = Format(instructions[index].ToString(), pattern[conclusion]);
-                if (output == Hacks.Format.True)
+                if (output == Scanning.Format.True)
                     conclusion += 1;
-                else if (output == Hacks.Format.Skip)
+                else if (output == Scanning.Format.Skip)
                 {
                     conclusion += 1;
                     continue;

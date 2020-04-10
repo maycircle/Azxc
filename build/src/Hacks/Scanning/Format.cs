@@ -1,6 +1,6 @@
 using System;
 
-namespace Azxc.Hacks
+namespace Azxc.Hacks.Scanning
 {
     public enum Format
     {
