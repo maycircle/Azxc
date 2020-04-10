@@ -13,11 +13,11 @@ namespace Azxc.Hacks
 {
     // I will don't add original method name in class name only for hacks patches, in other cases
     // i'll do it, like i did Console_RunCommand
-    class CommandsBypass
+    internal static class CommandsBypass
     {
         public static bool enabled;
 
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
             FieldInfo enabled = AccessTools.Field(typeof(CommandsBypass), "enabled");
 
