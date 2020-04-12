@@ -93,6 +93,7 @@
     <Compile Include="src\Hacks\CommandsBypass.cs" />
     <Compile Include="src\Hacks\InfiniteAmmo.cs" />
     <Compile Include="src\Hacks\NoRecoil.cs" />
+    <Compile Include="src\Hacks\NoReload.cs" />
     <Compile Include="src\Hacks\Scanning\Format.cs" />
     <Compile Include="src\Hacks\Scanning\Pattern.cs" />
     <Compile Include="src\Main.cs" />

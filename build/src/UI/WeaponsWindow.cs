@@ -15,7 +15,7 @@ namespace Azxc.UI
 {
     class WeaponsWindow : Controls.Window
     {
-        public CheckBox<FancyBitmapFont> infinityAmmo, norecoil;
+        public CheckBox<FancyBitmapFont> infinityAmmo, norecoil, noreload;
 
         public WeaponsWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
@@ -27,6 +27,10 @@ namespace Azxc.UI
                 "Disable kickback after shot.", Azxc.core.uiManager.font);
             norecoil.onChecked += NoRecoil_Checked;
 
+            noreload = new CheckBox<FancyBitmapFont>("No Reload",
+                "No delay between shots for most weapons.", Azxc.core.uiManager.font);
+            noreload.onChecked += NoReload_Checked;
+
             Prepare();
         }
 
@@ -34,6 +38,7 @@ namespace Azxc.UI
         {
             AddItem(infinityAmmo);
             AddItem(norecoil);
+            AddItem(noreload);
         }
 
         private void InfiniteAmmo_Checked(object sender, ControlEventArgs e)
@@ -62,6 +67,22 @@ namespace Azxc.UI
             {
                 Azxc.core.harmony.Patch(typeof(Gun).GetMethod("ApplyKick"),
                     prefix: new HarmonyMethod(typeof(Hacks.NoRecoil), "Prefix"));
+            }
+        }
+
+        private void NoReload_Checked(object sender, ControlEventArgs e)
+        {
+            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            NoReload.enabled = checkBox.isChecked;
+
+            MethodInfo original = typeof(Gun).GetMethod("Fire");
+
+            if (Azxc.core.harmony.GetPatchInfo(original) == null)
+            {
+                Azxc.core.harmony.Patch(typeof(Gun).GetMethod("Fire"),
+                    postfix: new HarmonyMethod(typeof(Hacks.NoReload), "Postfix"));
+                Azxc.core.harmony.Patch(typeof(Gun).GetMethod("OnHoldAction"),
+                    transpiler: new HarmonyMethod(typeof(Hacks.NoReload), "Transpiler"));
             }
         }
     }
