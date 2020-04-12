@@ -91,6 +91,7 @@
     <Compile Include="src\Console.cs" />
     <Compile Include="src\Core.cs" />
     <Compile Include="src\Hacks\CommandsBypass.cs" />
+    <Compile Include="src\Hacks\InfiniteAmmo.cs" />
     <Compile Include="src\Hacks\Scanning\Format.cs" />
     <Compile Include="src\Hacks\Scanning\Pattern.cs" />
     <Compile Include="src\Main.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="src\UI\UserInterfaceInteract.cs" />
     <Compile Include="src\UI\UserInterfaceState.cs" />
     <Compile Include="src\UI\UserInterfaceManager.cs" />
+    <Compile Include="src\UI\WeaponsWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

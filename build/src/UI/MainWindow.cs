@@ -13,10 +13,12 @@ namespace Azxc.UI
 {
     class MainWindow : Controls.Window
     {
-        public Expander<FancyBitmapFont> misc;
+        public Expander<FancyBitmapFont> weapons, misc;
 
         public MainWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
+            weapons = new Expander<FancyBitmapFont>(new WeaponsWindow(position, SizeModes.Flexible),
+                "Weapons", "Weapon(s) hacks.", Azxc.core.uiManager.font);
             misc = new Expander<FancyBitmapFont>(new MiscWindow(position, SizeModes.Flexible),
                 "Misc", "Random hacks.", Azxc.core.uiManager.font);
 
@@ -25,7 +27,8 @@ namespace Azxc.UI
 
         public void Prepare()
         {
-           AddItem(misc);
+            AddItem(weapons);
+            AddItem(misc);
         }
     }
 }
