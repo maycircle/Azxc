@@ -33,11 +33,8 @@ namespace Azxc.Hacks
             });
             int callvirt = callvirtPattern.Search()[0].Item1;
 
-            CodeInstruction ldsfld = new CodeInstruction(codes[callvirt]);
-            ldsfld.opcode = OpCodes.Ldsfld;
-            ldsfld.operand = enabled;
-            CodeInstruction brtrue = new CodeInstruction(codes[callvirt]);
-            brtrue.opcode = OpCodes.Brtrue;
+            CodeInstruction ldsfld = new CodeInstruction(OpCodes.Ldsfld, enabled);
+            CodeInstruction brtrue = new CodeInstruction(OpCodes.Brtrue);
             codes.Insert(callvirt + 1, brtrue);
             codes.Insert(callvirt + 1, ldsfld);
 

@@ -66,7 +66,7 @@ namespace Azxc.UI.Controls
                 DrawTooltip();
 
             Graphics.DrawRect(position, position + size,
-                selected ? Color.DarkSlateGray : new Color(17, 39, 39), 1f);
+                selected ? Color.DarkSlateGray : new Color(17, 39, 39), 0.5f);
 
             // Draw text itself
             MethodInfo draw = AccessTools.Method(typeof(T), "Draw",

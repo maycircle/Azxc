@@ -43,10 +43,8 @@ namespace Azxc.Hacks
             Label label = generator.DefineLabel();
             codes[ldfld.Item2].labels.Add(label);
 
-            CodeInstruction ldsfld = new CodeInstruction(codes[ldfld.Item1]);
-            ldsfld.opcode = OpCodes.Ldsfld;
-            ldsfld.operand = enabled;
-            CodeInstruction brtrue = new CodeInstruction(codes[ldfld.Item1 + 1]);
+            CodeInstruction ldsfld = new CodeInstruction(OpCodes.Ldsfld, enabled);
+            CodeInstruction brtrue = new CodeInstruction(OpCodes.Brtrue, label);
             brtrue.opcode = OpCodes.Brtrue;
             brtrue.operand = label;
 
