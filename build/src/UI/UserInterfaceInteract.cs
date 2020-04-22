@@ -47,6 +47,7 @@ namespace Azxc.UI
                 _selectedItem = _activeWindow.items.OfType<ISelect>().Count() - 1;
             else
                 _selectedItem -= 1;
+            Select();
         }
 
         [Binding(Keys.Down, InputState.Pressed)]
@@ -58,6 +59,7 @@ namespace Azxc.UI
                 _selectedItem = 0;
             else
                 _selectedItem += 1;
+            Select();
         }
 
         [Binding(Keys.Left, InputState.Pressed)]
@@ -124,14 +126,24 @@ namespace Azxc.UI
             BindingManager.UsedBinding(this, "MouseLeft");
             BindingManager.UsedBinding(this, "MouseRight");
 
-            ISelect impl = GetItem() as ISelect;
-            impl.selected = true;
+            Select();
         }
 
         private void Deselect()
         {
             ISelect impl = GetItem() as ISelect;
             impl.selected = false;
+            impl.Select();
+        }
+
+        private void Select()
+        {
+            ISelect impl = GetItem() as ISelect;
+            if (!impl.selected)
+            {
+                impl.selected = true;
+                impl.Select();
+            }
         }
 
         private int GetSelectedItem()

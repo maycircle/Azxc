@@ -103,6 +103,38 @@ namespace Azxc.UI
                 Azxc.core.harmony.Patch(original,
                     transpiler: new HarmonyMethod(typeof(Hacks.BulletHit), "Transpiler"));
             }
+
+            if (checkBox.isChecked)
+            {
+                Controls.Window properties = new Controls.Window(new Vec2(checkBox.x + checkBox.width + checkBox.indent.x * 3,
+                    checkBox.y - 0.5f * 3), SizeModes.Flexible);
+                RadioBox<FancyBitmapFont> physicsObjects = new RadioBox<FancyBitmapFont>("Physics objects",
+                    "Bullets concern only physical objects.", Azxc.core.uiManager.font);
+                physicsObjects.onChecked += PhysicsObjects_Checked;
+                RadioBox<FancyBitmapFont> onlyDucks = new RadioBox<FancyBitmapFont>("Ducks",
+                    "Bullets concern only ducks.", Azxc.core.uiManager.font);
+                onlyDucks.onChecked += OnlyDucks_Checked;
+
+                properties.AddItem(physicsObjects);
+                properties.AddItem(onlyDucks);
+
+                if (BulletHit.trigger == typeof(PhysicsObject))
+                    physicsObjects.isChecked = true;
+                else
+                    onlyDucks.isChecked = true;
+
+                properties.Show();
+            }
+        }
+
+        private void PhysicsObjects_Checked(object sender, ControlEventArgs e)
+        {
+            BulletHit.trigger = typeof(PhysicsObject);
+        }
+
+        private void OnlyDucks_Checked(object sender, ControlEventArgs e)
+        {
+            BulletHit.trigger = typeof(Duck);
         }
     }
 }

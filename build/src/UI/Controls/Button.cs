@@ -84,5 +84,16 @@ namespace Azxc.UI.Controls
         {
             onClicked?.Invoke(this, e);
         }
+
+        public void Select()
+        {
+            OnSelected(new ControlEventArgs(this));
+        }
+
+        public event EventHandler<ControlEventArgs> onSelected;
+        protected void OnSelected(ControlEventArgs e)
+        {
+            onSelected?.Invoke(this, e);
+        }
     }
 }

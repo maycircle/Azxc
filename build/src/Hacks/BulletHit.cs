@@ -16,10 +16,16 @@ namespace Azxc.Hacks
     internal static class BulletHit
     {
         public static bool enabled;
+        public static Type trigger = typeof(PhysicsObject);
 
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            ILGenerator generator)
         {
             FieldInfo enabled = AccessTools.Field(typeof(BulletHit), "enabled");
+            FieldInfo trigger = AccessTools.Field(typeof(BulletHit), "trigger");
+
+            MethodInfo getType = AccessTools.Method(typeof(object), "GetType");
+            MethodInfo isAssignableFrom = AccessTools.Method(typeof(Type), "IsAssignableFrom");
 
             List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
 
@@ -46,8 +52,10 @@ namespace Azxc.Hacks
             codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Br_S, label1));
             codes.InsertRange(ldloc.Item1, doHit);
             codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Brfalse, label2));
-            codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Isinst, typeof(Duck)));
+            codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Callvirt, isAssignableFrom));
+            codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Callvirt, getType));
             codes.Insert(ldloc.Item1, doHit[0]);
+            codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Ldsfld, trigger));
             codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Brfalse, label2));
             codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Ldsfld, enabled));
 

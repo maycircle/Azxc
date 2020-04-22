@@ -107,6 +107,7 @@
     <Compile Include="src\UI\Controls\Interfaces\IIndent.cs" />
     <Compile Include="src\UI\Controls\Interfaces\ISelect.cs" />
     <Compile Include="src\UI\Controls\Interfaces\IToolTip.cs" />
+    <Compile Include="src\UI\Controls\RadioBox.cs" />
     <Compile Include="src\UI\Events\ControlEventArgs.cs" />
     <Compile Include="src\UI\Controls\Label.cs" />
     <Compile Include="src\UI\Controls\SizeModes.cs" />
