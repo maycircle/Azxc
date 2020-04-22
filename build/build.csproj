@@ -90,6 +90,7 @@
     <Compile Include="src\CommandAttribute.cs" />
     <Compile Include="src\Console.cs" />
     <Compile Include="src\Core.cs" />
+    <Compile Include="src\Hacks\BulletHit.cs" />
     <Compile Include="src\Hacks\CommandsBypass.cs" />
     <Compile Include="src\Hacks\InfiniteAmmo.cs" />
     <Compile Include="src\Hacks\NoRecoil.cs" />

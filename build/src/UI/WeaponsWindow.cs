@@ -15,7 +15,7 @@ namespace Azxc.UI
 {
     class WeaponsWindow : Controls.Window
     {
-        public CheckBox<FancyBitmapFont> infinityAmmo, norecoil, noreload;
+        public CheckBox<FancyBitmapFont> infinityAmmo, norecoil, noreload, bulletHit;
 
         public WeaponsWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
@@ -31,6 +31,10 @@ namespace Azxc.UI
                 "No delay between shots for most weapons.", Azxc.core.uiManager.font);
             noreload.onChecked += NoReload_Checked;
 
+            bulletHit = new CheckBox<FancyBitmapFont>("Bullet Hit",
+                "Bullets shoot through walls.", Azxc.core.uiManager.font);
+            bulletHit.onChecked += BulletHit_Checked;
+
             Prepare();
         }
 
@@ -39,6 +43,7 @@ namespace Azxc.UI
             AddItem(infinityAmmo);
             AddItem(norecoil);
             AddItem(noreload);
+            AddItem(bulletHit);
         }
 
         private void InfiniteAmmo_Checked(object sender, ControlEventArgs e)
@@ -51,7 +56,7 @@ namespace Azxc.UI
             // Patch if it has no patches
             if (Azxc.core.harmony.GetPatchInfo(original) == null)
             {
-                Azxc.core.harmony.Patch(typeof(Gun).GetMethod("Reload"),
+                Azxc.core.harmony.Patch(original,
                     transpiler: new HarmonyMethod(typeof(Hacks.InfiniteAmmo), "Transpiler"));
             }
         }
@@ -65,7 +70,7 @@ namespace Azxc.UI
 
             if (Azxc.core.harmony.GetPatchInfo(original) == null)
             {
-                Azxc.core.harmony.Patch(typeof(Gun).GetMethod("ApplyKick"),
+                Azxc.core.harmony.Patch(original,
                     prefix: new HarmonyMethod(typeof(Hacks.NoRecoil), "Prefix"));
             }
         }
@@ -79,10 +84,24 @@ namespace Azxc.UI
 
             if (Azxc.core.harmony.GetPatchInfo(original) == null)
             {
-                Azxc.core.harmony.Patch(typeof(Gun).GetMethod("Fire"),
+                Azxc.core.harmony.Patch(original,
                     postfix: new HarmonyMethod(typeof(Hacks.NoReload), "Postfix"));
                 Azxc.core.harmony.Patch(typeof(Gun).GetMethod("OnHoldAction"),
                     transpiler: new HarmonyMethod(typeof(Hacks.NoReload), "Transpiler"));
+            }
+        }
+
+        private void BulletHit_Checked(object sender, ControlEventArgs e)
+        {
+            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            BulletHit.enabled = checkBox.isChecked;
+
+            MethodInfo original = AccessTools.Method(typeof(Bullet), "RaycastBullet");
+
+            if (Azxc.core.harmony.GetPatchInfo(original) == null)
+            {
+                Azxc.core.harmony.Patch(original,
+                    transpiler: new HarmonyMethod(typeof(Hacks.BulletHit), "Transpiler"));
             }
         }
     }
