@@ -21,7 +21,7 @@ namespace Azxc.UI
         public MiscWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
             commandsBypass = new CheckBox<FancyBitmapFont>("Commands Bypass",
-                "Ability to call extra commands in DevConsole.", Azxc.core.uiManager.font);
+                "Ability to call extra commands in DevConsole. Why do you even use this?", Azxc.core.uiManager.font);
             commandsBypass.onChecked += CommandsBypass_Checked;
 
             lobbyTimout = new CheckBox<FancyBitmapFont>("Lobby Timeout",

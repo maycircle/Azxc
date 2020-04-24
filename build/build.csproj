@@ -114,13 +114,14 @@
     <Compile Include="src\UI\Controls\SizeModes.cs" />
     <Compile Include="src\UI\Controls\Window.cs" />
     <Compile Include="src\UI\Controls\Workplace.cs" />
-    <Compile Include="src\UI\MainWindow.cs" />
-    <Compile Include="src\UI\MiscWindow.cs" />
     <Compile Include="src\UI\UserInterfaceCore.cs" />
     <Compile Include="src\UI\UserInterfaceInteract.cs" />
     <Compile Include="src\UI\UserInterfaceState.cs" />
     <Compile Include="src\UI\UserInterfaceManager.cs" />
-    <Compile Include="src\UI\WeaponsWindow.cs" />
+    <Compile Include="src\UI\Windows\ConsoleWindow.cs" />
+    <Compile Include="src\UI\Windows\MainWindow.cs" />
+    <Compile Include="src\UI\Windows\MiscWindow.cs" />
+    <Compile Include="src\UI\Windows\WeaponsWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

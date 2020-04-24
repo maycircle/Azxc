@@ -48,6 +48,11 @@ namespace Azxc.UI.Controls
             _items.Remove(item);
         }
 
+        public void Clear()
+        {
+            _items.Clear();
+        }
+
         private float CalculateHeights(int index)
         {
             float sumHeight = 0f;

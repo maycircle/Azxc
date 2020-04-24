@@ -94,6 +94,11 @@ namespace Azxc.UI.Controls
                 FitToItems();
         }
 
+        public virtual void Clear()
+        {
+            workPlace.Clear();
+        }
+
         public virtual void Show()
         {
             Azxc.core.uiManager.AddControl(this);
