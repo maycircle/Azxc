@@ -58,7 +58,7 @@ namespace Azxc.UI.Controls
             height = sumHeight + (workPlace.inner.y * workPlace.Count()) + indent.y * 5;
         }
 
-        public void Update()
+        public virtual void Update()
         {
             workPlace.position = position + indent * 2;
             workPlace.size = size - indent * 2;

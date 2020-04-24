@@ -21,9 +21,8 @@ namespace Azxc.UI.Controls
 
         public virtual void Update()
         {
-            Controls.Window activeWindow = Azxc.core.uiManager.interact.activeWindow;
-            if (activeWindow != null)
-                width = activeWindow.width - activeWindow.indent.x * 4;
+            if (parent != null)
+                width = parent.width - parent.indent.x * 4;
         }
 
         public override void Draw()
