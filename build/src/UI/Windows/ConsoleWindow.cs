@@ -37,7 +37,7 @@ namespace Azxc.UI
         {
             killWindow.Clear();
             killWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.core.uiManager.font));
-            foreach (Profile profile in Profiles.all)
+            foreach (Profile profile in Profiles.active)
             {
                 if (profile != null)
                 {
