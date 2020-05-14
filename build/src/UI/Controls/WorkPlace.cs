@@ -64,21 +64,34 @@ namespace Azxc.UI.Controls
             return sumHeight;
         }
 
+        private float GetLongestWidth()
+        {
+            float longest = 0f;
+            foreach (Control item in _items)
+            {
+                if (item.width > longest)
+                {
+                    IIndent impl = item as IIndent;
+                    longest = item.width + impl.indent.x;
+                }
+            }
+            return longest;
+        }
+
         public void Update()
         {
             for (int i = 0; i < _items.Count; i++)
             {
+                // 24 is the maximum controls count of each stack
+                int stack = (i % 24);
+                int count = (i / 24);
+
                 Control item = _items[i] as Control;
-                if (item is IAutoUpdate)
-                {
-                    IAutoUpdate updatable = item as IAutoUpdate;
-                    updatable.Update();
-                }
-                item.x = x + inner.x;
-                item.y = y + CalculateHeights(i) + (inner.y * (i + 1));
+                item.x = x + inner.x + (GetLongestWidth() * count);
+                item.y = y + CalculateHeights(stack) + (inner.y * (stack + 1));
+
                 IIndent impl = item as IIndent;
-                if (item.width + impl.indent.x < width)
-                    item.width = width - inner.x * 4;
+                item.width = GetLongestWidth() - impl.indent.x;
             }
         }
 

@@ -14,16 +14,21 @@ namespace Azxc.UI
 {
     class ConsoleWindow : Controls.Window
     {
-        private Controls.Window killWindow;
-        public Expander<FancyBitmapFont> killCmd;
+        private Controls.Window _killWindow, _callWindow;
+        public Expander<FancyBitmapFont> killCmd, callCmd;
 
         public ConsoleWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
-            killWindow = new Controls.Window(position, SizeModes.Flexible);
+            _killWindow = new Controls.Window(position, SizeModes.Flexible);
+            _callWindow = new Controls.Window(position, SizeModes.Flexible);
 
-            killCmd = new Expander<FancyBitmapFont>(killWindow, "Kill", "Kill any player.",
+            killCmd = new Expander<FancyBitmapFont>(_killWindow, "Kill", "Kill any player.",
                 Azxc.core.uiManager.font);
             killCmd.onExpanded += KillCmd_Expanded;
+
+            callCmd = new Expander<FancyBitmapFont>(_callWindow, "Call", "Call method on player.",
+                Azxc.core.uiManager.font);
+            callCmd.onExpanded += CallCmd_Expanded;
 
             Prepare();
         }
@@ -31,23 +36,25 @@ namespace Azxc.UI
         public void Prepare()
         {
             AddItem(killCmd);
+            AddItem(callCmd);
         }
 
+        #region Kill command
         private void KillCmd_Expanded(object sender, ControlEventArgs e)
         {
-            killWindow.Clear();
-            killWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.core.uiManager.font));
+            _killWindow.Clear();
+            _killWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.core.uiManager.font));
             foreach (Profile profile in Profiles.active)
             {
-                if (profile != null)
+                if (profile != null && profile.duck != null)
                 {
                     Button<FancyBitmapFont> player = new Button<FancyBitmapFont>(profile.name,
                         Azxc.core.uiManager.font);
                     player.onClicked += KillPlayer_Clicked;
-                    killWindow.AddItem(player);
+                    _killWindow.AddItem(player);
                 }
             }
-            killWindow.AddItem(new Separator());
+            _killWindow.AddItem(new Separator());
             Controls.Window ducksWindow = new Controls.Window(Vec2.Zero, SizeModes.Flexible);
 
             Button<FancyBitmapFont> all = new Button<FancyBitmapFont>("All",
@@ -62,7 +69,7 @@ namespace Azxc.UI
 
             Expander<FancyBitmapFont> ducks = new Expander<FancyBitmapFont>(ducksWindow, "Ducks",
                 Azxc.core.uiManager.font);
-            killWindow.AddItem(ducks);
+            _killWindow.AddItem(ducks);
         }
 
         private void KillPlayer_Clicked(object sender, ControlEventArgs e)
@@ -95,5 +102,63 @@ namespace Azxc.UI
                     duck.Kill(new DTIncinerate(null));
             }
         }
+        #endregion
+
+        #region Call command
+        private Duck _selectedDuck;
+
+        private void CallCmd_Expanded(object sender, ControlEventArgs e)
+        {
+            _callWindow.Clear();
+            _callWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.core.uiManager.font));
+            foreach (Profile profile in Profiles.active)
+            {
+                if (profile != null && profile.duck != null)
+                {
+                    Expander<FancyBitmapFont> player = new Expander<FancyBitmapFont>(GetMethods(profile.duck.GetType()), 
+                        profile.name, Azxc.core.uiManager.font);
+                    player.onExpanded += CallPlayer_Expanded;
+                    _callWindow.AddItem(player);
+                }
+            }
+        }
+
+        private void CallPlayer_Expanded(object sender, ControlEventArgs e)
+        {
+            Expander<FancyBitmapFont> expander = e.item as Expander<FancyBitmapFont>;
+            foreach (Profile profile in Profiles.all)
+            {
+                if (profile.name == expander.text && profile.duck != null)
+                    _selectedDuck = profile.duck;
+            }
+        }
+
+        private Controls.Window GetMethods(Type type)
+        {
+            Controls.Window window = new Controls.Window(Vec2.Zero, SizeModes.Flexible);
+            foreach (MethodInfo method in type.GetMethods())
+            {
+                if (method.GetParameters().Count() == 0 && method.ReturnType == typeof(void))
+                {
+                    Button<FancyBitmapFont> executor = new Button<FancyBitmapFont>(method.Name,
+                        Azxc.core.uiManager.font);
+                    executor.onClicked += CallMethod_Clicked;
+                    window.AddItem(executor);
+                }
+            }
+
+            return window;
+        }
+
+        private void CallMethod_Clicked(object sender, ControlEventArgs e)
+        {
+            Button<FancyBitmapFont> button = e.item as Button<FancyBitmapFont>;
+            foreach (MethodInfo method in typeof(Duck).GetMethods())
+            {
+                if (method.Name == button.text)
+                    method.Invoke(_selectedDuck, null);
+            }
+        }
+        #endregion
     }
 }

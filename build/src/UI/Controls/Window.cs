@@ -39,7 +39,6 @@ namespace Azxc.UI.Controls
         private void FitToItems()
         {
             float longest = 0f;
-            float sumHeight = 0f;
             foreach (Control item in workPlace)
             {
                 if (item is IAutoUpdate)
@@ -52,10 +51,33 @@ namespace Azxc.UI.Controls
                     IIndent impl = item as IIndent;
                     longest = item.width + impl.indent.x;
                 }
-                sumHeight += item.height;
             }
-            width = longest + indent.x * 4;
-            height = sumHeight + (workPlace.inner.y * workPlace.Count()) + indent.y * 5;
+
+            int count = (items.Count() / 24) + 1;
+            width = count * longest + indent.x * 4;
+
+            // TODO: Optimize this code
+            float sumHeight = 0f;
+            if (count > 1)
+            {
+                int index = 0;
+                foreach (Control item in workPlace)
+                {
+                    if (index >= 24)
+                        break;
+                    sumHeight += item.height;
+                    index++;
+                }
+                height = sumHeight + (workPlace.inner.y * 24) + indent.y * 5;
+            }
+            else
+            {
+                foreach (Control item in workPlace)
+                {
+                    sumHeight += item.height;
+                }
+                height = sumHeight + (workPlace.inner.y * workPlace.Count()) + indent.y * 5;
+            }
         }
 
         public virtual void Update()
