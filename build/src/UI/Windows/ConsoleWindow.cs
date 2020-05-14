@@ -36,6 +36,7 @@ namespace Azxc.UI
         private void KillCmd_Expanded(object sender, ControlEventArgs e)
         {
             killWindow.Clear();
+            killWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.core.uiManager.font));
             foreach (Profile profile in Profiles.all)
             {
                 if (profile != null)
@@ -46,6 +47,22 @@ namespace Azxc.UI
                     killWindow.AddItem(player);
                 }
             }
+            killWindow.AddItem(new Separator());
+            Controls.Window ducksWindow = new Controls.Window(Vec2.Zero, SizeModes.Flexible);
+
+            Button<FancyBitmapFont> all = new Button<FancyBitmapFont>("All",
+                "Kill all ducks.", Azxc.core.uiManager.font);
+            all.onClicked += DucksAll_Clicked;
+            ducksWindow.AddItem(all);
+
+            Button<FancyBitmapFont> allButYou = new Button<FancyBitmapFont>("All but Local",
+                "Basically kills all ducks but local, so only works in Network or Challenge Arcades.", Azxc.core.uiManager.font);
+            allButYou.onClicked += DucksAllButYou_Clicked;
+            ducksWindow.AddItem(allButYou);
+
+            Expander<FancyBitmapFont> ducks = new Expander<FancyBitmapFont>(ducksWindow, "Ducks",
+                Azxc.core.uiManager.font);
+            killWindow.AddItem(ducks);
         }
 
         private void KillPlayer_Clicked(object sender, ControlEventArgs e)
@@ -55,6 +72,27 @@ namespace Azxc.UI
             {
                 if (profile.name == button.text && profile.duck != null)
                     profile.duck.Kill(new DTIncinerate(null));
+            }
+        }
+
+        private void DucksAll_Clicked(object sender, ControlEventArgs e)
+        {
+            if (Level.current == null)
+                return;
+            foreach (Duck duck in Level.current.things.OfType<Duck>())
+            {
+                duck.Kill(new DTIncinerate(null));
+            }
+        }
+
+        private void DucksAllButYou_Clicked(object sender, ControlEventArgs e)
+        {
+            if (Level.current == null)
+                return;
+            foreach (Duck duck in Level.current.things.OfType<Duck>())
+            {
+                if (!duck.isLocal || duck is TargetDuck)
+                    duck.Kill(new DTIncinerate(null));
             }
         }
     }
