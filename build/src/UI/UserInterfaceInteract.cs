@@ -113,6 +113,13 @@ namespace Azxc.UI
             else
                 return;
 
+
+            BindingManager.UsedBinding(this, "MoveLeft");
+            BindingManager.UsedBinding(this, "MouseRight");
+
+            if (_activeWindow.items.OfType<ISelect>().Count() == 0)
+                return;
+
             _selectedItem = GetSelectedItem();
             UpdateSelection();
 
@@ -120,10 +127,8 @@ namespace Azxc.UI
 
             BindingManager.UsedBinding(this, "MoveUp");
             BindingManager.UsedBinding(this, "MoveDown");
-            BindingManager.UsedBinding(this, "MoveLeft");
-            BindingManager.UsedBinding(this, "MoveRight");
 
-            BindingManager.UsedBinding(this, "MouseLeft");
+            BindingManager.UsedBinding(this, "MoveRight");
             BindingManager.UsedBinding(this, "MouseRight");
 
             Select();

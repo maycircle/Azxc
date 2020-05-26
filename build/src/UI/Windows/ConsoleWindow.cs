@@ -39,20 +39,40 @@ namespace Azxc.UI
             AddItem(callCmd);
         }
 
+        private List<Profile> GetProfiles()
+        {
+            List<Profile> profiles = new List<Profile>();
+            foreach (Profile profile in Profiles.active)
+            {
+                if (profile != null && profile.duck != null)
+                    profiles.Add(profile);
+            }
+            return profiles;
+        }
+        
         #region Kill command
         private void KillCmd_Expanded(object sender, ControlEventArgs e)
         {
             _killWindow.Clear();
             _killWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.core.uiManager.font));
-            foreach (Profile profile in Profiles.active)
+
+            List<Profile> profiles = GetProfiles();
+            if (profiles.Count > 0)
             {
-                if (profile != null && profile.duck != null)
+                foreach (Profile profile in profiles)
                 {
-                    Button<FancyBitmapFont> player = new Button<FancyBitmapFont>(profile.name,
-                        Azxc.core.uiManager.font);
-                    player.onClicked += KillPlayer_Clicked;
-                    _killWindow.AddItem(player);
+                    if (profile != null && profile.duck != null)
+                    {
+                        Button<FancyBitmapFont> player = new Button<FancyBitmapFont>(profile.name,
+                            Azxc.core.uiManager.font);
+                        player.onClicked += KillPlayer_Clicked;
+                        _killWindow.AddItem(player);
+                    }
                 }
+            }
+            else
+            {
+                _killWindow.AddItem(new Label<FancyBitmapFont>("No available profiles!", Azxc.core.uiManager.font));
             }
             _killWindow.AddItem(new Separator());
             Controls.Window ducksWindow = new Controls.Window(Vec2.Zero, SizeModes.Flexible);
@@ -105,13 +125,20 @@ namespace Azxc.UI
         #endregion
 
         #region Call command
-        private Duck _selectedDuck;
+        private Profile _selectedProfile;
 
         private void CallCmd_Expanded(object sender, ControlEventArgs e)
         {
             _callWindow.Clear();
             _callWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.core.uiManager.font));
-            foreach (Profile profile in Profiles.active)
+
+            List<Profile> profiles = GetProfiles();
+            if (profiles.Count == 0)
+            {
+                _callWindow.AddItem(new Label<FancyBitmapFont>("No available profiles!", Azxc.core.uiManager.font));
+                return;
+            }
+            foreach (Profile profile in profiles)
             {
                 if (profile != null && profile.duck != null)
                 {
@@ -129,7 +156,7 @@ namespace Azxc.UI
             foreach (Profile profile in Profiles.all)
             {
                 if (profile.name == expander.text && profile.duck != null)
-                    _selectedDuck = profile.duck;
+                    _selectedProfile = profile;
             }
         }
 
@@ -153,11 +180,20 @@ namespace Azxc.UI
         private void CallMethod_Clicked(object sender, ControlEventArgs e)
         {
             Button<FancyBitmapFont> button = e.item as Button<FancyBitmapFont>;
-            foreach (MethodInfo method in typeof(Duck).GetMethods())
-            {
-                if (method.Name == button.text)
-                    method.Invoke(_selectedDuck, null);
-            }
+            //if (DuckNetwork.active)
+            //{
+                // I need to somehow change other ducks using Network, DuckNetwork, or Messages,
+                // but i don't know how
+                //Send.Message(new NMCallDuck(_selectedProfile.networkIndex, button.text, null));
+            //}
+            //else
+            //{
+                foreach (MethodInfo method in typeof(Duck).GetMethods())
+                {
+                    if (method.Name == button.text)
+                        method.Invoke(_selectedProfile.duck, null);
+                }
+            //}
         }
         #endregion
     }
