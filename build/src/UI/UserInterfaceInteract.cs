@@ -35,6 +35,9 @@ namespace Azxc.UI
 
             IClickable impl = item as IClickable;
             impl.Click();
+
+            // So chat doesn't open when press Enter
+            DuckNetwork.core.enteringText = false;
         }
 
         [Binding(Keys.Up, InputState.Pressed)]
