@@ -179,6 +179,9 @@ namespace Azxc.UI
 
         private void CallMethod_Clicked(object sender, ControlEventArgs e)
         {
+            if (_selectedProfile == null)
+                return;
+
             Button<FancyBitmapFont> button = e.item as Button<FancyBitmapFont>;
             //if (DuckNetwork.active)
             //{
@@ -191,7 +194,16 @@ namespace Azxc.UI
                 foreach (MethodInfo method in typeof(Duck).GetMethods())
                 {
                     if (method.Name == button.text)
-                        method.Invoke(_selectedProfile.duck, null);
+                    {
+                        try
+                        {
+                            method.Invoke(_selectedProfile.duck, null);
+                        }
+                        catch
+                        {
+                            // Nothing to do?
+                        }
+                    }
                 }
             //}
         }

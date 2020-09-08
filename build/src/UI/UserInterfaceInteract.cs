@@ -113,7 +113,8 @@ namespace Azxc.UI
         {
             if (Azxc.core.uiManager.controls.OfType<Controls.Window>().Count() > 0)
                 _activeWindow = Azxc.core.uiManager.controls.OfType<Controls.Window>().Last();
-            else
+            else if (Azxc.core.uiManager.controls.OfType<Controls.Window>().Count() <= 0 ||
+                !Azxc.core.uiManager.state.HasFlag(UserInterfaceState.Open))
                 return;
 
 
@@ -132,7 +133,7 @@ namespace Azxc.UI
             BindingManager.UsedBinding(this, "MoveDown");
 
             BindingManager.UsedBinding(this, "MoveRight");
-            BindingManager.UsedBinding(this, "MouseRight");
+            BindingManager.UsedBinding(this, "MouseLeft");
 
             Select();
         }
