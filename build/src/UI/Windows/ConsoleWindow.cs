@@ -14,21 +14,26 @@ namespace Azxc.UI
 {
     class ConsoleWindow : Controls.Window
     {
-        private Controls.Window _killWindow, _callWindow;
-        public Expander<FancyBitmapFont> killCmd, callCmd;
+        private Controls.Window _killWindow, _callWindow, _giveWindow;
+        public Expander<FancyBitmapFont> killCmd, callCmd, giveCmd;
 
         public ConsoleWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
             _killWindow = new Controls.Window(position, SizeModes.Flexible);
             _callWindow = new Controls.Window(position, SizeModes.Flexible);
+            _giveWindow = new Controls.Window(position, SizeModes.Flexible);
 
             killCmd = new Expander<FancyBitmapFont>(_killWindow, "Kill", "Kill any player.",
                 Azxc.core.uiManager.font);
             killCmd.onExpanded += KillCmd_Expanded;
 
-            callCmd = new Expander<FancyBitmapFont>(_callWindow, "Call", "Call method on player.",
+            callCmd = new Expander<FancyBitmapFont>(_callWindow, "Call", "Call method on a player.",
                 Azxc.core.uiManager.font);
             callCmd.onExpanded += CallCmd_Expanded;
+
+            giveCmd = new Expander<FancyBitmapFont>(_giveWindow, "Give", "Give something to a player.",
+                Azxc.core.uiManager.font);
+            giveCmd.onExpanded += GiveCmd_Expanded;
 
             Prepare();
         }
@@ -37,6 +42,7 @@ namespace Azxc.UI
         {
             AddItem(killCmd);
             AddItem(callCmd);
+            AddItem(giveCmd);
         }
 
         private List<Profile> GetProfiles()
@@ -84,7 +90,7 @@ namespace Azxc.UI
 
             Button<FancyBitmapFont> allButYou = new Button<FancyBitmapFont>("All but Local",
                 "Basically kills all ducks but local, so only works in Network or Challenge Arcades.", Azxc.core.uiManager.font);
-            allButYou.onClicked += DucksAllButYou_Clicked;
+            allButYou.onClicked += DucksAllButLocal_Clicked;
             ducksWindow.AddItem(allButYou);
 
             Expander<FancyBitmapFont> ducks = new Expander<FancyBitmapFont>(ducksWindow, "Ducks",
@@ -112,7 +118,7 @@ namespace Azxc.UI
             }
         }
 
-        private void DucksAllButYou_Clicked(object sender, ControlEventArgs e)
+        private void DucksAllButLocal_Clicked(object sender, ControlEventArgs e)
         {
             if (Level.current == null)
                 return;
@@ -124,9 +130,19 @@ namespace Azxc.UI
         }
         #endregion
 
-        #region Call command
         private Profile _selectedProfile;
 
+        private void ListedPlayer_Expanded(object sender, ControlEventArgs e)
+        {
+            Expander<FancyBitmapFont> expander = e.item as Expander<FancyBitmapFont>;
+            foreach (Profile profile in Profiles.all)
+            {
+                if (profile.name == expander.text && profile.duck != null)
+                    _selectedProfile = profile;
+            }
+        }
+
+        #region Call command
         private void CallCmd_Expanded(object sender, ControlEventArgs e)
         {
             _callWindow.Clear();
@@ -142,25 +158,17 @@ namespace Azxc.UI
             {
                 if (profile != null && profile.duck != null)
                 {
-                    Expander<FancyBitmapFont> player = new Expander<FancyBitmapFont>(GetMethods(profile.duck.GetType()), 
+                    // TOOD: Optimize this. Every iteration it creates a new copy of same window which also contains all of
+                    // the "Duck" type methods as button controls for the entire time
+                    Expander<FancyBitmapFont> player = new Expander<FancyBitmapFont>(CallGetMethodsWindow(profile.duck.GetType()), 
                         profile.name, Azxc.core.uiManager.font);
-                    player.onExpanded += CallPlayer_Expanded;
+                    player.onExpanded += ListedPlayer_Expanded;
                     _callWindow.AddItem(player);
                 }
             }
         }
 
-        private void CallPlayer_Expanded(object sender, ControlEventArgs e)
-        {
-            Expander<FancyBitmapFont> expander = e.item as Expander<FancyBitmapFont>;
-            foreach (Profile profile in Profiles.all)
-            {
-                if (profile.name == expander.text && profile.duck != null)
-                    _selectedProfile = profile;
-            }
-        }
-
-        private Controls.Window GetMethods(Type type)
+        private Controls.Window CallGetMethodsWindow(Type type)
         {
             Controls.Window window = new Controls.Window(Vec2.Zero, SizeModes.Flexible);
             foreach (MethodInfo method in type.GetMethods())
@@ -206,6 +214,125 @@ namespace Azxc.UI
                     }
                 }
             //}
+        }
+        #endregion
+
+        #region Give command
+        private Controls.Window _giveItemsWindow;
+
+        private void GiveCmd_Expanded(object sender, ControlEventArgs e)
+        {
+            _giveWindow.Clear();
+            _giveWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.core.uiManager.font));
+
+            _giveItemsWindow = GiveGetItemsWindow();
+
+            List<Profile> profiles = GetProfiles();
+            if (profiles.Count == 0)
+            {
+                _giveWindow.AddItem(new Label<FancyBitmapFont>("No available profiles!", Azxc.core.uiManager.font));
+                return;
+            }
+            foreach (Profile profile in profiles)
+            {
+                if (profile != null && profile.duck != null)
+                {
+                    Expander<FancyBitmapFont> player = new Expander<FancyBitmapFont>(_giveItemsWindow,
+                        profile.name, Azxc.core.uiManager.font);
+                    player.onExpanded += ListedPlayer_Expanded;
+                    _giveWindow.AddItem(player);
+                }
+            }
+        }
+
+        private List<Type> GiveGetEditorThings()
+        {
+            List<Type> thingTypes;
+            // Copied straight from Duck Game source code :P
+            if (MonoMain.moddingEnabled)
+                thingTypes = ManagedContent.Things.Types.ToList<Type>();
+            else
+                thingTypes = Editor.GetSubclasses(typeof(Thing)).ToList<Type>();
+            return thingTypes;
+        }
+
+        private Controls.Window GiveGetItemsWindow()
+        {
+            List<Type> thingTypes = GiveGetEditorThings();
+            // Sort types by their names in alphabetical order
+            thingTypes.Sort(delegate(Type x, Type y)
+            {
+                if (x.Name == null && y.Name == null) return 0;
+                else if (x.Name == null) return -1;
+                else if (y.Name == null) return 1;
+                else return x.Name.CompareTo(y.Name);
+            });
+
+            Controls.Window window = new Controls.Window(Vec2.Zero, SizeModes.Flexible);
+
+            foreach (Type thing in thingTypes)
+            {
+                if (InheritsFrom(thing, typeof(Holdable)) && Editor.HasConstructorParameter(thing) &&
+                    !thing.IsAbstract)
+                {
+                    Button<FancyBitmapFont> executor = new Button<FancyBitmapFont>(thing.Name,
+                        Azxc.core.uiManager.font);
+                    executor.onClicked += GiveMethod_Clicked;
+                    window.AddItem(executor);
+                }
+            }
+
+            return window;
+        }
+
+        private bool InheritsFrom(Type type, Type baseType)
+        {
+            if (type == null)
+            {
+                return false;
+            }
+
+            if (baseType == null)
+            {
+                return type.IsInterface || type == typeof(object);
+            }
+
+            if (baseType.IsInterface)
+            {
+                return type.GetInterfaces().Contains(baseType);
+            }
+
+            Type currentType = type;
+            while (currentType != null)
+            {
+                if (currentType.BaseType == baseType)
+                {
+                    return true;
+                }
+
+                currentType = currentType.BaseType;
+            }
+
+            return false;
+        }
+
+        private void GiveMethod_Clicked(object sender, ControlEventArgs e)
+        {
+            if (_selectedProfile == null)
+                return;
+
+            Button<FancyBitmapFont> button = e.item as Button<FancyBitmapFont>;
+            List<Type> thingTypes = GiveGetEditorThings();
+
+            foreach (Type thing in thingTypes)
+            {
+                if (thing.Name == button.text)
+                {
+                    Holdable thingToGive = Editor.CreateThing(thing) as Holdable;
+                    Level.Add(thingToGive);
+                    _selectedProfile.duck.GiveHoldable(thingToGive);
+                }
+            }
         }
         #endregion
     }
