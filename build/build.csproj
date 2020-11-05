@@ -119,6 +119,7 @@
     <Compile Include="src\UI\UserInterfaceInteract.cs" />
     <Compile Include="src\UI\UserInterfaceState.cs" />
     <Compile Include="src\UI\UserInterfaceManager.cs" />
+    <Compile Include="src\UI\Windows\ArcadeWindow.cs" />
     <Compile Include="src\UI\Windows\ConsoleWindow.cs" />
     <Compile Include="src\UI\Windows\MainWindow.cs" />
     <Compile Include="src\UI\Windows\MiscWindow.cs" />

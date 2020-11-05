@@ -16,20 +16,16 @@ namespace Azxc.UI
     class MiscWindow : Controls.Window
     {
         public CheckBox<FancyBitmapFont> commandsBypass, lobbyTimout;
-        public Expander<FancyBitmapFont> commands;
 
         public MiscWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
             commandsBypass = new CheckBox<FancyBitmapFont>("Commands Bypass",
-                "Ability to call extra commands in DevConsole. Why do you even use this?", Azxc.core.uiManager.font);
+                "Ability to call extra commands in DevConsole.", Azxc.core.uiManager.font);
             commandsBypass.onChecked += CommandsBypass_Checked;
 
             lobbyTimout = new CheckBox<FancyBitmapFont>("Lobby Timeout",
                 "Kick from lobby after being AFK for 5 minutes.", Azxc.core.uiManager.font, true);
             lobbyTimout.onChecked += LobbyTimeout_Checked;
-
-            commands = new Expander<FancyBitmapFont>(new ConsoleWindow(position, SizeModes.Flexible),
-                "Commands", "Probably every command that this game has.", Azxc.core.uiManager.font);
 
             Prepare();
         }
@@ -38,8 +34,6 @@ namespace Azxc.UI
         {
             AddItem(commandsBypass);
             AddItem(lobbyTimout);
-            AddItem(new Separator());
-            AddItem(commands);
         }
 
         private void CommandsBypass_Checked(object sender, ControlEventArgs e)
