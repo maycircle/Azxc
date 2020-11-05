@@ -15,6 +15,7 @@ namespace Azxc.UI
 {
     class ArcadeWindow : Controls.Window
     {
+        public Button<FancyBitmapFont> ticketsMax, ticketsMin, finishChallenge;
         public CheckBox<FancyBitmapFont> pauseTimer;
 
         public ArcadeWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
@@ -31,6 +32,10 @@ namespace Azxc.UI
                 Azxc.core.uiManager.font);
             pauseTimer.onChecked += PauseTimer_Checked;
 
+            finishChallenge = new Button<FancyBitmapFont>("Finish Challenge", "Press to complete the challenge (Developer included).",
+                Azxc.core.uiManager.font);
+            finishChallenge.onClicked += FinishChallenge_Clicked;
+
             Prepare();
         }
 
@@ -40,6 +45,7 @@ namespace Azxc.UI
             AddItem(ticketsMin);
             AddItem(new Separator());
             AddItem(pauseTimer);
+            AddItem(finishChallenge);
         }
 
         private void TicketsMax_Clicked(object sender, ControlEventArgs e)
@@ -68,6 +74,25 @@ namespace Azxc.UI
             {
                 Azxc.core.harmony.Patch(original,
                     prefix: new HarmonyMethod(typeof(Hacks.PauseTimer), "Prefix"));
+            }
+        }
+
+        private void FinishChallenge_Clicked(object sender, ControlEventArgs e)
+        {
+            if (ChallengeLevel.running)
+            {
+                ChallengeLevel challengeLevel = ChallengeLevel.current as ChallengeLevel;
+                ChallengeMode challenge = AccessTools.Field(typeof(ChallengeLevel),
+                    "_challenge").GetValue(challengeLevel) as ChallengeMode;
+
+                List<ChallengeTrophy> simulatedTrophies = new List<ChallengeTrophy>();
+                simulatedTrophies.Add(new ChallengeTrophy(challenge.challenge));
+                simulatedTrophies[0].type = TrophyType.Developer;
+
+                ChallengeLevel.timer.Stop();
+                AccessTools.Field(typeof(ChallengeMode), "_wonTrophies")
+                    .SetValue(challenge, simulatedTrophies);
+                challengeLevel.ChallengeEnded(challenge);
             }
         }
     }
