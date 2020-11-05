@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
+using Harmony;
 using DuckGame;
 
 using Azxc.UI.Events;
 using Azxc.UI.Controls;
+using Azxc.Hacks;
 
 namespace Azxc.UI
 {
     class ArcadeWindow : Controls.Window
     {
-        public Button<FancyBitmapFont> ticketsMax, ticketsMin;
+        public CheckBox<FancyBitmapFont> pauseTimer;
 
         public ArcadeWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
@@ -24,6 +27,10 @@ namespace Azxc.UI
                 Azxc.core.uiManager.font);
             ticketsMin.onClicked += TicketsMin_Clicked;
 
+            pauseTimer = new CheckBox<FancyBitmapFont>("Pause Timer", "Become incredibly fast, relative to time...",
+                Azxc.core.uiManager.font);
+            pauseTimer.onChecked += PauseTimer_Checked;
+
             Prepare();
         }
 
@@ -31,6 +38,8 @@ namespace Azxc.UI
         {
             AddItem(ticketsMax);
             AddItem(ticketsMin);
+            AddItem(new Separator());
+            AddItem(pauseTimer);
         }
 
         private void TicketsMax_Clicked(object sender, ControlEventArgs e)
