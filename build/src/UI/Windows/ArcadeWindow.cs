@@ -51,5 +51,24 @@ namespace Azxc.UI
         {
             Profiles.active[0].ticketCount = 0;
         }
+
+        private void PauseTimer_Checked(object sender, ControlEventArgs e)
+        {
+            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+
+            PauseTimer.enabled = checkBox.isChecked;
+            if (ChallengeLevel.timer != null && checkBox.isChecked)
+                ChallengeLevel.timer.Stop();
+            else if (ChallengeLevel.timer != null && !checkBox.isChecked)
+                ChallengeLevel.timer.Start();
+
+            MethodInfo original = typeof(ChallengeLevel).GetMethod("Update");
+
+            if (Azxc.core.harmony.GetPatchInfo(original) == null)
+            {
+                Azxc.core.harmony.Patch(original,
+                    prefix: new HarmonyMethod(typeof(Hacks.PauseTimer), "Prefix"));
+            }
+        }
     }
 }
