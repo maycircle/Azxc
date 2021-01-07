@@ -77,6 +77,7 @@ namespace Azxc.UI
             }
         }
 
+        // This code right here, officer
         private void FinishChallenge_Clicked(object sender, ControlEventArgs e)
         {
             if (ChallengeLevel.running)
