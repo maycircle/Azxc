@@ -104,7 +104,6 @@
     <Compile Include="src\Hacks\Scanning\Format.cs" />
     <Compile Include="src\Hacks\Scanning\Pattern.cs" />
     <Compile Include="src\Main.cs" />
-    <Compile Include="src\NetMessages\NMCallOnDuck.cs" />
     <Compile Include="src\UI\Controls\Button.cs" />
     <Compile Include="src\UI\Controls\CheckBox.cs" />
     <Compile Include="src\UI\Controls\Control.cs" />

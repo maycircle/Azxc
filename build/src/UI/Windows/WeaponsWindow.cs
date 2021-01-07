@@ -53,7 +53,7 @@ namespace Azxc.UI
 
             MethodInfo original = typeof(Gun).GetMethod("Reload");
 
-            // Patch if it has no patches
+            // Patch if it hasn't been patched yet
             if (Azxc.core.harmony.GetPatchInfo(original) == null)
             {
                 Azxc.core.harmony.Patch(original,
@@ -85,9 +85,9 @@ namespace Azxc.UI
             if (Azxc.core.harmony.GetPatchInfo(original) == null)
             {
                 Azxc.core.harmony.Patch(original,
-                    postfix: new HarmonyMethod(typeof(Hacks.NoReload), "Postfix"));
+                    postfix: new HarmonyMethod(typeof(Hacks.NoReload), "FirePostfix"));
                 Azxc.core.harmony.Patch(typeof(Gun).GetMethod("OnHoldAction"),
-                    transpiler: new HarmonyMethod(typeof(Hacks.NoReload), "Transpiler"));
+                    transpiler: new HarmonyMethod(typeof(Hacks.NoReload), "OnHoldActionTranspiler"));
             }
         }
 

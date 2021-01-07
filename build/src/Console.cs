@@ -29,7 +29,7 @@ namespace Azxc
 
                         if (commandName == command)
                         {
-                            method.Invoke(new Console(), null);
+                            method.Invoke(null, null);
                             return false;
                         }
                     }
@@ -39,10 +39,10 @@ namespace Azxc
         }
     }
 
-    class Console
+    static class Console
     {
         [Command("test")]
-        public void Test()
+        public static void Test()
         {
             // Add line in console
             DevConsole.core.lines.Enqueue(new DCLine

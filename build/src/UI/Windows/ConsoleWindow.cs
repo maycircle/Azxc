@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-using Harmony;
 using DuckGame;
 
 using Azxc.UI.Controls;
@@ -23,15 +22,15 @@ namespace Azxc.UI
             _callWindow = new Controls.Window(position, SizeModes.Flexible);
             _giveWindow = new Controls.Window(position, SizeModes.Flexible);
 
-            killCmd = new Expander<FancyBitmapFont>(_killWindow, "Kill", "Kill any player.",
+            killCmd = new Expander<FancyBitmapFont>(_killWindow, "Kill", "Kill player.",
                 Azxc.core.uiManager.font);
             killCmd.onExpanded += KillCmd_Expanded;
 
-            callCmd = new Expander<FancyBitmapFont>(_callWindow, "Call", "Call method on a player.",
+            callCmd = new Expander<FancyBitmapFont>(_callWindow, "Call", "Call method on player.",
                 Azxc.core.uiManager.font);
             callCmd.onExpanded += CallCmd_Expanded;
 
-            giveCmd = new Expander<FancyBitmapFont>(_giveWindow, "Give", "Give something to a player.",
+            giveCmd = new Expander<FancyBitmapFont>(_giveWindow, "Give", "Give something to player.",
                 Azxc.core.uiManager.font);
             giveCmd.onExpanded += GiveCmd_Expanded;
 
@@ -191,29 +190,17 @@ namespace Azxc.UI
                 return;
 
             Button<FancyBitmapFont> button = e.item as Button<FancyBitmapFont>;
-            //if (DuckNetwork.active)
-            //{
-                // I need to somehow change other ducks using Network, DuckNetwork, or Messages,
-                // but i don't know how
-                //Send.Message(new NMCallDuck(_selectedProfile.networkIndex, button.text, null));
-            //}
-            //else
-            //{
-                foreach (MethodInfo method in typeof(Duck).GetMethods())
+            foreach (MethodInfo method in typeof(Duck).GetMethods())
+            {
+                if (method.Name == button.text)
                 {
-                    if (method.Name == button.text)
+                    try
                     {
-                        try
-                        {
-                            method.Invoke(_selectedProfile.duck, null);
-                        }
-                        catch
-                        {
-                            // Nothing to do?
-                        }
+                        method.Invoke(_selectedProfile.duck, null);
                     }
+                    catch { }
                 }
-            //}
+            }
         }
         #endregion
 

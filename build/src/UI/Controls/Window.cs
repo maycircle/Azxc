@@ -56,7 +56,7 @@ namespace Azxc.UI.Controls
             int count = (items.Count() / 24) + 1;
             width = count * longest + indent.x * 4;
 
-            // TODO: Optimize this code
+            // TODO: Optimize this code, probably
             float sumHeight = 0f;
             if (count > 1)
             {
@@ -93,7 +93,7 @@ namespace Azxc.UI.Controls
             if (!visible)
                 return;
 
-            // Window borders themselves
+            // Draw windows borders
             Graphics.DrawRect(position, position + size, Color.Black);
             Graphics.DrawRect(workPlace.position - indent, workPlace.position + workPlace.size - indent,
                 Color.DarkSlateGray, 0.1f, false, 0.5f);

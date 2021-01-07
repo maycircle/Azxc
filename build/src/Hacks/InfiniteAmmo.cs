@@ -13,11 +13,11 @@ using Azxc.Hacks.Scanning;
 
 namespace Azxc.Hacks
 {
-    //[HarmonyPatch(typeof(Gun), "Reload")]
     internal static class InfiniteAmmo
     {
         public static bool enabled;
 
+        // Reload@Gun
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
             FieldInfo enabled = AccessTools.Field(typeof(InfiniteAmmo), "enabled");

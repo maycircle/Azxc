@@ -17,14 +17,15 @@ namespace Azxc.Hacks
     {
         public static bool enabled;
 
-        // Fire
-        public static void Postfix(Gun __instance)
+        // Fire@Gun
+        public static void FirePostfix(Gun __instance)
         {
             __instance.loaded = __instance.loaded | enabled;
         }
 
-        // OnHoldAction
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        // OnHoldAction@Gun
+        static IEnumerable<CodeInstruction> OnHoldActionTranspiler(IEnumerable<CodeInstruction> instructions,
+            ILGenerator generator)
         {
             FieldInfo enabled = AccessTools.Field(typeof(NoReload), "enabled");
 

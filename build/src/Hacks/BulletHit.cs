@@ -41,7 +41,7 @@ namespace Azxc.Hacks
             Tuple<int, int> ldloc = ldlocPattern.Search()[0];
             List<CodeInstruction> doHit = codes.GetRange(ldloc.Item1, ldloc.Item2 - ldloc.Item1 + 1);
 
-            // The shit begins...
+            // Warning! A huge amount of CIL changes :)
             Label label1 = generator.DefineLabel();
             codes[ldloc.Item2 + 1].labels.Add(label1);
             codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Brtrue, label1));

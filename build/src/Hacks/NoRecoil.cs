@@ -12,6 +12,7 @@ namespace Azxc.Hacks
     {
         public static bool enabled;
 
+        // ApplyKick@Gun
         static bool Prefix()
         {
             if (enabled)

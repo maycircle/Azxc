@@ -7,7 +7,6 @@ using System.Reflection;
 using Harmony;
 using DuckGame;
 
-using Azxc.Bindings;
 using Azxc.UI;
 using Azxc.UI.Controls;
 
@@ -20,14 +19,15 @@ namespace Azxc
         public Azxc()
         {
             core = new AzxcCore();
-            // Probably, in future i will create a special AutoPatcher for this
+            // Probably, in future I will create a special AutoPatcher for this
             core.harmony.PatchAll();
             core.Prepare();
         }
 
         protected override void OnPostInitialize()
         {
-            // Call OnTick on every tick. Some sort of Update, but actually no
+            // OnTick gets called for the entire time game running, so I will use it as some sort
+            // of "update"
             core.harmony.Patch(typeof(RockWeather).GetMethod("TickWeather"),
                 postfix: new HarmonyMethod(typeof(Azxc), "OnTick"));
 

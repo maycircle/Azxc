@@ -22,7 +22,6 @@ namespace Azxc.Hacks.Scanning
 
         public Pattern()
         {
-            // In that way set instructions myself, using public var
             instructions = new List<CodeInstruction>();
             _pattern = new List<string>();
         }

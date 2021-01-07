@@ -6,20 +6,19 @@ using System.Threading;
 using System.Reflection;
 using System.Reflection.Emit;
 
-using DuckGame;
 using Harmony;
 
 using Azxc.Hacks.Scanning;
 
 namespace Azxc.Hacks
 {
-    // I will don't add original method name in class name only for hacks patches, in other cases
-    // i'll do it, like i did Console_RunCommand
     internal static class CommandsBypass
     {
         public static bool enabled;
 
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        // RunCommand@DevConsole
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            ILGenerator generator)
         {
             FieldInfo enabled = AccessTools.Field(typeof(CommandsBypass), "enabled");
 
@@ -32,7 +31,8 @@ namespace Azxc.Hacks
                 "brtrue Label",
                 "call DuckGame.Level get_current()",
                 "isinst DuckGame.ChallengeLevel",
-                "brtrue Label?", // "?" means that this line is optional, and if this line isn't like before question mark, then skip
+                "brtrue Label?", // "?" means that this line is optional, in some cases it may
+                                 // appear and in some not
                 "call DuckGame.Level get_current()?",
                 "isinst DuckGame.ArcadeLevel?",
                 "brfalse Label"

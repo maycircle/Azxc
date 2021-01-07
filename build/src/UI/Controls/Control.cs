@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-using Harmony;
 using DuckGame;
 
 namespace Azxc.UI.Controls
@@ -58,8 +57,6 @@ namespace Azxc.UI.Controls
         }
 
         public virtual void Draw()
-        {
-            
-        }
+        { }
     }
 }

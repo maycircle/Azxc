@@ -31,37 +31,20 @@ namespace Azxc.UI
 
         private static float _resolution;
 
-        public UserInterfaceInteract interact
-        {
-            get { return _core.interact; }
-        }
+        // Short-cuts
 
-        public UserInterfaceState state
-        {
-            get { return _core.state; }
-        }
-
-        public List<Control> controls
-        {
-            get { return _core.controls; }
-        }
-
-        public Cursor cursor
-        {
-            get { return _core.cursor; }
-        }
-
-        public FancyBitmapFont font
-        {
-            get { return _core.font; }
-        }
+        public UserInterfaceInteract interact => _core.interact;
+        public UserInterfaceState state => _core.state;
+        public List<Control> controls => _core.controls;
+        public Cursor cursor => _core.cursor;
+        public FancyBitmapFont font => _core.font;
 
         public UserInterfaceManager(UserInterfaceState state)
         {
             _core = new UserInterfaceCore();
             _core.state = state;
 
-            // So our GUI will draw everywhere
+            // So the GUI will be drawn everywhere
             Azxc.core.harmony.Patch(typeof(Level).GetMethod("DoDraw"),
                 postfix: new HarmonyMethod(typeof(UserInterfaceManager_DoDraw), "Postfix"));
 
@@ -77,6 +60,8 @@ namespace Azxc.UI
         // The method would be called each time any level loads
         private static void OnLevelLoad(Level __instance)
         {
+            // Due to problems with UI scaling, it will calculate a (mostly) perfect resolution for
+            // interface
             _resolution = __instance.camera.width / 320f;
         }
 

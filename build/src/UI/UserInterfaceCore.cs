@@ -16,7 +16,7 @@ namespace Azxc.UI
     {
         public UserInterfaceState state;
         public UserInterfaceInteract interact;
-        // Only for controls which needs to be auto-updated (Windows)
+        // Only for controls that need to be auto-updated (mostly those are windows)
         public List<Control> controls;
 
         public Cursor cursor;

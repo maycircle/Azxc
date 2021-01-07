@@ -14,19 +14,11 @@ namespace Azxc.UI
 {
     public class UserInterfaceInteract : IAutoUpdate, IBinding
     {
-        private Controls.Window _activeWindow;
-        public Controls.Window activeWindow
-        {
-            get { return _activeWindow; }
-        }
+        public Controls.Window activeWindow { get; private set; }
 
-        private int _selectedItem;
-        public int selectedItem
-        {
-            get { return _selectedItem; }
-        }
+        public int selectedItem { get; private set; }
 
-        [Binding(Keys.Enter, InputState.Pressed)]
+        // [Binding(Keys.Enter, InputState.Pressed)]
         public void ActivateItem()
         {
             Control item = GetItem();
@@ -36,8 +28,8 @@ namespace Azxc.UI
             IClickable impl = item as IClickable;
             impl.Click();
 
-            // So chat doesn't open when press Enter
-            DuckNetwork.core.enteringText = false;
+            // Disabled due to its poor realization
+            // DuckNetwork.core.enteringText = false;
         }
 
         [Binding(Keys.Up, InputState.Pressed)]
@@ -45,11 +37,10 @@ namespace Azxc.UI
         {
             Deselect();
 
-            // Press Up or Down to teleport to the other side of the world
-            if (_selectedItem <= 0)
-                _selectedItem = _activeWindow.items.OfType<ISelect>().Count() - 1;
+            if (selectedItem <= 0)
+                selectedItem = activeWindow.items.OfType<ISelect>().Count() - 1;
             else
-                _selectedItem -= 1;
+                selectedItem -= 1;
             Select();
         }
 
@@ -58,10 +49,10 @@ namespace Azxc.UI
         {
             Deselect();
 
-            if (_selectedItem >= _activeWindow.items.OfType<ISelect>().Count() - 1)
-                _selectedItem = 0;
+            if (selectedItem >= activeWindow.items.OfType<ISelect>().Count() - 1)
+                selectedItem = 0;
             else
-                _selectedItem += 1;
+                selectedItem += 1;
             Select();
         }
 
@@ -69,13 +60,13 @@ namespace Azxc.UI
         public void MoveLeft()
         {
             if (Azxc.core.uiManager.controls.OfType<Controls.Window>().Count() > 1)
-                _activeWindow.Close();
+                activeWindow.Close();
         }
 
         [Binding(Keys.Right, InputState.Pressed)]
         public void MoveRight()
         {
-            // Alternative for Enter
+            // Pressing right works the same as activating an item
             ActivateItem();
         }
 
@@ -96,13 +87,13 @@ namespace Azxc.UI
 
         public void UpdateSelection()
         {
-            foreach (Control control in _activeWindow.items.OfType<ISelect>())
+            foreach (Control control in activeWindow.items.OfType<ISelect>())
             {
                 ISelect impl = control as ISelect;
                 if (InRange(control) && !impl.selected)
                 {
                     Deselect();
-                    _selectedItem = GetItemIndex(control);
+                    selectedItem = GetItemIndex(control);
                     impl.selected = true;
                     break;
                 }
@@ -112,7 +103,7 @@ namespace Azxc.UI
         public void Update()
         {
             if (Azxc.core.uiManager.controls.OfType<Controls.Window>().Count() > 0)
-                _activeWindow = Azxc.core.uiManager.controls.OfType<Controls.Window>().Last();
+                activeWindow = Azxc.core.uiManager.controls.OfType<Controls.Window>().Last();
             else if (Azxc.core.uiManager.controls.OfType<Controls.Window>().Count() <= 0 ||
                 !Azxc.core.uiManager.state.HasFlag(UserInterfaceState.Open))
                 return;
@@ -121,10 +112,10 @@ namespace Azxc.UI
             BindingManager.UsedBinding(this, "MoveLeft");
             BindingManager.UsedBinding(this, "MouseRight");
 
-            if (_activeWindow.items.OfType<ISelect>().Count() == 0)
+            if (activeWindow.items.OfType<ISelect>().Count() == 0)
                 return;
 
-            _selectedItem = GetSelectedItem();
+            selectedItem = GetSelectedItem();
             UpdateSelection();
 
             BindingManager.UsedBinding(this, "ActivateItem");
@@ -158,7 +149,7 @@ namespace Azxc.UI
         private int GetSelectedItem()
         {
             int index = 0;
-            foreach (ISelect impl in _activeWindow.items.OfType<ISelect>())
+            foreach (ISelect impl in activeWindow.items.OfType<ISelect>())
             {
                 if (impl.selected)
                     return index;
@@ -170,9 +161,9 @@ namespace Azxc.UI
         private Control GetItem()
         {
             int index = 0;
-            foreach (Control control in _activeWindow.items.OfType<ISelect>())
+            foreach (Control control in activeWindow.items.OfType<ISelect>())
             {
-                if (index == _selectedItem)
+                if (index == selectedItem)
                     return control;
                 index += 1;
             }
@@ -182,7 +173,7 @@ namespace Azxc.UI
         private int GetItemIndex(Control item)
         {
             int index = 0;
-            foreach (Control control in _activeWindow.items.OfType<ISelect>())
+            foreach (Control control in activeWindow.items.OfType<ISelect>())
             {
                 if (control == item)
                     return index;

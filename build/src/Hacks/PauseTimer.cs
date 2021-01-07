@@ -11,6 +11,7 @@ namespace Azxc.Hacks
     {
         public static bool enabled;
 
+        // Update@ChallengeLevel
         static bool Prefix()
         {
             if (ChallengeLevel.timer != null && enabled)
