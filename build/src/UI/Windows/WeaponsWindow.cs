@@ -20,11 +20,11 @@ namespace Azxc.UI
         public WeaponsWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
             infinityAmmo = new CheckBox<FancyBitmapFont>("Infinite Ammo",
-                "Most weapons ammo's are now endless.", Azxc.core.uiManager.font);
+                "Endless ammo for most weapons.", Azxc.core.uiManager.font);
             infinityAmmo.onChecked += InfiniteAmmo_Checked;
 
             norecoil = new CheckBox<FancyBitmapFont>("No Recoil",
-                "Disable kickback after shot.", Azxc.core.uiManager.font);
+                "Disable kickback on shot.", Azxc.core.uiManager.font);
             norecoil.onChecked += NoRecoil_Checked;
 
             noreload = new CheckBox<FancyBitmapFont>("No Reload",
@@ -32,7 +32,7 @@ namespace Azxc.UI
             noreload.onChecked += NoReload_Checked;
 
             bulletHit = new CheckBox<FancyBitmapFont>("Bullet Hit",
-                "Bullets shoot through walls.", Azxc.core.uiManager.font);
+                "Bullets fly through walls.", Azxc.core.uiManager.font);
             bulletHit.onChecked += BulletHit_Checked;
 
             Prepare();
@@ -74,10 +74,10 @@ namespace Azxc.UI
                 Controls.Window properties = new Controls.Window(new Vec2(checkBox.x + checkBox.width + checkBox.indent.x * 3,
                     checkBox.y - 0.5f * 3), SizeModes.Flexible);
                 RadioBox<FancyBitmapFont> physicsObjects = new RadioBox<FancyBitmapFont>("Physics objects",
-                    "Bullets concern all physical objects.", Azxc.core.uiManager.font);
+                    "Bullets hit all physical objects.", Azxc.core.uiManager.font);
                 physicsObjects.onChecked += PhysicsObjects_Checked;
                 RadioBox<FancyBitmapFont> onlyDucks = new RadioBox<FancyBitmapFont>("Ducks",
-                    "Bullets concern only ducks.", Azxc.core.uiManager.font);
+                    "Bullets hit only ducks.", Azxc.core.uiManager.font);
                 onlyDucks.onChecked += OnlyDucks_Checked;
 
                 properties.AddItem(physicsObjects);

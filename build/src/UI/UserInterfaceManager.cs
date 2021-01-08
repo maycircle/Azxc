@@ -110,10 +110,10 @@ namespace Azxc.UI
             bitmapFont.scale = scale;
             bitmapFont.spriteScale = scale;
 
-            string text = "@AZXCACTIVATE@ACTIVATE @AZXCBACK@BACK";
+            string text = "@AZXCLEFTMOUSE@@AZXCACTIVATE@ACTIVATE  @AZXCRIGHTMOUSE@@AZXCBACK@BACK";
             float width = bitmapFont.GetWidth(text);
 
-            Vec2 cornerIndent = new Vec2(0.0f, bitmapFont.height * 2.0f);
+            Vec2 cornerIndent = new Vec2(-20.0f, bitmapFont.height * 2.0f);
             Vec2 position = new Vec2(Layer.HUD.width - width - cornerIndent.x,
                 Layer.HUD.height - bitmapFont.height - cornerIndent.y);
 

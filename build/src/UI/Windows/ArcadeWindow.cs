@@ -20,19 +20,19 @@ namespace Azxc.UI
 
         public ArcadeWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
-            ticketsMax = new Button<FancyBitmapFont>("Tickets MAX", "Set tickets count to 999.",
+            ticketsMax = new Button<FancyBitmapFont>("Tickets MAX", "Set tickets amount to 999.",
                 Azxc.core.uiManager.font);
             ticketsMax.onClicked += TicketsMax_Clicked;
 
-            ticketsMin = new Button<FancyBitmapFont>("Tickets MIN", "Set tickets count to 0.",
+            ticketsMin = new Button<FancyBitmapFont>("Tickets MIN", "Set tickets amount to 0.",
                 Azxc.core.uiManager.font);
             ticketsMin.onClicked += TicketsMin_Clicked;
 
-            pauseTimer = new CheckBox<FancyBitmapFont>("Pause Timer", "Become incredibly fast, relative to time...",
+            pauseTimer = new CheckBox<FancyBitmapFont>("Pause Timer", "Become incredibly fast, relative to time... :)",
                 Azxc.core.uiManager.font);
             pauseTimer.onChecked += PauseTimer_Checked;
 
-            finishChallenge = new Button<FancyBitmapFont>("Finish Challenge", "Press to complete the challenge (Developer included).",
+            finishChallenge = new Button<FancyBitmapFont>("Finish Challenge", "Complete the challenge (Developer included).",
                 Azxc.core.uiManager.font);
             finishChallenge.onClicked += FinishChallenge_Clicked;
 

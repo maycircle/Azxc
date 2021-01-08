@@ -22,13 +22,13 @@ namespace Azxc.UI
                 "Weapons", "Weapon(s) hacks.", Azxc.core.uiManager.font);
 
             commands = new Expander<FancyBitmapFont>(new ConsoleWindow(position, SizeModes.Flexible),
-                "Commands", "Probably every command that this game has.", Azxc.core.uiManager.font);
+                "Commands", "GUI for console commands.", Azxc.core.uiManager.font);
 
             arcade = new Expander<FancyBitmapFont>(new ArcadeWindow(position, SizeModes.Flexible),
                 "Arcade", "Challenges-related stuff.", Azxc.core.uiManager.font);
 
             misc = new Expander<FancyBitmapFont>(new MiscWindow(position, SizeModes.Flexible),
-                "Misc", "Random hacks.", Azxc.core.uiManager.font);
+                "Misc", "Random stuff.", Azxc.core.uiManager.font);
 
             Prepare();
         }
