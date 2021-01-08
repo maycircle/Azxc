@@ -29,6 +29,7 @@ namespace Azxc.Hacks
             }
         }
 
+        // RaycastBullet@Bullet
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
             ILGenerator generator)
         {
@@ -43,11 +44,12 @@ namespace Azxc.Hacks
             Pattern ldlocPattern = new Pattern(codes);
             string[] textPattern = ldlocPattern.AddInstructions(new string[]
             {
-                "ldloc.s 7 (DuckGame.MaterialThing)",
+                "ldloc.s 8 (DuckGame.MaterialThing)",
                 "ldarg.0 NULL",
-                "ldloc.1 NULL",
+                "ldarg.0 NULL",
+                "ldfld DuckGame.Vec2 currentTravel",
                 "callvirt Boolean DoHit(DuckGame.Bullet, DuckGame.Vec2)",
-                "stloc.2 NULL"
+                "stloc.1 NULL"
             });
             Tuple<int, int> ldloc = ldlocPattern.Search()[0];
             List<CodeInstruction> doHit = codes.GetRange(ldloc.Item1, ldloc.Item2 - ldloc.Item1 + 1);
