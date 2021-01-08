@@ -38,9 +38,9 @@ namespace Azxc.Hacks
             Pattern callvirtPattern = new Pattern(codes);
             callvirtPattern.AddInstructions(new string[]
             {
-                "callvirt Void PopShell(Single, Single, Int32)",
+                "call Void PopShell(Boolean)",
                 "ldarg.0 NULL [Label2]",
-                "dup NULL"
+                "ldarg.0 NULL"
             });
             int callvirt = callvirtPattern.Search()[0].Item1;
 
