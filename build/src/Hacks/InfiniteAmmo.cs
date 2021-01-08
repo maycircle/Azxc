@@ -6,8 +6,8 @@ using System.Threading;
 using System.Reflection;
 using System.Reflection.Emit;
 
-using DuckGame;
 using Harmony;
+using DuckGame;
 
 using Azxc.Hacks.Scanning;
 
@@ -15,7 +15,18 @@ namespace Azxc.Hacks
 {
     internal static class InfiniteAmmo
     {
-        public static bool enabled;
+        public static bool hooked, enabled;
+
+        public static void HookAndToggle(bool toggle)
+        {
+            enabled = toggle;
+            if (!hooked)
+            {
+                Azxc.core.harmony.Patch(typeof(Gun).GetMethod("Reload"),
+                    transpiler: new HarmonyMethod(typeof(InfiniteAmmo), "Transpiler"));
+                hooked = true;
+            }
+        }
 
         // Reload@Gun
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)

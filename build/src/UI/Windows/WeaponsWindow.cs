@@ -49,67 +49,32 @@ namespace Azxc.UI
         private void InfiniteAmmo_Checked(object sender, ControlEventArgs e)
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
-            InfiniteAmmo.enabled = checkBox.isChecked;
-
-            MethodInfo original = typeof(Gun).GetMethod("Reload");
-
-            // Patch if it hasn't been patched yet
-            if (Azxc.core.harmony.GetPatchInfo(original) == null)
-            {
-                Azxc.core.harmony.Patch(original,
-                    transpiler: new HarmonyMethod(typeof(Hacks.InfiniteAmmo), "Transpiler"));
-            }
+            InfiniteAmmo.HookAndToggle(checkBox.isChecked);
         }
 
         private void NoRecoil_Checked(object sender, ControlEventArgs e)
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
-            NoRecoil.enabled = checkBox.isChecked;
-
-            MethodInfo original = typeof(Gun).GetMethod("ApplyKick");
-
-            if (Azxc.core.harmony.GetPatchInfo(original) == null)
-            {
-                Azxc.core.harmony.Patch(original,
-                    prefix: new HarmonyMethod(typeof(Hacks.NoRecoil), "Prefix"));
-            }
+            NoRecoil.HookAndToggle(checkBox.isChecked);
         }
 
         private void NoReload_Checked(object sender, ControlEventArgs e)
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
-            NoReload.enabled = checkBox.isChecked;
-
-            MethodInfo original = typeof(Gun).GetMethod("Fire");
-
-            if (Azxc.core.harmony.GetPatchInfo(original) == null)
-            {
-                Azxc.core.harmony.Patch(original,
-                    postfix: new HarmonyMethod(typeof(Hacks.NoReload), "FirePostfix"));
-                Azxc.core.harmony.Patch(typeof(Gun).GetMethod("OnHoldAction"),
-                    transpiler: new HarmonyMethod(typeof(Hacks.NoReload), "OnHoldActionTranspiler"));
-            }
+            NoReload.HookAndToggle(checkBox.isChecked);
         }
 
         private void BulletHit_Checked(object sender, ControlEventArgs e)
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
-            BulletHit.enabled = checkBox.isChecked;
-
-            MethodInfo original = AccessTools.Method(typeof(Bullet), "RaycastBullet");
-
-            if (Azxc.core.harmony.GetPatchInfo(original) == null)
-            {
-                Azxc.core.harmony.Patch(original,
-                    transpiler: new HarmonyMethod(typeof(Hacks.BulletHit), "Transpiler"));
-            }
+            BulletHit.HookAndToggle(checkBox.isChecked);
 
             if (checkBox.isChecked)
             {
                 Controls.Window properties = new Controls.Window(new Vec2(checkBox.x + checkBox.width + checkBox.indent.x * 3,
                     checkBox.y - 0.5f * 3), SizeModes.Flexible);
                 RadioBox<FancyBitmapFont> physicsObjects = new RadioBox<FancyBitmapFont>("Physics objects",
-                    "Bullets concern only physical objects.", Azxc.core.uiManager.font);
+                    "Bullets concern all physical objects.", Azxc.core.uiManager.font);
                 physicsObjects.onChecked += PhysicsObjects_Checked;
                 RadioBox<FancyBitmapFont> onlyDucks = new RadioBox<FancyBitmapFont>("Ducks",
                     "Bullets concern only ducks.", Azxc.core.uiManager.font);

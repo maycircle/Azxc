@@ -6,8 +6,8 @@ using System.Threading;
 using System.Reflection;
 using System.Reflection.Emit;
 
-using DuckGame;
 using Harmony;
+using DuckGame;
 
 using Azxc.Hacks.Scanning;
 
@@ -15,7 +15,20 @@ namespace Azxc.Hacks
 {
     internal static class NoReload
     {
-        public static bool enabled;
+        public static bool hooked, enabled;
+
+        public static void HookAndToggle(bool toggle)
+        {
+            enabled = toggle;
+            if (!hooked)
+            {
+                Azxc.core.harmony.Patch(typeof(Gun).GetMethod("Fire"),
+                    postfix: new HarmonyMethod(typeof(NoReload), "FirePostfix"));
+                Azxc.core.harmony.Patch(typeof(Gun).GetMethod("OnHoldAction"),
+                    transpiler: new HarmonyMethod(typeof(NoReload), "OnHoldActionTranspiler"));
+                hooked = true;
+            }
+        }
 
         // Fire@Gun
         public static void FirePostfix(Gun __instance)

@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 
 using Harmony;
+using DuckGame;
 
 using Azxc.Hacks.Scanning;
 
@@ -14,7 +15,18 @@ namespace Azxc.Hacks
 {
     internal static class CommandsBypass
     {
-        public static bool enabled;
+        public static bool hooked, enabled;
+
+        public static void HookAndToggle(bool toggle)
+        {
+            enabled = toggle;
+            if (!hooked)
+            {
+                Azxc.core.harmony.Patch(typeof(DevConsole).GetMethod("RunCommand"),
+                    transpiler: new HarmonyMethod(typeof(CommandsBypass), "Transpiler"));
+                hooked = true;
+            }
+        }
 
         // RunCommand@DevConsole
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,

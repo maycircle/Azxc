@@ -39,29 +39,12 @@ namespace Azxc.UI
         private void CommandsBypass_Checked(object sender, ControlEventArgs e)
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
-            CommandsBypass.enabled = checkBox.isChecked;
-
-            MethodInfo original = typeof(DevConsole).GetMethod("RunCommand");
-
-            // To avoid conflicts
-            Azxc.core.harmony.Unpatch(original, HarmonyPatchType.All);
-
-            if (checkBox.isChecked)
-            {
-                Azxc.core.harmony.Patch(original,
-                    transpiler: new HarmonyMethod(typeof(Hacks.CommandsBypass), "Transpiler"));
-            }
-            else
-            {
-                Azxc.core.harmony.Patch(original,
-                    prefix: new HarmonyMethod(typeof(Console_RunCommand), "Prefix"));
-            }
+            CommandsBypass.HookAndToggle(checkBox.isChecked);
         }
 
         private void LobbyTimeout_Checked(object sender, ControlEventArgs e)
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
-            CommandsBypass.enabled = checkBox.isChecked;
 
             FieldInfo showTimeout = AccessTools.Field(typeof(TeamSelect2), "_afkShowTimeout");
             FieldInfo maxTimeout = AccessTools.Field(typeof(TeamSelect2), "_afkMaxTimeout");

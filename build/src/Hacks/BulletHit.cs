@@ -6,8 +6,8 @@ using System.Threading;
 using System.Reflection;
 using System.Reflection.Emit;
 
-using DuckGame;
 using Harmony;
+using DuckGame;
 
 using Azxc.Hacks.Scanning;
 
@@ -15,8 +15,19 @@ namespace Azxc.Hacks
 {
     internal static class BulletHit
     {
-        public static bool enabled;
+        public static bool hooked, enabled;
         public static Type trigger = typeof(PhysicsObject);
+
+        public static void HookAndToggle(bool toggle)
+        {
+            enabled = toggle;
+            if (!hooked)
+            {
+                Azxc.core.harmony.Patch(AccessTools.Method(typeof(Bullet), "RaycastBullet"),
+                    transpiler: new HarmonyMethod(typeof(BulletHit), "Transpiler"));
+                hooked = true;
+            }
+        }
 
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
             ILGenerator generator)

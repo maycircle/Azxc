@@ -68,13 +68,7 @@ namespace Azxc.UI
             else if (ChallengeLevel.timer != null && !checkBox.isChecked)
                 ChallengeLevel.timer.Start();
 
-            MethodInfo original = typeof(ChallengeLevel).GetMethod("Update");
-
-            if (Azxc.core.harmony.GetPatchInfo(original) == null)
-            {
-                Azxc.core.harmony.Patch(original,
-                    prefix: new HarmonyMethod(typeof(Hacks.PauseTimer), "Prefix"));
-            }
+            PauseTimer.Hook();
         }
 
         // This code right here, officer

@@ -82,7 +82,7 @@ namespace Azxc.UI.Controls
         {
             for (int i = 0; i < _items.Count; i++)
             {
-                // 24 is the maximum controls count of each stack
+                // 24 is the maximum controls count on a single stack
                 int stack = (i % 24);
                 int count = (i / 24);
 
@@ -95,6 +95,8 @@ namespace Azxc.UI.Controls
             }
         }
 
+        // TODO: maybe, I should floor (round) all those Graphics draw calls, so the GUI won't look
+        // kind of broken sometimes
         public override void Draw()
         {
             foreach (Control item in _items)
