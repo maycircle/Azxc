@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-using Harmony;
 using DuckGame;
 
 namespace Azxc.UI.Controls
@@ -95,8 +94,6 @@ namespace Azxc.UI.Controls
             }
         }
 
-        // TODO: maybe, I should floor (round) all those Graphics draw calls, so the GUI won't look
-        // kind of broken sometimes
         public override void Draw()
         {
             foreach (Control item in _items)

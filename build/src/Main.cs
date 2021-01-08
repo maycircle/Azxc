@@ -31,8 +31,22 @@ namespace Azxc
             core.harmony.Patch(typeof(RockWeather).GetMethod("TickWeather"),
                 postfix: new HarmonyMethod(typeof(Azxc), "OnTick"));
 
+            LoadContent();
+
             MainWindow mainWindow = new MainWindow(new Vec2(5f), SizeModes.Flexible);
             mainWindow.Show();
+        }
+
+        public void LoadContent()
+        {
+            FieldInfo fieldTriggerImageMap = AccessTools.Field(typeof(Input), "_triggerImageMap");
+            Dictionary<string, Sprite> triggerImageMap = (Dictionary<string, Sprite>)fieldTriggerImageMap.GetValue(null);
+            
+            // Image-triggers that visualise when you type their IDs. Example: @AZXCACTIVATE@
+            triggerImageMap.Add("AZXCACTIVATE", new Sprite(GetPath("buttons/activate_nooutline.png")));
+            triggerImageMap.Add("AZXCBACK", new Sprite(GetPath("buttons/back_nooutline.png")));
+
+            fieldTriggerImageMap.SetValue(null, triggerImageMap);
         }
 
         public static void OnTick()

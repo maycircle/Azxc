@@ -103,11 +103,29 @@ namespace Azxc.UI
             }
         }
 
+        public void DrawHints()
+        {
+            BitmapFont bitmapFont = new BitmapFont("biosFont", 8);
+            Vec2 scale = new Vec2(0.5f);
+            bitmapFont.scale = scale;
+            bitmapFont.spriteScale = scale;
+
+            string text = "@AZXCACTIVATE@ACTIVATE @AZXCBACK@BACK";
+            float width = bitmapFont.GetWidth(text);
+
+            Vec2 cornerIndent = new Vec2(0.0f, bitmapFont.height * 2.0f);
+            Vec2 position = new Vec2(Layer.HUD.width - width - cornerIndent.x,
+                Layer.HUD.height - bitmapFont.height - cornerIndent.y);
+
+            bitmapFont.DrawOutline(text, position, Color.White, Color.Black, 0.8f);
+        }
+
         public void Draw()
         {
             if (!_core.state.HasFlag(UserInterfaceState.Open))
                 return;
 
+            DrawHints();
             _core.cursor.Draw();
 
             foreach (Control control in _core.controls)
