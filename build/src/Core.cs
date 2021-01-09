@@ -26,7 +26,7 @@ namespace Azxc
         public void Prepare()
         {
             bindingManager = new BindingManager();
-            uiManager = new UserInterfaceManager(UserInterfaceState.Enabled);
+            uiManager = new UserInterfaceManager(UserInterfaceState.Enabled, true);
         }
     }
 }

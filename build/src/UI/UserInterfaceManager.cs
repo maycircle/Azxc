@@ -31,6 +31,8 @@ namespace Azxc.UI
 
         private static float _resolution;
 
+        public bool drawHints { get; set; }
+
         // Short-cuts
 
         public UserInterfaceInteract interact => _core.interact;
@@ -39,7 +41,7 @@ namespace Azxc.UI
         public Cursor cursor => _core.cursor;
         public FancyBitmapFont font => _core.font;
 
-        public UserInterfaceManager(UserInterfaceState state)
+        public UserInterfaceManager(UserInterfaceState state, bool drawHints)
         {
             _core = new UserInterfaceCore();
             _core.state = state;
@@ -55,6 +57,8 @@ namespace Azxc.UI
                 new Type[] { }, null);
             Azxc.core.harmony.Patch(ctor, postfix: new HarmonyMethod(typeof(UserInterfaceManager),
                 "OnLevelLoad"));
+
+            this.drawHints = drawHints;
         }
 
         // The method would be called each time any level loads
@@ -125,7 +129,8 @@ namespace Azxc.UI
             if (!_core.state.HasFlag(UserInterfaceState.Open))
                 return;
 
-            DrawHints();
+            if (_core.interact.activeWindow.GetType() == typeof(MainWindow) && drawHints)
+                DrawHints();
             _core.cursor.Draw();
 
             foreach (Control control in _core.controls)
