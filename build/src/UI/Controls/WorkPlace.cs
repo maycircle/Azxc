@@ -18,13 +18,13 @@ namespace Azxc.UI.Controls
         public Workplace()
         {
             _items = new List<Control>();
-            inner = Vec2.One / 2;
+            inner = (Vec2.One * 1.5f) / 2;
         }
 
         public Workplace(List<Control> items)
         {
             _items = items;
-            inner = Vec2.One / 2;
+            inner = (Vec2.One * 1.5f) / 2;
         }
 
         public IEnumerator<Control> GetEnumerator()
@@ -86,7 +86,7 @@ namespace Azxc.UI.Controls
                 int count = (i / 24);
 
                 Control item = _items[i] as Control;
-                item.x = x + inner.x + (GetLongestWidth() * count);
+                item.x = x + inner.x + (GetLongestWidth() * count) - (inner.x * count);
                 item.y = y + CalculateHeights(stack) + (inner.y * (stack + 1));
 
                 IIndent impl = item as IIndent;

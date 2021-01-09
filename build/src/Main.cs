@@ -43,7 +43,7 @@ namespace Azxc
             Dictionary<string, Sprite> triggerImageMap = (Dictionary<string, Sprite>)fieldTriggerImageMap.GetValue(null);
 
             // Image-triggers that visualise when you type their IDs. Example: @AZXCLEFTMOUSE@.
-            // I especially made sprites that don't have outlines in it because of the `DrawOutline`
+            // I especially made sprites that don't have outlines in them because of the `DrawOutline`
             // function, that draws outline on top of outline
             triggerImageMap.Add("AZXCLEFTMOUSE", new Sprite(GetPath("buttons/left_mouse_nooutline.png")));
             triggerImageMap.Add("AZXCRIGHTMOUSE", new Sprite(GetPath("buttons/right_mouse_nooutline.png")));

@@ -108,7 +108,10 @@ namespace Azxc.UI.Controls
 
             // Draw windows borders
             Graphics.DrawRect(position, position + size, Color.Black);
-            Graphics.DrawRect(workPlace.position - indent, workPlace.position + workPlace.size - indent,
+
+            Vec2 end = workPlace.position + workPlace.size - indent;
+            end.y += indent.y / 2;
+            Graphics.DrawRect(workPlace.position - indent, end,
                 Color.DarkSlateGray, 0.1f, false, 0.5f);
 
             workPlace.Draw();

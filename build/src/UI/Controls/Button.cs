@@ -22,21 +22,21 @@ namespace Azxc.UI.Controls
         {
             toolTipText = "";
             showToolTip = false;
-            indent = Vec2.One;
+            indent = Vec2.One * 1.5f;
         }
 
         public Button(string text, string toolTipText, T font) : base(text, font)
         {
             this.toolTipText = toolTipText;
             showToolTip = true;
-            indent = Vec2.One;
+            indent = Vec2.One * 1.5f;
         }
 
         public Button(string text, string toolTipText, T font, Vec2 position) : base(text, font, position)
         {
             this.toolTipText = toolTipText;
             showToolTip = true;
-            indent = Vec2.One;
+            indent = Vec2.One * 1.5f;
         }
 
         public override void Update()
