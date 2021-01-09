@@ -14,31 +14,23 @@ namespace Azxc.UI
 {
     class MainWindow : Controls.Window
     {
-        public Expander<FancyBitmapFont> weapons, commands, arcade, misc;
+        private Expander<FancyBitmapFont> weapons, commands, arcade, misc;
 
         public MainWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
-            weapons = new Expander<FancyBitmapFont>(new WeaponsWindow(position, SizeModes.Flexible),
-                "Weapons", "Weapon(s) hacks.", Azxc.core.uiManager.font);
-
-            commands = new Expander<FancyBitmapFont>(new ConsoleWindow(position, SizeModes.Flexible),
-                "Commands", "GUI for console commands.", Azxc.core.uiManager.font);
-
-            arcade = new Expander<FancyBitmapFont>(new ArcadeWindow(position, SizeModes.Flexible),
-                "Arcade", "Challenges-related stuff.", Azxc.core.uiManager.font);
-
-            misc = new Expander<FancyBitmapFont>(new MiscWindow(position, SizeModes.Flexible),
-                "Misc", "Random stuff.", Azxc.core.uiManager.font);
-
-            Prepare();
+            InitializeComponent();
         }
 
-        public void Prepare()
+        private void InitializeComponent()
         {
-            AddItem(weapons);
-            AddItem(commands);
-            AddItem(arcade);
-            AddItem(misc);
+            weapons = new Expander<FancyBitmapFont>(new WeaponsWindow(position, SizeModes.Flexible),
+                "Weapons", "Weapon(s) hacks.", Azxc.core.uiManager.font); AddItem(weapons);
+            commands = new Expander<FancyBitmapFont>(new ConsoleWindow(position, SizeModes.Flexible),
+                "Commands", "GUI for console commands.", Azxc.core.uiManager.font); AddItem(commands);
+            arcade = new Expander<FancyBitmapFont>(new ArcadeWindow(position, SizeModes.Flexible),
+                "Arcade", "Challenges-related stuff.", Azxc.core.uiManager.font); AddItem(arcade);
+            misc = new Expander<FancyBitmapFont>(new MiscWindow(position, SizeModes.Flexible),
+                "Misc", "Random stuff.", Azxc.core.uiManager.font); AddItem(misc);
         }
     }
 }

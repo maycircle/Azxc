@@ -15,35 +15,30 @@ namespace Azxc.UI
 {
     class WeaponsWindow : Controls.Window
     {
-        public CheckBox<FancyBitmapFont> infinityAmmo, norecoil, noreload, bulletHit;
+        private CheckBox<FancyBitmapFont> infinityAmmo, norecoil, noreload, bulletHit;
 
         public WeaponsWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
+            InitializeComponent();
+        }
+
+        private void InitializeComponent()
+        {
             infinityAmmo = new CheckBox<FancyBitmapFont>("Infinite Ammo",
                 "Endless ammo for most weapons.", Azxc.core.uiManager.font);
-            infinityAmmo.onChecked += InfiniteAmmo_Checked;
+            infinityAmmo.onChecked += InfiniteAmmo_Checked; AddItem(infinityAmmo);
 
             norecoil = new CheckBox<FancyBitmapFont>("No Recoil",
                 "Disable kickback on shot.", Azxc.core.uiManager.font);
-            norecoil.onChecked += NoRecoil_Checked;
+            norecoil.onChecked += NoRecoil_Checked; AddItem(norecoil);
 
             noreload = new CheckBox<FancyBitmapFont>("No Reload",
                 "No delay between shots for most weapons.", Azxc.core.uiManager.font);
-            noreload.onChecked += NoReload_Checked;
+            noreload.onChecked += NoReload_Checked; AddItem(noreload);
 
             bulletHit = new CheckBox<FancyBitmapFont>("Bullet Hit",
                 "Bullets fly through walls.", Azxc.core.uiManager.font);
-            bulletHit.onChecked += BulletHit_Checked;
-
-            Prepare();
-        }
-
-        public void Prepare()
-        {
-            AddItem(infinityAmmo);
-            AddItem(norecoil);
-            AddItem(noreload);
-            AddItem(bulletHit);
+            bulletHit.onChecked += BulletHit_Checked; AddItem(bulletHit);
         }
 
         private void InfiniteAmmo_Checked(object sender, ControlEventArgs e)

@@ -15,37 +15,33 @@ namespace Azxc.UI
 {
     class ArcadeWindow : Controls.Window
     {
-        public Button<FancyBitmapFont> ticketsMax, ticketsMin, finishChallenge;
-        public CheckBox<FancyBitmapFont> pauseTimer;
+        private Button<FancyBitmapFont> ticketsMax, ticketsMin, finishChallenge;
+        private CheckBox<FancyBitmapFont> pauseTimer;
 
         public ArcadeWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
+            InitializeComponent();
+        }
+
+        private void InitializeComponent()
+        {
             ticketsMax = new Button<FancyBitmapFont>("Tickets MAX", "Set tickets amount to 999.",
                 Azxc.core.uiManager.font);
-            ticketsMax.onClicked += TicketsMax_Clicked;
+            ticketsMax.onClicked += TicketsMax_Clicked; AddItem(ticketsMax);
 
             ticketsMin = new Button<FancyBitmapFont>("Tickets MIN", "Set tickets amount to 0.",
                 Azxc.core.uiManager.font);
-            ticketsMin.onClicked += TicketsMin_Clicked;
+            ticketsMin.onClicked += TicketsMin_Clicked; AddItem(ticketsMin);
+
+            AddItem(new Separator());
 
             pauseTimer = new CheckBox<FancyBitmapFont>("Pause Timer", "Become incredibly fast, relative to time... :)",
                 Azxc.core.uiManager.font);
-            pauseTimer.onChecked += PauseTimer_Checked;
+            pauseTimer.onChecked += PauseTimer_Checked; AddItem(pauseTimer);
 
             finishChallenge = new Button<FancyBitmapFont>("Finish Challenge", "Complete the challenge (Developer included).",
                 Azxc.core.uiManager.font);
-            finishChallenge.onClicked += FinishChallenge_Clicked;
-
-            Prepare();
-        }
-
-        public void Prepare()
-        {
-            AddItem(ticketsMax);
-            AddItem(ticketsMin);
-            AddItem(new Separator());
-            AddItem(pauseTimer);
-            AddItem(finishChallenge);
+            finishChallenge.onClicked += FinishChallenge_Clicked; AddItem(finishChallenge);
         }
 
         private void TicketsMax_Clicked(object sender, ControlEventArgs e)

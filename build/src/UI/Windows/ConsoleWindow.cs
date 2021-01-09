@@ -14,9 +14,14 @@ namespace Azxc.UI
     class ConsoleWindow : Controls.Window
     {
         private Controls.Window _killWindow, _callWindow, _giveWindow;
-        public Expander<FancyBitmapFont> killCmd, callCmd, giveCmd;
+        private Expander<FancyBitmapFont> killCmd, callCmd, giveCmd;
 
         public ConsoleWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
+        {
+            InitializeComponent();
+        }
+
+        private void InitializeComponent()
         {
             _killWindow = new Controls.Window(position, SizeModes.Flexible);
             _callWindow = new Controls.Window(position, SizeModes.Flexible);
@@ -24,24 +29,15 @@ namespace Azxc.UI
 
             killCmd = new Expander<FancyBitmapFont>(_killWindow, "Kill", "Kill player.",
                 Azxc.core.uiManager.font);
-            killCmd.onExpanded += KillCmd_Expanded;
+            killCmd.onExpanded += KillCmd_Expanded; AddItem(killCmd);
 
             callCmd = new Expander<FancyBitmapFont>(_callWindow, "Call", "Call method on player.",
                 Azxc.core.uiManager.font);
-            callCmd.onExpanded += CallCmd_Expanded;
+            callCmd.onExpanded += CallCmd_Expanded; AddItem(callCmd);
 
             giveCmd = new Expander<FancyBitmapFont>(_giveWindow, "Give", "Give something to player.",
                 Azxc.core.uiManager.font);
-            giveCmd.onExpanded += GiveCmd_Expanded;
-
-            Prepare();
-        }
-
-        public void Prepare()
-        {
-            AddItem(killCmd);
-            AddItem(callCmd);
-            AddItem(giveCmd);
+            giveCmd.onExpanded += GiveCmd_Expanded; AddItem(giveCmd);
         }
 
         private List<Profile> GetProfiles()
