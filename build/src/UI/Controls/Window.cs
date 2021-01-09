@@ -7,6 +7,8 @@ using System.Reflection;
 using Harmony;
 using DuckGame;
 
+using Azxc.UI.Events;
+
 namespace Azxc.UI.Controls
 {
     public class Window : Control, IAutoUpdate
@@ -34,6 +36,17 @@ namespace Azxc.UI.Controls
             indent = Vec2.One / 2;
 
             workPlace = new Workplace();
+        }
+
+        public void Load()
+        {
+            OnLoad(new ControlEventArgs(this));
+        }
+
+        public event EventHandler<ControlEventArgs> onLoad;
+        protected void OnLoad(ControlEventArgs e)
+        {
+            onLoad?.Invoke(this, e);
         }
 
         private void FitToItems()
@@ -123,6 +136,7 @@ namespace Azxc.UI.Controls
 
         public virtual void Show()
         {
+            Load();
             Azxc.core.uiManager.AddControl(this);
         }
 
