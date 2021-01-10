@@ -26,7 +26,8 @@ namespace Azxc
         public void Prepare()
         {
             bindingManager = new BindingManager();
-            uiManager = new UserInterfaceManager(UserInterfaceState.Enabled, true);
+            uiManager = new UserInterfaceManager(UserInterfaceState.Enabled);
+            uiManager.hintsText = "@AZXCLEFTMOUSE@@AZXCACTIVATE@ACTIVATE  @AZXCRIGHTMOUSE@@AZXCBACK@BACK";
         }
     }
 }

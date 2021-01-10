@@ -31,7 +31,8 @@ namespace Azxc.UI
 
         private static float _resolution;
 
-        public bool drawHints { get; set; }
+        public string hintsText { get; set; }
+        public bool forceHints { get; set; }
 
         // Short-cuts
 
@@ -41,7 +42,7 @@ namespace Azxc.UI
         public Cursor cursor => _core.cursor;
         public FancyBitmapFont font => _core.font;
 
-        public UserInterfaceManager(UserInterfaceState state, bool drawHints)
+        public UserInterfaceManager(UserInterfaceState state)
         {
             _core = new UserInterfaceCore();
             _core.state = state;
@@ -57,8 +58,6 @@ namespace Azxc.UI
                 new Type[] { }, null);
             Azxc.core.harmony.Patch(ctor, postfix: new HarmonyMethod(typeof(UserInterfaceManager),
                 "OnLevelLoad"));
-
-            this.drawHints = drawHints;
         }
 
         // The method would be called each time any level loads
@@ -115,13 +114,13 @@ namespace Azxc.UI
             bitmapFont.spriteScale = scale;
 
             string text = "@AZXCLEFTMOUSE@@AZXCACTIVATE@ACTIVATE  @AZXCRIGHTMOUSE@@AZXCBACK@BACK";
-            float width = bitmapFont.GetWidth(text);
+            float width = bitmapFont.GetWidth(hintsText);
 
             Vec2 cornerIndent = new Vec2(-20.0f, bitmapFont.height * 2.0f);
             Vec2 position = new Vec2(Layer.HUD.width - width - cornerIndent.x,
                 Layer.HUD.height - bitmapFont.height - cornerIndent.y);
 
-            bitmapFont.DrawOutline(text, position, Color.White, Color.Black, 0.8f);
+            bitmapFont.DrawOutline(hintsText, position, Color.White, Color.Black, 0.8f);
         }
 
         public void Draw()
@@ -129,7 +128,7 @@ namespace Azxc.UI
             if (!_core.state.HasFlag(UserInterfaceState.Open))
                 return;
 
-            if (_core.interact.activeWindow.GetType() == typeof(MainWindow) && drawHints)
+            if (_core.interact.activeWindow.GetType() == typeof(MainWindow) || forceHints)
                 DrawHints();
             _core.cursor.Draw();
 
