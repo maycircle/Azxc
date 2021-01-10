@@ -50,7 +50,7 @@ namespace Azxc.UI.Controls
 
         public virtual void Update()
         {
-            width = GetWidth() + indent.x;
+            width = GetWidth() + indent.x * 2;
             height = characterHeight * GetScale().y + indent.y;
         }
 

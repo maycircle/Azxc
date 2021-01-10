@@ -15,7 +15,7 @@ namespace Azxc.UI
 {
     class WeaponsWindow : Controls.Window
     {
-        private CheckBox<FancyBitmapFont> infinityAmmo, norecoil, noreload, bulletHit;
+        private CheckBox<FancyBitmapFont> _infinityAmmo, _norecoil, _noreload, _bulletHit;
 
         public WeaponsWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
@@ -24,21 +24,21 @@ namespace Azxc.UI
 
         private void InitializeComponent()
         {
-            infinityAmmo = new CheckBox<FancyBitmapFont>("Infinite Ammo",
+            _infinityAmmo = new CheckBox<FancyBitmapFont>("Infinite Ammo",
                 "Endless ammo for most weapons.", Azxc.core.uiManager.font);
-            infinityAmmo.onChecked += InfiniteAmmo_Checked; AddItem(infinityAmmo);
+            _infinityAmmo.onChecked += InfiniteAmmo_Checked; AddItem(_infinityAmmo);
 
-            norecoil = new CheckBox<FancyBitmapFont>("No Recoil",
+            _norecoil = new CheckBox<FancyBitmapFont>("No Recoil",
                 "Disable kickback on shot.", Azxc.core.uiManager.font);
-            norecoil.onChecked += NoRecoil_Checked; AddItem(norecoil);
+            _norecoil.onChecked += NoRecoil_Checked; AddItem(_norecoil);
 
-            noreload = new CheckBox<FancyBitmapFont>("No Reload",
+            _noreload = new CheckBox<FancyBitmapFont>("No Reload",
                 "No delay between shots for most weapons.", Azxc.core.uiManager.font);
-            noreload.onChecked += NoReload_Checked; AddItem(noreload);
+            _noreload.onChecked += NoReload_Checked; AddItem(_noreload);
 
-            bulletHit = new CheckBox<FancyBitmapFont>("Bullet Hit",
+            _bulletHit = new CheckBox<FancyBitmapFont>("Bullet Hit",
                 "Bullets fly through walls.", Azxc.core.uiManager.font);
-            bulletHit.onChecked += BulletHit_Checked; AddItem(bulletHit);
+            _bulletHit.onChecked += BulletHit_Checked; AddItem(_bulletHit);
         }
 
         private void InfiniteAmmo_Checked(object sender, ControlEventArgs e)

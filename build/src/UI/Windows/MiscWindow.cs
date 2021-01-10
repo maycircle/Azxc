@@ -15,7 +15,7 @@ namespace Azxc.UI
 {
     class MiscWindow : Controls.Window
     {
-        private CheckBox<FancyBitmapFont> commandsBypass, lobbyTimout;
+        private CheckBox<FancyBitmapFont> _commandsBypass, _lobbyTimout;
 
         public MiscWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
@@ -24,13 +24,13 @@ namespace Azxc.UI
 
         private void InitializeComponent()
         {
-            commandsBypass = new CheckBox<FancyBitmapFont>("Commands Bypass",
+            _commandsBypass = new CheckBox<FancyBitmapFont>("Commands Bypass",
                 "Ability to call extra commands in DevConsole.", Azxc.core.uiManager.font);
-            commandsBypass.onChecked += CommandsBypass_Checked; AddItem(commandsBypass);
+            _commandsBypass.onChecked += CommandsBypass_Checked; AddItem(_commandsBypass);
 
-            lobbyTimout = new CheckBox<FancyBitmapFont>("Lobby Timeout",
+            _lobbyTimout = new CheckBox<FancyBitmapFont>("Lobby Timeout",
                 "Kick from lobby after being AFK for 5 minutes.", Azxc.core.uiManager.font, true);
-            lobbyTimout.onChecked += LobbyTimeout_Checked; AddItem(lobbyTimout);
+            _lobbyTimout.onChecked += LobbyTimeout_Checked; AddItem(_lobbyTimout);
         }
 
         private void CommandsBypass_Checked(object sender, ControlEventArgs e)

@@ -15,8 +15,8 @@ namespace Azxc.UI
 {
     class ArcadeWindow : Controls.Window
     {
-        private Button<FancyBitmapFont> ticketsMax, ticketsMin, finishChallenge;
-        private CheckBox<FancyBitmapFont> pauseTimer;
+        private Button<FancyBitmapFont> _ticketsMax, _ticketsMin, _finishChallenge;
+        private CheckBox<FancyBitmapFont> _pauseTimer;
 
         public ArcadeWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
@@ -25,23 +25,23 @@ namespace Azxc.UI
 
         private void InitializeComponent()
         {
-            ticketsMax = new Button<FancyBitmapFont>("Tickets MAX", "Set tickets amount to 999.",
+            _ticketsMax = new Button<FancyBitmapFont>("Tickets MAX", "Set tickets amount to 999.",
                 Azxc.core.uiManager.font);
-            ticketsMax.onClicked += TicketsMax_Clicked; AddItem(ticketsMax);
+            _ticketsMax.onClicked += TicketsMax_Clicked; AddItem(_ticketsMax);
 
-            ticketsMin = new Button<FancyBitmapFont>("Tickets MIN", "Set tickets amount to 0.",
+            _ticketsMin = new Button<FancyBitmapFont>("Tickets MIN", "Set tickets amount to 0.",
                 Azxc.core.uiManager.font);
-            ticketsMin.onClicked += TicketsMin_Clicked; AddItem(ticketsMin);
+            _ticketsMin.onClicked += TicketsMin_Clicked; AddItem(_ticketsMin);
 
             AddItem(new Separator());
 
-            pauseTimer = new CheckBox<FancyBitmapFont>("Pause Timer", "Become incredibly fast, relative to time... :)",
+            _pauseTimer = new CheckBox<FancyBitmapFont>("Pause Timer", "Become incredibly fast, relative to time... :)",
                 Azxc.core.uiManager.font);
-            pauseTimer.onChecked += PauseTimer_Checked; AddItem(pauseTimer);
+            _pauseTimer.onChecked += PauseTimer_Checked; AddItem(_pauseTimer);
 
-            finishChallenge = new Button<FancyBitmapFont>("Finish Challenge", "Complete the challenge (Developer included).",
+            _finishChallenge = new Button<FancyBitmapFont>("Finish Challenge", "Complete the challenge (Developer included).",
                 Azxc.core.uiManager.font);
-            finishChallenge.onClicked += FinishChallenge_Clicked; AddItem(finishChallenge);
+            _finishChallenge.onClicked += FinishChallenge_Clicked; AddItem(_finishChallenge);
         }
 
         private void TicketsMax_Clicked(object sender, ControlEventArgs e)

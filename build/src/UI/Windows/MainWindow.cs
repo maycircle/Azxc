@@ -14,7 +14,7 @@ namespace Azxc.UI
 {
     class MainWindow : Controls.Window
     {
-        private Expander<FancyBitmapFont> weapons, commands, arcade, misc;
+        private Expander<FancyBitmapFont> _weapons, _commands, _arcade, _misc;
 
         public MainWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
@@ -23,14 +23,14 @@ namespace Azxc.UI
 
         private void InitializeComponent()
         {
-            weapons = new Expander<FancyBitmapFont>(new WeaponsWindow(position, SizeModes.Flexible),
-                "Weapons", "Weapon(s) hacks.", Azxc.core.uiManager.font); AddItem(weapons);
-            commands = new Expander<FancyBitmapFont>(new ConsoleWindow(position, SizeModes.Flexible),
-                "Commands", "GUI for console commands.", Azxc.core.uiManager.font); AddItem(commands);
-            arcade = new Expander<FancyBitmapFont>(new ArcadeWindow(position, SizeModes.Flexible),
-                "Arcade", "Challenges-related stuff.", Azxc.core.uiManager.font); AddItem(arcade);
-            misc = new Expander<FancyBitmapFont>(new MiscWindow(position, SizeModes.Flexible),
-                "Misc", "Random stuff.", Azxc.core.uiManager.font); AddItem(misc);
+            _weapons = new Expander<FancyBitmapFont>(new WeaponsWindow(position, SizeModes.Flexible),
+                "Weapons", "Weapon(s) hacks.", Azxc.core.uiManager.font); AddItem(_weapons);
+            _commands = new Expander<FancyBitmapFont>(new ConsoleWindow(position, SizeModes.Flexible),
+                "Commands", "GUI for console commands.", Azxc.core.uiManager.font); AddItem(_commands);
+            _arcade = new Expander<FancyBitmapFont>(new ArcadeWindow(position, SizeModes.Flexible),
+                "Arcade", "Challenges-related stuff.", Azxc.core.uiManager.font); AddItem(_arcade);
+            _misc = new Expander<FancyBitmapFont>(new MiscWindow(position, SizeModes.Flexible),
+                "Misc", "Random stuff.", Azxc.core.uiManager.font); AddItem(_misc);
         }
     }
 }
