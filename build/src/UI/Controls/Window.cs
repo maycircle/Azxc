@@ -68,6 +68,8 @@ namespace Azxc.UI.Controls
 
             int count = (items.Count() / 24) + 1;
             width = count * longest + indent.x * 4;
+            if (items.Count() > 24)
+                width -= indent.x * count;
 
             // TODO: Optimize this code, probably
             float sumHeight = 0f;
