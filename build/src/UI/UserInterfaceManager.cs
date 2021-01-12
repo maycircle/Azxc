@@ -34,6 +34,17 @@ namespace Azxc.UI
         public string hintsText { get; set; }
         public bool forceHints { get; set; }
 
+        private bool _inputHook;
+        public bool inputHook
+        {
+            get { return _inputHook; }
+            set {
+                if (!value)
+                    KeyboardHook.HookAndToggle(false);
+                _inputHook = value;
+            }
+        }
+
         // Short-cuts
 
         public UserInterfaceInteract interact => _core.interact;
@@ -80,6 +91,9 @@ namespace Azxc.UI
             {
                 _core.state |= UserInterfaceState.Open;
                 _core.state &= ~UserInterfaceState.Freeze;
+
+                foreach (Control control in _core.controls)
+                    control.Appear();
             }
         }
 
@@ -89,6 +103,8 @@ namespace Azxc.UI
                 return;
 
             BindingManager.UsedBinding(this, "Open");
+            if (_inputHook)
+                KeyboardHook.HookAndToggle(_core.state.HasFlag(UserInterfaceState.Open));
 
             if (_core.state.HasFlag(UserInterfaceState.Freeze))
                 return;
@@ -104,19 +120,31 @@ namespace Azxc.UI
                 IAutoUpdate updatable = control as IAutoUpdate;
                 updatable.Update();
             }
+
+            if (_core.interact.activeWindow is IDialog)
+            {
+                IDialog dialog = _core.interact.activeWindow as IDialog;
+                if (dialog.dialogResult != DialogResult.Idle)
+                {
+                    _core.interact.activeWindow.Close();
+                    dialog.ThrowResult();
+                }
+            }
         }
 
         public void DrawHints()
         {
             BitmapFont bitmapFont = new BitmapFont("biosFont", 8);
+            float width = bitmapFont.GetWidth(hintsText);
+            // BitmapFont's GetWidth method doesn't calculate right spriteScale field change, so I
+            // calculate the full width at scale 1x, and then just multiply it by scale (knowing
+            // that scale and spriteScale are equal)
             Vec2 scale = new Vec2(0.5f);
             bitmapFont.scale = scale;
             bitmapFont.spriteScale = scale;
+            width *= scale.x;
 
-            string text = "@AZXCLEFTMOUSE@@AZXCACTIVATE@ACTIVATE  @AZXCRIGHTMOUSE@@AZXCBACK@BACK";
-            float width = bitmapFont.GetWidth(hintsText);
-
-            Vec2 cornerIndent = new Vec2(-20.0f, bitmapFont.height * 2.0f);
+            Vec2 cornerIndent = new Vec2(15.0f, bitmapFont.height * 2.0f);
             Vec2 position = new Vec2(Layer.HUD.width - width - cornerIndent.x,
                 Layer.HUD.height - bitmapFont.height - cornerIndent.y);
 
