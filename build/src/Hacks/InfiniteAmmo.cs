@@ -29,7 +29,8 @@ namespace Azxc.Hacks
         }
 
         // Reload@Gun
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            ILGenerator generator)
         {
             FieldInfo enabled = AccessTools.Field(typeof(InfiniteAmmo), "enabled");
 

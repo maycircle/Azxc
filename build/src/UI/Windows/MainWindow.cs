@@ -14,7 +14,7 @@ namespace Azxc.UI
 {
     class MainWindow : Controls.Window
     {
-        private Expander<FancyBitmapFont> _weapons, _commands, _arcade, _misc;
+        private Expander<FancyBitmapFont> _weapons, _commands, _arcade, _network, _misc;
 
         public MainWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
         {
@@ -29,6 +29,8 @@ namespace Azxc.UI
                 "Commands", "GUI for console commands.", Azxc.core.uiManager.font); AddItem(_commands);
             _arcade = new Expander<FancyBitmapFont>(new ArcadeWindow(position, SizeModes.Flexible),
                 "Arcade", "Challenges-related stuff.", Azxc.core.uiManager.font); AddItem(_arcade);
+            _network = new Expander<FancyBitmapFont>(new NetworkWindow(position, SizeModes.Flexible),
+                "Network", "(Duck)Networking-related stuff.", Azxc.core.uiManager.font); AddItem(_network);
             _misc = new Expander<FancyBitmapFont>(new MiscWindow(position, SizeModes.Flexible),
                 "Misc", "Random stuff.", Azxc.core.uiManager.font); AddItem(_misc);
         }

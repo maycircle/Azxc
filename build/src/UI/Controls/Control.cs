@@ -58,5 +58,8 @@ namespace Azxc.UI.Controls
 
         public virtual void Draw()
         { }
+
+        public virtual void Appear()
+        { }
     }
 }
