@@ -36,7 +36,13 @@ namespace Azxc.UI.Controls
             indent = Vec2.One / 2;
         }
 
-        public virtual float GetWidth()
+        protected virtual float GetWidth(string text)
+        {
+            MethodInfo getWidth = AccessTools.Method(typeof(T), "GetWidth");
+            return (float)getWidth.Invoke(font, new object[] { text, false });
+        }
+
+        public float GetWidth()
         {
             MethodInfo getWidth = AccessTools.Method(typeof(T), "GetWidth");
             return (float)getWidth.Invoke(font, new object[] { text, false });
@@ -54,12 +60,17 @@ namespace Azxc.UI.Controls
             height = characterHeight * GetScale().y + indent.y;
         }
 
-        public override void Draw()
+        protected void DrawText(string text, Vec2 position, Color color, Depth depth, bool colorSymbols)
         {
             // Using AccessTools.Method because i'm too lazy to use basic typeof ;)
-            MethodInfo draw = AccessTools.Method(typeof(T), "Draw",new Type[] { typeof(string),
+            MethodInfo draw = AccessTools.Method(typeof(T), "Draw", new Type[] { typeof(string),
                 typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
-            draw.Invoke(font, new object[] { text, position, Color.White, new Depth(1f), true });
+            draw.Invoke(font, new object[] { text, position, color, depth, colorSymbols });
+        }
+
+        public override void Draw()
+        {
+            DrawText(text, position, Color.White, new Depth(1.0f), true);
         }
     }
 }

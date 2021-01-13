@@ -52,6 +52,11 @@ namespace Azxc.UI.Controls
             _items.Clear();
         }
 
+        public void Sort(Comparison<Control> comparison)
+        {
+            _items.Sort(comparison);
+        }
+
         private float CalculateHeights(int index)
         {
             float sumHeight = 0f;

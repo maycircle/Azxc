@@ -55,11 +55,8 @@ namespace Azxc.UI.Controls
 
             // Draw tooltip blending background
             Graphics.DrawRect(start, start + end, Color.Black * 0.5f, 1f);
-
             // Draw tooltip text
-            MethodInfo draw = AccessTools.Method(typeof(T), "Draw",
-                new Type[] { typeof(string), typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
-            draw.Invoke(font, new object[] { toolTipText, start + indent, Color.White, new Depth(1f), true });
+            DrawText(toolTipText, start + indent, Color.White, new Depth(1.0f), true);
         }
 
         public override void Draw()
@@ -70,11 +67,8 @@ namespace Azxc.UI.Controls
             // Draw button background
             Graphics.DrawRect(position, position + size,
                 selected ? Color.DarkSlateGray : new Color(17, 39, 39), 0.5f);
-
             // Draw button text
-            MethodInfo draw = AccessTools.Method(typeof(T), "Draw",
-                new Type[] { typeof(string), typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
-            draw.Invoke(font, new object[] { text, position + indent, Color.White, new Depth(1f), true });
+            DrawText(text, position + indent, Color.White, new Depth(1.0f), true);
         }
 
         public virtual void Click()

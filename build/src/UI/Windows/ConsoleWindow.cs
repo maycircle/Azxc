@@ -166,6 +166,7 @@ namespace Azxc.UI
         private Controls.Window CallGetMethodsWindow(Type type)
         {
             Controls.Window window = new Controls.Window(Vec2.Zero, SizeModes.Flexible);
+
             foreach (MethodInfo method in type.GetMethods())
             {
                 if (method.GetParameters().Count() == 0 && method.ReturnType == typeof(void))
@@ -173,9 +174,19 @@ namespace Azxc.UI
                     Button<FancyBitmapFont> executor = new Button<FancyBitmapFont>(method.Name,
                         Azxc.core.uiManager.font);
                     executor.onClicked += CallMethod_Clicked;
+                    //executors.Add(executor);
                     window.AddItem(executor);
                 }
             }
+            window.Sort(delegate(Control x, Control y)
+            {
+                Button<FancyBitmapFont> bx = x as Button<FancyBitmapFont>;
+                Button<FancyBitmapFont> by = y as Button<FancyBitmapFont>;
+                if (bx.text == null && by.text == null) return 0;
+                else if (bx.text == null) return -1;
+                else if (by.text == null) return 1;
+                else return bx.text.CompareTo(by.text);
+            });
 
             return window;
         }

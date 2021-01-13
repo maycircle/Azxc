@@ -139,6 +139,11 @@ namespace Azxc.UI.Controls
             workPlace.Clear();
         }
 
+        public void Sort(Comparison<Control> comparison)
+        {
+            workPlace.Sort(comparison);
+        }
+
         public virtual void Show()
         {
             Load();

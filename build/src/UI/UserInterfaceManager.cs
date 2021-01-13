@@ -71,7 +71,6 @@ namespace Azxc.UI
                 "OnLevelLoad"));
         }
 
-        // The method would be called each time any level loads
         private static void OnLevelLoad(Level __instance)
         {
             // Due to problems with UI scaling, it will calculate a (mostly) perfect resolution for
@@ -137,7 +136,7 @@ namespace Azxc.UI
             BitmapFont bitmapFont = new BitmapFont("biosFont", 8);
             float width = bitmapFont.GetWidth(hintsText);
             // BitmapFont's GetWidth method doesn't calculate right spriteScale field change, so I
-            // calculate the full width at scale 1x, and then just multiply it by scale (knowing
+            // calculate the full width at scale 1x, and then just multiply it by new scale (knowing
             // that scale and spriteScale are equal)
             Vec2 scale = new Vec2(0.5f);
             bitmapFont.scale = scale;

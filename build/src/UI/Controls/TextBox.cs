@@ -161,10 +161,7 @@ namespace Azxc.UI.Controls
         public override void Update()
         {
             float textWidth = GetWidth() + indent.x * 2;
-
-            MethodInfo getWidth = AccessTools.Method(typeof(T), "GetWidth");
-            float placeholderTextWidth = (float)getWidth.Invoke(font,
-                new object[] { placeholderText, false }) + indent.x * 2;
+            float placeholderTextWidth = GetWidth(placeholderText) + indent.x * 2;
 
             width = textWidth >= placeholderTextWidth ? textWidth : placeholderTextWidth;
             height = characterHeight * GetScale().y + indent.y * 2;
@@ -179,24 +176,18 @@ namespace Azxc.UI.Controls
             Graphics.DrawRect(start, end, selected ? new Color(59, 109, 79) : new Color(39, 69, 49),
                 0.9f, false, border);
 
-            // TODO: I should do something with this...
-            MethodInfo draw = AccessTools.Method(typeof(T), "Draw",
-                new Type[] { typeof(string), typeof(Vec2), typeof(Color), typeof(Depth), typeof(bool) });
-            MethodInfo getWidth = AccessTools.Method(typeof(T), "GetWidth");
-
             if (!string.IsNullOrEmpty(_shadowText) &&
-                (float)getWidth.Invoke(font, new object[] { _shadowText, false }) + 2.0f >= width)
+                GetWidth(_shadowText) + 2.0f >= width)
             {
                 text = "";
-                draw.Invoke(font, new object[] { "...", position + indent,
-                    Color.Gray, new Depth(1f), true });
+                // Draw "..." in case if input is too long
+                DrawText("...", position + indent, Color.Gray, new Depth(1.0f), true);
             }
             else if ((!nullOrWhitespace && string.IsNullOrEmpty(_shadowText)) ||
                 (nullOrWhitespace && string.IsNullOrWhiteSpace(_shadowText)))
             {
                 // Draw placeholder text
-                draw.Invoke(font, new object[] { placeholderText, position + indent,
-                    Color.Gray, new Depth(1f), true });
+                DrawText(placeholderText, position + indent, Color.Gray, new Depth(1.0f), true);
             }
             else
                 text = _shadowText;
