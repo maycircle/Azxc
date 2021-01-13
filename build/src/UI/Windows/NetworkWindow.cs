@@ -9,6 +9,7 @@ using DuckGame;
 
 using Azxc.UI.Events;
 using Azxc.UI.Controls;
+using Azxc.Hacks;
 
 namespace Azxc.UI
 {
@@ -25,12 +26,56 @@ namespace Azxc.UI
         private void InitializeComponent()
         {
             _enableCustomNickname = new CheckBox<FancyBitmapFont>("Enable custom nickname",
-                "Change your displaying name.", Azxc.core.uiManager.font); AddItem(_enableCustomNickname);
+                "Change your displaying name |RED|(Switching doesn't work in online game).", Azxc.core.uiManager.font);
+            _enableCustomNickname.onChecked += EnableCustomNickname_Checked;
 
             _customNickname = new TextBox<FancyBitmapFont>("", "Custom nickname...",
                 Azxc.core.uiManager.font);
             _customNickname.inputDialogTitle = "Custom nickname:";
+            _customNickname.onTextChanged += CustomNickname_TextChanged;
+
+            onLoad += NetworkWindow_Load;
+        }
+
+        private void EnableCustomNickname_Checked(object sender, ControlEventArgs e)
+        {
+            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            if (checkBox.isChecked && !string.IsNullOrEmpty(_customNickname.inputText))
+                CustomNickname.HookAndToggle(true, _customNickname.inputText);
+            else if (!checkBox.isChecked)
+                CustomNickname.HookAndToggle(false, string.Empty);
+        }
+
+        private void CustomNickname_TextChanged(object sender, ControlEventArgs e)
+        {
+            if (_enableCustomNickname.isChecked && !string.IsNullOrEmpty(_customNickname.inputText))
+                CustomNickname.HookAndToggle(true, _customNickname.inputText);
+        }
+
+        private void CheckRequirements()
+        {
+            Clear();
+
+            AddItem(_enableCustomNickname);
             AddItem(_customNickname);
+
+            if (items.Count() == 0)
+            {
+                AddItem(new Label<FancyBitmapFont>("Game conditions don't match with any",
+                                    Azxc.core.uiManager.font));
+                AddItem(new Label<FancyBitmapFont>("feature requirements",
+                    Azxc.core.uiManager.font));
+            }
+        }
+
+        public override void Appear()
+        {
+            CheckRequirements();
+        }
+
+        private void NetworkWindow_Load(object sender, ControlEventArgs e)
+        {
+            CheckRequirements();
         }
     }
 }

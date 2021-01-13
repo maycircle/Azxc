@@ -136,6 +136,7 @@ namespace Azxc.UI.Controls
 
         public string inputDialogTitle { get; set; }
         public string placeholderText { get; set; }
+        public string inputText => _shadowText;
 
         public bool nullOrWhitespace { get; set; }
 
@@ -222,6 +223,13 @@ namespace Azxc.UI.Controls
         {
             InputDialog inputDialog = e.item as InputDialog;
             _shadowText = inputDialog.text;
+            OnTextChanged(new ControlEventArgs(this));
+        }
+
+        public event EventHandler<ControlEventArgs> onTextChanged;
+        protected void OnTextChanged(ControlEventArgs e)
+        {
+            onTextChanged?.Invoke(this, e);
         }
     }
 }
