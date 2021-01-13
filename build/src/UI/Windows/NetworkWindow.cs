@@ -29,8 +29,8 @@ namespace Azxc.UI
                 "Change your displaying name |RED|(Switching doesn't work in online game).", Azxc.core.uiManager.font);
             _enableCustomNickname.onChecked += EnableCustomNickname_Checked;
 
-            _customNickname = new TextBox<FancyBitmapFont>("", "Custom nickname...",
-                Azxc.core.uiManager.font);
+            _customNickname = new TextBox<FancyBitmapFont>(Azxc.core.config.TryGetSingle("CustomNickname", ""),
+                "Custom nickname...", "(Value loads from config).", Azxc.core.uiManager.font);
             _customNickname.inputDialogTitle = "Custom nickname:";
             _customNickname.onTextChanged += CustomNickname_TextChanged;
 
@@ -49,7 +49,10 @@ namespace Azxc.UI
         private void CustomNickname_TextChanged(object sender, ControlEventArgs e)
         {
             if (_enableCustomNickname.isChecked && !string.IsNullOrEmpty(_customNickname.inputText))
+            {
                 CustomNickname.HookAndToggle(true, _customNickname.inputText);
+                Azxc.core.config.TrySet("CustomNickname", _customNickname.inputText);
+            }
         }
 
         private void CheckRequirements()

@@ -26,6 +26,8 @@ namespace Azxc
 
         protected override void OnPostInitialize()
         {
+            core.CreateConfig();
+
             // OnTick gets called for the entire time game running, so I will use it as some sort
             // of "update"
             core.harmony.Patch(typeof(RockWeather).GetMethod("TickWeather"),

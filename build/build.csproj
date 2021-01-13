@@ -94,6 +94,7 @@
     <Compile Include="src\Bindings\IBinding.cs" />
     <Compile Include="src\Bindings\MouseButtons.cs" />
     <Compile Include="src\CommandAttribute.cs" />
+    <Compile Include="src\Config.cs" />
     <Compile Include="src\Console.cs" />
     <Compile Include="src\Core.cs" />
     <Compile Include="src\Hacks\BulletHit.cs" />

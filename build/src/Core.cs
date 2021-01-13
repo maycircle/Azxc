@@ -5,6 +5,7 @@ using System.Text;
 using System.Reflection;
 
 using Harmony;
+using DuckGame;
 
 using Azxc.Bindings;
 using Azxc.UI;
@@ -15,6 +16,7 @@ namespace Azxc
     {
         public HarmonyInstance harmony;
 
+        public Config config;
         public BindingManager bindingManager;
         public UserInterfaceManager uiManager;
 
@@ -28,6 +30,11 @@ namespace Azxc
             bindingManager = new BindingManager();
             uiManager = new UserInterfaceManager(UserInterfaceState.Enabled);
             uiManager.hintsText = "@AZXCLEFTMOUSE@@AZXCACTIVATE@ACTIVATE  @AZXCRIGHTMOUSE@@AZXCBACK@BACK";
+        }
+
+        public void CreateConfig()
+        {
+            config = new Config(ModLoader.GetMod<Azxc>().configuration.directory + "/config.xml");
         }
     }
 }

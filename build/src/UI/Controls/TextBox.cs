@@ -136,18 +136,25 @@ namespace Azxc.UI.Controls
 
         public string inputDialogTitle { get; set; }
         public string placeholderText { get; set; }
-        public string inputText => _shadowText;
+
+        public string inputText
+        {
+            get { return _shadowText; }
+            set { _shadowText = value; }
+        }
 
         public bool nullOrWhitespace { get; set; }
 
         public TextBox(string text, T font) : base(text, font)
         {
+            _shadowText = text;
             nullOrWhitespace = false;
         }
 
         public TextBox(string text, string placeholderText, T font) : base(text, font)
         {
             this.placeholderText = placeholderText;
+            _shadowText = text;
             nullOrWhitespace = false;
         }
 
@@ -155,6 +162,7 @@ namespace Azxc.UI.Controls
             base(text, toolTipText, font)
         {
             this.placeholderText = placeholderText;
+            _shadowText = text;
             nullOrWhitespace = false;
         }
 
@@ -205,7 +213,8 @@ namespace Azxc.UI.Controls
         public virtual void Edit()
         {
             Vec2 position = new Vec2(Layer.HUD.width / 2, Layer.HUD.height / 2);
-            InputDialog inputDialog = new InputDialog(position, !string.IsNullOrEmpty(inputDialogTitle));
+            InputDialog inputDialog = new InputDialog(position,
+                !string.IsNullOrEmpty(inputDialogTitle));
             inputDialog.onResult += InputDialog_Result;
             inputDialog.ShowDialog(inputDialogTitle, _shadowText);
         }
