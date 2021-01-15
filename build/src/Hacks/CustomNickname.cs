@@ -31,7 +31,7 @@ namespace Azxc.Hacks
 
         private static void SetCustomNickname(bool restoreOriginal = false)
         {
-            Profile localProfile = Profiles.active.Single(x => {
+            Profile localProfile = Profiles.active.Find(x => {
                 if (x.duck != null)
                     return x.duck.isLocal;
                 return false;
@@ -41,6 +41,7 @@ namespace Azxc.Hacks
                 localProfile.name = customNickname;
         }
 
+        // PrepareProfile@DuckNetwork
         static void Postfix(Profile pProfile)
         {
             if (enabled && DuckNetwork.localProfile != null)
