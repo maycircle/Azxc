@@ -16,7 +16,8 @@ namespace Azxc.UI
     {
         private Expander<FancyBitmapFont> _weapons, _commands, _arcade, _network, _misc;
 
-        public MainWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
+        public MainWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
+            base(position, sizeMode)
         {
             InitializeComponent();
         }

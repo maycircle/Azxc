@@ -18,7 +18,8 @@ namespace Azxc.UI
         private CheckBox<FancyBitmapFont> _enableCustomNickname;
         private TextBox<FancyBitmapFont> _customNickname;
 
-        public NetworkWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
+        public NetworkWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
+            base(position, sizeMode)
         {
             InitializeComponent();
         }
@@ -26,7 +27,8 @@ namespace Azxc.UI
         private void InitializeComponent()
         {
             _enableCustomNickname = new CheckBox<FancyBitmapFont>("Enable custom nickname",
-                "Change your displaying name |RED|(Switching doesn't work in online game).", Azxc.core.uiManager.font);
+                "Change your displaying name |RED|(Switching doesn't work in online game).",
+                Azxc.core.uiManager.font);
             _enableCustomNickname.onChecked += EnableCustomNickname_Checked;
 
             _customNickname = new TextBox<FancyBitmapFont>(Azxc.core.config.TryGetSingle("CustomNickname", ""),

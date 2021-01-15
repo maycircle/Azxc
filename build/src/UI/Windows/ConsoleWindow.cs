@@ -16,7 +16,8 @@ namespace Azxc.UI
         private Controls.Window _killWindow, _callWindow, _giveWindow;
         private Expander<FancyBitmapFont> _killCmd, _callCmd, _giveCmd;
 
-        public ConsoleWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
+        public ConsoleWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
+            base(position, sizeMode)
         {
             InitializeComponent();
         }

@@ -15,9 +15,11 @@ namespace Azxc.UI
 {
     class WeaponsWindow : Controls.Window
     {
-        private CheckBox<FancyBitmapFont> _infinityAmmo, _norecoil, _noreload, _bulletHit;
+        private CheckBox<FancyBitmapFont> _infinityAmmo, _norecoil, _noreload, _bulletHit,
+            _rangeHack;
 
-        public WeaponsWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) : base(position, sizeMode)
+        public WeaponsWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
+            base(position, sizeMode)
         {
             InitializeComponent();
         }
@@ -39,6 +41,10 @@ namespace Azxc.UI
             _bulletHit = new CheckBox<FancyBitmapFont>("Bullet Hit",
                 "Bullets fly through walls.", Azxc.core.uiManager.font);
             _bulletHit.onChecked += BulletHit_Checked; AddItem(_bulletHit);
+
+            _rangeHack = new CheckBox<FancyBitmapFont>("Range Hack",
+                "Weapons maximum range increased.", Azxc.core.uiManager.font);
+            _rangeHack.onChecked += RangeHack_Checked; AddItem(_rangeHack);
         }
 
         private void InfiniteAmmo_Checked(object sender, ControlEventArgs e)
@@ -85,6 +91,12 @@ namespace Azxc.UI
 
                 properties.Show();
             }
+        }
+
+        private void RangeHack_Checked(object sender, ControlEventArgs e)
+        {
+            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            RangeHack.HookAndToggle(checkBox.isChecked);
         }
 
         private void PhysicsObjects_Checked(object sender, ControlEventArgs e)
