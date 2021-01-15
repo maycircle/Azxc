@@ -32,8 +32,8 @@ namespace Azxc.Hacks
 
         static float GetRange()
         {
-            float furthestThing = Level.current.things.Aggregate((furthest, next) =>
-                next.x > furthest.x ? next : furthest).x;
+            float furthestThing = Math.Abs(Level.current.things.Aggregate((furthest, next) =>
+                Math.Abs(next.x) > Math.Abs(furthest.x) ? next : furthest).x);
             return Level.current.camera.width + furthestThing;
         }
 
