@@ -17,7 +17,7 @@ namespace Azxc.UI
         public UserInterfaceState state;
         public UserInterfaceInteract interact;
         // Only for controls that need to be auto-updated (mostly those are windows)
-        public List<Control> controls;
+        public List<IAutoUpdate> updatable;
 
         public Cursor cursor;
 
@@ -27,7 +27,7 @@ namespace Azxc.UI
         {
             interact = new UserInterfaceInteract();
 
-            controls = new List<Control>();
+            updatable = new List<IAutoUpdate>();
             cursor = new Cursor(1f, Vec2.One);
 
             font = new FancyBitmapFont("smallFont");

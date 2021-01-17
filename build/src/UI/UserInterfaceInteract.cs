@@ -59,7 +59,7 @@ namespace Azxc.UI
         [Binding(Keys.Left, InputState.Pressed)]
         public void MoveLeft()
         {
-            if (Azxc.core.uiManager.controls.OfType<Controls.Window>().Count() > 1)
+            if (Azxc.core.uiManager.updatable.OfType<Controls.Window>().Count() > 1)
                 activeWindow.Close();
         }
 
@@ -102,9 +102,9 @@ namespace Azxc.UI
 
         public void Update()
         {
-            if (Azxc.core.uiManager.controls.OfType<Controls.Window>().Count() > 0)
-                activeWindow = Azxc.core.uiManager.controls.OfType<Controls.Window>().Last();
-            else if (Azxc.core.uiManager.controls.OfType<Controls.Window>().Count() <= 0 ||
+            if (Azxc.core.uiManager.updatable.OfType<Controls.Window>().Count() > 0)
+                activeWindow = Azxc.core.uiManager.updatable.OfType<Controls.Window>().Last();
+            else if (Azxc.core.uiManager.updatable.OfType<Controls.Window>().Count() <= 0 ||
                 !Azxc.core.uiManager.state.HasFlag(UserInterfaceState.Open))
                 return;
 

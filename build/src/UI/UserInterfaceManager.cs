@@ -49,7 +49,7 @@ namespace Azxc.UI
 
         public UserInterfaceInteract interact => _core.interact;
         public UserInterfaceState state => _core.state;
-        public List<Control> controls => _core.controls;
+        public List<IAutoUpdate> updatable => _core.updatable;
         public Cursor cursor => _core.cursor;
         public FancyBitmapFont font => _core.font;
 
@@ -91,7 +91,7 @@ namespace Azxc.UI
                 _core.state |= UserInterfaceState.Open;
                 _core.state &= ~UserInterfaceState.Freeze;
 
-                foreach (Control control in _core.controls)
+                foreach (Control control in _core.updatable.OfType<Control>())
                     control.Appear();
             }
         }
@@ -114,11 +114,8 @@ namespace Azxc.UI
             _core.cursor.position = Mouse.position;
             _core.cursor.Update();
 
-            foreach (Control control in _core.controls.OfType<IAutoUpdate>())
-            {
-                IAutoUpdate updatable = control as IAutoUpdate;
-                updatable.Update();
-            }
+            foreach (IAutoUpdate item in _core.updatable)
+                item.Update();
 
             if (_core.interact.activeWindow is IDialog)
             {
@@ -159,20 +156,18 @@ namespace Azxc.UI
                 DrawHints();
             _core.cursor.Draw();
 
-            foreach (Control control in _core.controls)
-            {
+            foreach (Control control in _core.updatable.OfType<Control>())
                 control.Draw();
-            }
         }
 
-        public void AddControl(Control control)
+        public void AddUpdatable(IAutoUpdate updatable)
         {
-            _core.controls.Add(control);
+            _core.updatable.Add(updatable);
         }
 
-        public void RemoveControl(Control control)
+        public void RemoveUpdatable(IAutoUpdate updatable)
         {
-            _core.controls.Remove(control);
+            _core.updatable.Remove(updatable);
         }
     }
 }

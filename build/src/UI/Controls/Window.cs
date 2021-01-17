@@ -147,12 +147,12 @@ namespace Azxc.UI.Controls
         public virtual void Show()
         {
             Load();
-            Azxc.core.uiManager.AddControl(this);
+            Azxc.core.uiManager.AddUpdatable(this);
         }
 
         public virtual void Close()
         {
-            Azxc.core.uiManager.RemoveControl(this);
+            Azxc.core.uiManager.RemoveUpdatable(this);
         }
     }
 }
