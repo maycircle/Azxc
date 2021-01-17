@@ -9,20 +9,14 @@ using DuckGame;
 
 namespace Azxc.UI.Controls
 {
-    public class Separator : Control, IAutoUpdate, IIndent
+    public class Separator : Control, IIndent
     {
         public Vec2 indent { get; set; }
 
         public Separator()
         {
-            indent = new Vec2(0.5f, 1f);
+            indent = new Vec2(1.5f, 1.0f);
             height = 0.5f;
-        }
-
-        public virtual void Update()
-        {
-            if (parent != null)
-                width = parent.width - parent.indent.x * 4;
         }
 
         public override void Draw()

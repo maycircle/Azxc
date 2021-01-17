@@ -39,11 +39,17 @@ namespace Azxc.UI
             onLoad += NetworkWindow_Load;
         }
 
+        private void EnableCustomNickname()
+        {
+            CustomNickname.HookAndToggle(true, _customNickname.inputText);
+            Azxc.core.config.TrySet("CustomNickname", _customNickname.inputText);
+        }
+        
         private void EnableCustomNickname_Checked(object sender, ControlEventArgs e)
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
             if (checkBox.isChecked && !string.IsNullOrEmpty(_customNickname.inputText))
-                CustomNickname.HookAndToggle(true, _customNickname.inputText);
+                EnableCustomNickname();
             else if (!checkBox.isChecked)
                 CustomNickname.HookAndToggle(false, string.Empty);
         }
@@ -51,10 +57,7 @@ namespace Azxc.UI
         private void CustomNickname_TextChanged(object sender, ControlEventArgs e)
         {
             if (_enableCustomNickname.isChecked && !string.IsNullOrEmpty(_customNickname.inputText))
-            {
-                CustomNickname.HookAndToggle(true, _customNickname.inputText);
-                Azxc.core.config.TrySet("CustomNickname", _customNickname.inputText);
-            }
+                EnableCustomNickname();
         }
 
         private void CheckRequirements()

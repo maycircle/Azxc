@@ -194,6 +194,7 @@ namespace Azxc.UI.Controls
             else if ((!nullOrWhitespace && string.IsNullOrEmpty(_shadowText)) ||
                 (nullOrWhitespace && string.IsNullOrWhiteSpace(_shadowText)))
             {
+                text = "";
                 // Draw placeholder text
                 DrawText(placeholderText, position + indent, Color.Gray, new Depth(1.0f), true);
             }
