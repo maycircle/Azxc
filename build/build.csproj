@@ -127,6 +127,7 @@
     <Compile Include="src\UI\Controls\SizeModes.cs" />
     <Compile Include="src\UI\Controls\Window.cs" />
     <Compile Include="src\UI\Controls\Workplace.cs" />
+    <Compile Include="src\UI\ForceUpdateAttribute.cs" />
     <Compile Include="src\UI\KeyboardHook.cs" />
     <Compile Include="src\UI\UserInterfaceCore.cs" />
     <Compile Include="src\UI\UserInterfaceInteract.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="src\UI\UserInterfaceManager.cs" />
     <Compile Include="src\UI\Windows\ArcadeWindow.cs" />
     <Compile Include="src\UI\Windows\ConsoleWindow.cs" />
+    <Compile Include="src\UI\Windows\FunWindow.cs" />
     <Compile Include="src\UI\Windows\MainWindow.cs" />
     <Compile Include="src\UI\Windows\MiscWindow.cs" />
     <Compile Include="src\UI\Windows\NetworkWindow.cs" />
