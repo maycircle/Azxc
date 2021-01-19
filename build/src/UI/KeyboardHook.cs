@@ -60,7 +60,7 @@ namespace Azxc.UI
                 bool extraCall = stackTrace.GetFrames().Skip(1).Any(x => {
                     if (x.GetMethod().DeclaringType != null)
                         return x.GetMethod().DeclaringType.Namespace.Contains("Azxc") ||
-                            // Especially for Keyboard.keyString, because I use it in my code
+                            // Handle Keyboard.keyString in a special way
                             x.GetMethod().Name == "updateKeyboardString";
                     return false;
                 });

@@ -105,19 +105,23 @@ namespace Azxc.UI
             if (_inputHook)
                 KeyboardHook.HookAndToggle(_core.state.HasFlag(UserInterfaceState.Open));
 
-            if (_core.state.HasFlag(UserInterfaceState.Freeze))
-                return;
+            bool freezed = _core.state.HasFlag(UserInterfaceState.Freeze);
 
-            _core.interact.Update();
-
-            _core.cursor.scale = new Vec2(_resolution / 2f);
-            _core.cursor.position = Mouse.position;
-            _core.cursor.Update();
+            if (!freezed)
+            {
+                _core.interact.Update();
+                _core.cursor.scale = new Vec2(_resolution / 2f);
+                _core.cursor.position = Mouse.position;
+                _core.cursor.Update();
+            }
 
             foreach (IAutoUpdate item in _core.updatable)
-                item.Update();
+            {
+                if (!freezed || Attribute.IsDefined(item.GetType(), typeof(ForceUpdateAttribute)))
+                    item.Update();
+            }
 
-            if (_core.interact.activeWindow is IDialog)
+            if (!freezed && _core.interact.activeWindow is IDialog)
             {
                 IDialog dialog = _core.interact.activeWindow as IDialog;
                 if (dialog.dialogResult != DialogResult.Idle)
