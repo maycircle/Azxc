@@ -33,7 +33,7 @@ namespace Azxc.UI
             AddItem(_enableCustomNickname);
 
             _customNickname = new TextBox<FancyBitmapFont>(Azxc.core.config.TryGetSingle("CustomNickname", ""),
-                "Custom nickname...", "(Value loads from config).", Azxc.core.uiManager.font);
+                "Custom nickname...", "|YELLOW|(CustomNickname).", Azxc.core.uiManager.font);
             _customNickname.inputDialogTitle = "Custom nickname:";
             _customNickname.onTextChanged += CustomNickname_TextChanged;
             AddItem(_customNickname);
@@ -41,7 +41,7 @@ namespace Azxc.UI
             AddItem(new Separator());
 
             _hatStealer = new CheckBox<FancyBitmapFont>("Hat Stealer",
-                "Steal hats of other players |GRAY|(HatStealerSavePath).", Azxc.core.uiManager.font);
+                "Steal hats of other players |YELLOW|(HatStealerSavePath).", Azxc.core.uiManager.font);
             _hatStealer.onChecked += HatStealer_Checked;
             AddItem(_hatStealer);
         }
