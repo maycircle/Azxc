@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Harmony;
 using DuckGame;
 
 using Azxc.UI.Events;
@@ -15,7 +15,7 @@ namespace Azxc.UI
 {
     class NetworkWindow : Controls.Window
     {
-        private CheckBox<FancyBitmapFont> _enableCustomNickname;
+        private CheckBox<FancyBitmapFont> _enableCustomNickname, _hatStealer;
         private TextBox<FancyBitmapFont> _customNickname;
 
         public NetworkWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
@@ -30,13 +30,20 @@ namespace Azxc.UI
                 "Change your displaying name |RED|(Switching doesn't work in online game).",
                 Azxc.core.uiManager.font);
             _enableCustomNickname.onChecked += EnableCustomNickname_Checked;
+            AddItem(_enableCustomNickname);
 
             _customNickname = new TextBox<FancyBitmapFont>(Azxc.core.config.TryGetSingle("CustomNickname", ""),
                 "Custom nickname...", "(Value loads from config).", Azxc.core.uiManager.font);
             _customNickname.inputDialogTitle = "Custom nickname:";
             _customNickname.onTextChanged += CustomNickname_TextChanged;
+            AddItem(_customNickname);
 
-            onLoad += NetworkWindow_Load;
+            AddItem(new Separator());
+
+            _hatStealer = new CheckBox<FancyBitmapFont>("Hat Stealer",
+                "Steal hats of other players |GRAY|(HatStealerSavePath).", Azxc.core.uiManager.font);
+            _hatStealer.onChecked += HatStealer_Checked;
+            AddItem(_hatStealer);
         }
 
         private void EnableCustomNickname()
@@ -60,30 +67,19 @@ namespace Azxc.UI
                 EnableCustomNickname();
         }
 
-        private void CheckRequirements()
+        private void HatStealer_Checked(object sender, ControlEventArgs e)
         {
-            Clear();
+            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
 
-            AddItem(_enableCustomNickname);
-            AddItem(_customNickname);
-
-            if (items.Count() == 0)
+            string savePath = Azxc.core.config.TryGetSingle("HatStealerSavePath", "");
+            if (savePath == "")
             {
-                AddItem(new Label<FancyBitmapFont>("Game conditions don't match with any",
-                                    Azxc.core.uiManager.font));
-                AddItem(new Label<FancyBitmapFont>("feature requirements",
-                    Azxc.core.uiManager.font));
+                savePath = ModLoader.GetMod<Azxc>().configuration.directory + "/HatStealer";
+                if (!Directory.Exists(savePath))
+                    Directory.CreateDirectory(savePath);
+                Azxc.core.config.TrySet("HatStealerSavePath", savePath);
             }
-        }
-
-        public override void Appear()
-        {
-            CheckRequirements();
-        }
-
-        private void NetworkWindow_Load(object sender, ControlEventArgs e)
-        {
-            CheckRequirements();
+            HatStealer.HookAndToggle(checkBox.isChecked, savePath);
         }
     }
 }

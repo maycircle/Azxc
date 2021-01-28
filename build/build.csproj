@@ -80,6 +80,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -99,6 +100,7 @@
     <Compile Include="src\Hacks\BulletHit.cs" />
     <Compile Include="src\Hacks\CommandsBypass.cs" />
     <Compile Include="src\Hacks\CustomNickname.cs" />
+    <Compile Include="src\Hacks\HatStealer.cs" />
     <Compile Include="src\Hacks\InfiniteAmmo.cs" />
     <Compile Include="src\Hacks\Misc\AssaultAura.cs" />
     <Compile Include="src\Hacks\NoRecoil.cs" />
