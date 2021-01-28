@@ -33,7 +33,8 @@ namespace Azxc.UI
             _network = new Expander<FancyBitmapFont>(new NetworkWindow(position, SizeModes.Flexible),
                 "Network", "(Duck)Networking-related stuff.", Azxc.core.uiManager.font); AddItem(_network);
             _fun = new Expander<FancyBitmapFont>(new FunWindow(position, SizeModes.Flexible),
-                "Fun", "Stuff to show off with?", Azxc.core.uiManager.font); AddItem(_fun);
+                "Fun", "Stuff to show off with. Lots of glitches, have fun :)",
+                Azxc.core.uiManager.font); AddItem(_fun);
             _misc = new Expander<FancyBitmapFont>(new MiscWindow(position, SizeModes.Flexible),
                 "Misc", "Random stuff.", Azxc.core.uiManager.font); AddItem(_misc);
         }

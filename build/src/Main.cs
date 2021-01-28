@@ -12,7 +12,7 @@ using Azxc.UI.Controls;
 
 namespace Azxc
 {
-    public class Azxc : ClientMod
+    public class Azxc : ClientMod, IAutoUpdate
     {
         public static AzxcCore core;
 
@@ -28,10 +28,7 @@ namespace Azxc
         {
             core.CreateConfig();
 
-            // OnTick gets called for the entire time game running, so I will use it as some sort
-            // of "update"
-            core.harmony.Patch(typeof(RockWeather).GetMethod("TickWeather"),
-                postfix: new HarmonyMethod(typeof(Azxc), "OnTick"));
+            AutoUpdatables.Add(this);
 
             LoadContent();
 
@@ -55,7 +52,7 @@ namespace Azxc
             fieldTriggerImageMap.SetValue(null, triggerImageMap);
         }
 
-        public static void OnTick()
+        public void Update()
         {
             core.bindingManager.Update();
             core.uiManager.Update();

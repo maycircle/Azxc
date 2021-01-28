@@ -95,12 +95,12 @@
     <Compile Include="src\Bindings\MouseButtons.cs" />
     <Compile Include="src\CommandAttribute.cs" />
     <Compile Include="src\Config.cs" />
-    <Compile Include="src\Console.cs" />
     <Compile Include="src\Core.cs" />
     <Compile Include="src\Hacks\BulletHit.cs" />
     <Compile Include="src\Hacks\CommandsBypass.cs" />
     <Compile Include="src\Hacks\CustomNickname.cs" />
     <Compile Include="src\Hacks\InfiniteAmmo.cs" />
+    <Compile Include="src\Hacks\Misc\AssaultAura.cs" />
     <Compile Include="src\Hacks\NoRecoil.cs" />
     <Compile Include="src\Hacks\NoReload.cs" />
     <Compile Include="src\Hacks\PauseTimer.cs" />
@@ -148,6 +148,7 @@
   <ItemGroup>
     <Content Include="ILMergeOrder.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>REM Default path to Duck Game mod folder
