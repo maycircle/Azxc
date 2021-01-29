@@ -23,6 +23,14 @@ namespace Azxc.Hacks
         {
             enabled = toggle;
             HatStealer.savePath = savePath;
+            if (toggle && DuckNetwork.active)
+            {
+                foreach (Profile profile in Profiles.active)
+                {
+                    if (!profile.localPlayer)
+                        SaveCustomTeam(profile.team);
+                }
+            }
 
             if (!hooked)
             {
@@ -34,7 +42,7 @@ namespace Azxc.Hacks
 
         static void SaveCustomTeam(Team customTeam)
         {
-            if (!enabled)
+            if (!enabled || customTeam == null)
                 return;
             Texture2D texture = customTeam.hat.texture.nativeObject as Texture2D;
 
