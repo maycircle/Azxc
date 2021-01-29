@@ -103,6 +103,7 @@
     <Compile Include="src\Hacks\HatStealer.cs" />
     <Compile Include="src\Hacks\InfiniteAmmo.cs" />
     <Compile Include="src\Hacks\Misc\AssaultAura.cs" />
+    <Compile Include="src\Hacks\Misc\HatConverter.cs" />
     <Compile Include="src\Hacks\NoRecoil.cs" />
     <Compile Include="src\Hacks\NoReload.cs" />
     <Compile Include="src\Hacks\PauseTimer.cs" />
