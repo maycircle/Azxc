@@ -15,7 +15,7 @@ namespace Azxc.UI
 {
     class NetworkWindow : Controls.Window
     {
-        private CheckBox<FancyBitmapFont> _enableCustomNickname, _hatStealer;
+        private CheckBox<FancyBitmapFont> _enableCustomNickname, _hatStealer, _hatConverter;
         private TextBox<FancyBitmapFont> _customNickname;
 
         public NetworkWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
@@ -44,6 +44,13 @@ namespace Azxc.UI
                 "Steal hats of other players |YELLOW|(HatStealerSavePath).", Azxc.core.uiManager.font);
             _hatStealer.onChecked += HatStealer_Checked;
             AddItem(_hatStealer);
+
+            bool.TryParse(Azxc.core.config.TryGetSingle("EnableHatConverter", ""), out HatStealer.autoConvert);
+            _hatConverter = new CheckBox<FancyBitmapFont>("Hat Converter",
+                "Automatically convert PNG images to Duck Game's HAT files |YELLOW|(EnableHatConverter).",
+                Azxc.core.uiManager.font, HatStealer.autoConvert);
+            _hatConverter.onChecked += HatConverter_Checked;
+            AddItem(_hatConverter);
         }
 
         private void EnableCustomNickname()
@@ -86,6 +93,13 @@ namespace Azxc.UI
             else if (!Directory.Exists(savePath))
                 savePath = DefaultHatStealerSavePath();
             HatStealer.HookAndToggle(checkBox.isChecked, savePath);
+        }
+
+        private void HatConverter_Checked(object sender, ControlEventArgs e)
+        {
+            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            HatStealer.autoConvert = checkBox.isChecked;
+            Azxc.core.config.TrySet("EnableHatConverter", checkBox.isChecked.ToString());
         }
     }
 }

@@ -32,17 +32,7 @@ namespace Azxc.UI
         private void WeaponAura_Checked(object sender, ControlEventArgs e)
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
-            if (checkBox.isChecked)
-            {
-                _AssaultAura = new AssaultAura();
-                Azxc.core.uiManager.AddUpdatable(_AssaultAura);
-            }
-            else
-            {
-                Azxc.core.uiManager.RemoveUpdatable(_AssaultAura);
-                foreach (Holdable holdable in Level.current.things.OfType<Holdable>())
-                    holdable.active = true;
-            }
+            AssaultAura.Toggle(checkBox.isChecked);
         }
     }
 }

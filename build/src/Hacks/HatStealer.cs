@@ -11,12 +11,13 @@ using Harmony;
 using DuckGame;
 
 using Azxc.Hacks.Scanning;
+using Azxc.Hacks.Misc;
 
 namespace Azxc.Hacks
 {
     internal static class HatStealer
     {
-        public static bool hooked, enabled;
+        public static bool hooked, enabled, autoConvert;
         public static string savePath;
 
         public static void HookAndToggle(bool toggle, string savePath)
@@ -46,9 +47,15 @@ namespace Azxc.Hacks
                 return;
             Texture2D texture = customTeam.hat.texture.nativeObject as Texture2D;
 
-            string hatFile = savePath + "/" + customTeam.name + ".png";
-            using (FileStream file = new FileStream(hatFile, FileMode.Create))
+            string pngFile = savePath + "/" + customTeam.name + ".png";
+            using (FileStream file = new FileStream(pngFile, FileMode.Create))
                 texture.SaveAsPng(file, texture.Width, texture.Height);
+            
+            if (autoConvert)
+            {
+                string hatFile = savePath + "/" + customTeam.name + ".hat";
+                HatConverter.ExportFromPNG(pngFile, customTeam.name, hatFile);
+            }
         }
 
         // OnMessage@DuckNetwork
