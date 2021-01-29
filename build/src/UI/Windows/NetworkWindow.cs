@@ -27,7 +27,7 @@ namespace Azxc.UI
         private void InitializeComponent()
         {
             _enableCustomNickname = new CheckBox<FancyBitmapFont>("Enable custom nickname",
-                "Change your displaying name |RED|(Switching doesn't work in online game).",
+                "Change your displaying name |RED|(Switching SOMETIMES works in online game).",
                 Azxc.core.uiManager.font);
             _enableCustomNickname.onChecked += EnableCustomNickname_Checked;
             AddItem(_enableCustomNickname);
