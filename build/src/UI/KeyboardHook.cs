@@ -18,7 +18,6 @@ namespace Azxc.UI
         public static void HookAndToggle(bool toggle)
         {
             enabled = toggle;
-
             if (!hooked)
             {
                 Azxc.core.harmony.Patch(typeof(Keyboard).GetMethod("Pressed"),

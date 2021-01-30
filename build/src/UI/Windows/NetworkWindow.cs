@@ -45,7 +45,8 @@ namespace Azxc.UI
             _hatStealer.onChecked += HatStealer_Checked;
             AddItem(_hatStealer);
 
-            bool.TryParse(Azxc.core.config.TryGetSingle("EnableHatConverter", ""), out HatStealer.autoConvert);
+            bool.TryParse(Azxc.core.config.TryGetSingle("EnableHatConverter", "False"),
+                out HatStealer.autoConvert);
             _hatConverter = new CheckBox<FancyBitmapFont>("Hat Converter",
                 "Automatically convert PNG images to Duck Game's HAT files |YELLOW|(EnableHatConverter).",
                 Azxc.core.uiManager.font, HatStealer.autoConvert);

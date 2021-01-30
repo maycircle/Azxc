@@ -15,7 +15,8 @@ namespace Azxc.UI
 {
     class MiscWindow : Controls.Window
     {
-        private CheckBox<FancyBitmapFont> _commandsBypass, _lobbyTimout;
+        private CheckBox<FancyBitmapFont> _commandsBypass, _lobbyTimout,
+            _consoleImplementation;
 
         public MiscWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
             base(position, sizeMode)
@@ -25,9 +26,20 @@ namespace Azxc.UI
 
         private void InitializeComponent()
         {
+            bool.TryParse(Azxc.core.config.TryGetSingle("EnableDevConsoleImpl", "True"),
+                out DevConsoleVars.enabled);
+            DevConsoleVars.HookAndToggle(DevConsoleVars.enabled);
+            _consoleImplementation = new CheckBox<FancyBitmapFont>("Console Implementation",
+                "Enable Azxc's DevConsole implementation.", Azxc.core.uiManager.font,
+                DevConsoleVars.enabled);
+            _consoleImplementation.onChecked += ConsoleImplementation_Checked;
+            AddItem(_consoleImplementation);
+
             _commandsBypass = new CheckBox<FancyBitmapFont>("Commands Bypass",
                 "Ability to call extra commands in DevConsole.", Azxc.core.uiManager.font);
             _commandsBypass.onChecked += CommandsBypass_Checked; AddItem(_commandsBypass);
+
+            AddItem(new Separator());
 
             _lobbyTimout = new CheckBox<FancyBitmapFont>("Lobby Timeout",
                 "Kick from lobby after being AFK for 5 minutes.", Azxc.core.uiManager.font, true);
@@ -57,6 +69,13 @@ namespace Azxc.UI
                 showTimeout.SetValue(Level.current as TeamSelect2, float.MaxValue);
                 maxTimeout.SetValue(Level.current as TeamSelect2, float.MaxValue);
             }
+        }
+
+        private void ConsoleImplementation_Checked(object sender, ControlEventArgs e)
+        {
+            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            DevConsoleVars.HookAndToggle(checkBox.isChecked);
+            Azxc.core.config.TrySet("EnableDevConsoleImpl", checkBox.isChecked.ToString());
         }
     }
 }
