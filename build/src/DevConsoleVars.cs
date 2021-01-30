@@ -30,7 +30,7 @@ namespace Azxc
                 return;
 
             string oldCommand = command;
-            command = Regex.Replace(command, @"\[([al]?)p(\d)\]", delegate(Match match)
+            command = Regex.Replace(command, @"\[([al]?)p(\d)(:\w+)?\]", delegate(Match match)
             {
                 List<Profile> profiles = Profiles.all.ToList();
                 if (match.Groups[1].Value == "a")
@@ -41,7 +41,25 @@ namespace Azxc
                 int profileIndex = int.Parse(match.Groups[2].Value);
                 if (profileIndex <= 0 || profileIndex > profiles.Count)
                     return match.Value;
-                return profiles[profileIndex - 1].name;
+                if (!match.Groups[3].Success)
+                    return profiles[profileIndex - 1].name;
+                else
+                {
+                    string propertyName = match.Groups[3].Value.Substring(1);
+                    if (AccessTools.GetPropertyNames(typeof(Profile)).Contains(propertyName))
+                    {
+                        return AccessTools.Property(typeof(Profile), propertyName)
+                            .GetValue(profiles[profileIndex - 1]).ToString();
+                    }
+                    else if (AccessTools.GetPropertyNames(typeof(Duck)).Contains(propertyName) &&
+                        profiles[profileIndex - 1].duck != null)
+                    {
+                        return AccessTools.Property(typeof(Duck), propertyName)
+                            .GetValue(profiles[profileIndex - 1].duck).ToString();
+                    }
+                    else
+                        return match.Value;
+                }
             });
         }
     }
