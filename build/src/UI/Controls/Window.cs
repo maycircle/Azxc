@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,31 +12,42 @@ using Azxc.UI.Events;
 
 namespace Azxc.UI.Controls
 {
-    public class Window : Control, IAutoUpdate
+    public class Window : Control, IEnumerable<Control>, IAutoUpdate
     {
         public SizeModes sizeMode { get; }
 
-        protected Workplace workPlace;
-
-        // Not very important variable
         public Vec2 indent;
+        public Vec2 inner;
 
-        public IEnumerable<Control> items
-        {
-            get { return workPlace; }
-        }
+        private Vec2 panelPosition;
+        private Vec2 panelSize;
+
+        private List<Control> _items;
 
         public Window(Vec2 position, SizeModes sizeMode = SizeModes.Static)
         {
             this.position = position;
 
-            this.size = Vec2.Zero;
+            size = Vec2.Zero;
             this.sizeMode = sizeMode;
 
+            panelPosition = new Vec2();
+            panelSize = new Vec2();
             // This is only for pretty look, so i'll use standart value everywhere
             indent = Vec2.One / 2;
+            inner = (Vec2.One * 1.5f) / 2;
 
-            workPlace = new Workplace();
+            _items = new List<Control>();
+        }
+
+        public IEnumerator<Control> GetEnumerator()
+        {
+            return _items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _items.GetEnumerator();
         }
 
         public void Load()
@@ -49,10 +61,28 @@ namespace Azxc.UI.Controls
             onLoad?.Invoke(this, e);
         }
 
+        private float CalculateHeights(int index)
+        {
+            float sumHeight = 0f;
+            for (int i = 0; i < index; i++)
+            {
+                Control item = _items[i] as Control;
+                sumHeight += item.height;
+            }
+            return sumHeight;
+        }
+
+        private float GetLongestWidth()
+        {
+            Control longestItem = _items.Aggregate((longest, next) =>
+                next.width > longest.width + (longest as IIndent).indent.x ? next : longest);
+            return longestItem.width + (longestItem as IIndent).indent.x;
+        }
+
         private void FitToItems()
         {
             float longest = 0f;
-            foreach (Control item in workPlace)
+            foreach (Control item in _items)
             {
                 if (item is IAutoUpdate)
                 {
@@ -66,41 +96,53 @@ namespace Azxc.UI.Controls
                 }
             }
 
-            int count = (items.Count() / 24) + 1;
+            int count = (_items.Count / 24) + 1;
             width = count * longest + indent.x * 4;
-            if (items.Count() > 24)
+            if (_items.Count > 24)
                 width -= indent.x * count;
 
-            // TODO: Optimize this code, probably
+            // TODO: Optimize this code, probably, one day...
             float sumHeight = 0f;
             if (count > 1)
             {
                 int index = 0;
-                foreach (Control item in workPlace)
+                foreach (Control item in _items)
                 {
                     if (index >= 24)
                         break;
                     sumHeight += item.height;
                     index++;
                 }
-                height = sumHeight + (workPlace.inner.y * 24) + indent.y * 5;
+                height = sumHeight + (inner.y * 24) + indent.y * 5;
             }
             else
             {
-                foreach (Control item in workPlace)
+                foreach (Control item in _items)
                 {
                     sumHeight += item.height;
                 }
-                height = sumHeight + (workPlace.inner.y * workPlace.Count()) + indent.y * 5;
+                height = sumHeight + (inner.y * _items.Count) + indent.y * 5;
             }
         }
 
         public virtual void Update()
         {
-            workPlace.position = position + indent * 2;
-            workPlace.size = size - indent * 2;
+            panelPosition = position + indent * 2;
+            panelSize = size - indent * 2;
 
-            workPlace.Update();
+            for (int i = 0; i < _items.Count; i++)
+            {
+                // 24 is the maximum controls count on a single stack
+                int stack = (i % 24);
+                int count = (i / 24);
+
+                Control item = _items[i];
+                item.x = panelPosition.x + inner.x + (GetLongestWidth() * count) - (inner.x * count);
+                item.y = panelPosition.y + CalculateHeights(stack) + (inner.y * (stack + 1));
+
+                IIndent impl = item as IIndent;
+                item.width = GetLongestWidth() - impl.indent.x;
+            }
         }
 
         public override void Draw()
@@ -111,37 +153,40 @@ namespace Azxc.UI.Controls
             // Draw windows borders
             Graphics.DrawRect(position, position + size, Color.Black);
 
-            Vec2 end = workPlace.position + workPlace.size - indent;
+            Vec2 end = panelPosition + panelSize - indent;
             end.y += indent.y / 2;
-            Graphics.DrawRect(workPlace.position - indent, end,
+            Graphics.DrawRect(panelPosition - indent, end,
                 Color.DarkSlateGray, 0.1f, false, 0.5f);
 
-            workPlace.Draw();
+            foreach (Control item in _items)
+            {
+                item.Draw();
+            }
         }
 
         public virtual void AddItem(Control item)
         {
             item.parent = this;
-            workPlace.Add(item);
+            _items.Add(item);
             if (sizeMode == SizeModes.Flexible)
                 FitToItems();
         }
 
         public virtual void RemoveItem(Control item)
         {
-            workPlace.Remove(item);
+            _items.Remove(item);
             if (sizeMode == SizeModes.Flexible)
                 FitToItems();
         }
 
         public virtual void Clear()
         {
-            workPlace.Clear();
+            _items.Clear();
         }
 
         public void Sort(Comparison<Control> comparison)
         {
-            workPlace.Sort(comparison);
+            _items.Sort(comparison);
         }
 
         public virtual void Show()

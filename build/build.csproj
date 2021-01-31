@@ -129,7 +129,6 @@
     <Compile Include="src\UI\Controls\Label.cs" />
     <Compile Include="src\UI\Controls\SizeModes.cs" />
     <Compile Include="src\UI\Controls\Window.cs" />
-    <Compile Include="src\UI\Controls\Workplace.cs" />
     <Compile Include="src\UI\ForceUpdateAttribute.cs" />
     <Compile Include="src\UI\KeyboardHook.cs" />
     <Compile Include="src\UI\UserInterfaceCore.cs" />

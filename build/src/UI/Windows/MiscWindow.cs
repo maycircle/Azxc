@@ -30,8 +30,8 @@ namespace Azxc.UI
                 out DevConsoleVars.enabled);
             DevConsoleVars.HookAndToggle(DevConsoleVars.enabled);
             _consoleImplementation = new CheckBox<FancyBitmapFont>("Console Implementation",
-                "Enable Azxc's DevConsole implementation.", Azxc.core.uiManager.font,
-                DevConsoleVars.enabled);
+                "Enable Azxc's DevConsole implementation |YELLOW|(EnableDevConsoleImpl).",
+                Azxc.core.uiManager.font, DevConsoleVars.enabled);
             _consoleImplementation.onChecked += ConsoleImplementation_Checked;
             AddItem(_consoleImplementation);
 
