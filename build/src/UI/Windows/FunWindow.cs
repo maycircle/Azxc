@@ -14,7 +14,7 @@ namespace Azxc.UI
 {
     class FunWindow : Controls.Window
     {
-        private CheckBox<FancyBitmapFont> _assaultAura;
+        private CheckBox<FancyBitmapFont> _assaultAura, _spinMeRound;
 
         public FunWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
             base(position, sizeMode)
@@ -27,12 +27,22 @@ namespace Azxc.UI
             _assaultAura = new CheckBox<FancyBitmapFont>("Assault Aura", Azxc.core.uiManager.font);
             _assaultAura.onChecked += WeaponAura_Checked;
             AddItem(_assaultAura);
+
+            _spinMeRound = new CheckBox<FancyBitmapFont>("Spin Me Round", Azxc.core.uiManager.font);
+            _spinMeRound.onChecked += SpinMeRound_Checked;
+            AddItem(_spinMeRound);
         }
 
         private void WeaponAura_Checked(object sender, ControlEventArgs e)
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
             AssaultAura.Toggle(checkBox.isChecked);
+        }
+
+        private void SpinMeRound_Checked(object sender, ControlEventArgs e)
+        {
+            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            SpinMeRound.Toggle(checkBox.isChecked);
         }
     }
 }
