@@ -28,8 +28,8 @@ namespace Azxc.UI.Controls
             this.isChecked = isChecked;
         }
 
-        public CheckBox(string text, string toolTipText, T font, Vec2 position, bool isChecked = false):
-            base(text, toolTipText, font, position)
+        public CheckBox(string text, string toolTipText, T font, Vec2 position,
+            bool isChecked = false) : base(text, toolTipText, font, position)
         {
             this.isChecked = isChecked;
         }

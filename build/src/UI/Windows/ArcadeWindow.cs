@@ -36,12 +36,12 @@ namespace Azxc.UI
 
             AddItem(new Separator());
 
-            _pauseTimer = new CheckBox<FancyBitmapFont>("Pause Timer", "Become incredibly fast, relative to time... :)",
-                Azxc.core.uiManager.font);
+            _pauseTimer = new CheckBox<FancyBitmapFont>("Pause Timer",
+                "Become incredibly fast, relative to time... :)", Azxc.core.uiManager.font);
             _pauseTimer.onChecked += PauseTimer_Checked; AddItem(_pauseTimer);
 
-            _finishChallenge = new Button<FancyBitmapFont>("Finish Challenge", "Complete the challenge (Developer included).",
-                Azxc.core.uiManager.font);
+            _finishChallenge = new Button<FancyBitmapFont>("Finish Challenge",
+                "Complete the challenge (Developer included).", Azxc.core.uiManager.font);
             _finishChallenge.onClicked += FinishChallenge_Clicked; AddItem(_finishChallenge);
         }
 

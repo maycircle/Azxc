@@ -60,7 +60,6 @@ namespace Azxc.UI.Controls
         public virtual void Expand()
         {
             float windowIndent = 2f;
-            // I'm too lazy to work with variables, so instead of Window's indent i just set 0.5f
             window.position = new Vec2(x + width + indent.x + windowIndent, y - 0.5f * 3);
             window.Show();
             OnExpanded(new ControlEventArgs(this));

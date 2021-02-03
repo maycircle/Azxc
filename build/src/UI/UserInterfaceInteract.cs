@@ -107,8 +107,7 @@ namespace Azxc.UI
             else if (Azxc.core.uiManager.updatable.OfType<Controls.Window>().Count() <= 0 ||
                 !Azxc.core.uiManager.state.HasFlag(UserInterfaceState.Open))
                 return;
-
-
+                
             BindingManager.UsedBinding(this, "MoveLeft");
             BindingManager.UsedBinding(this, "MouseRight");
 

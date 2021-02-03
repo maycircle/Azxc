@@ -26,8 +26,8 @@ namespace Azxc.UI.Controls
             this.isChecked = isChecked;
         }
 
-        public RadioBox(string text, string toolTipText, T font, Vec2 position, bool isChecked = false):
-            base(text, toolTipText, font, position)
+        public RadioBox(string text, string toolTipText, T font, Vec2 position,
+            bool isChecked = false) : base(text, toolTipText, font, position)
         {
             this.isChecked = isChecked;
         }

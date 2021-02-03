@@ -32,7 +32,8 @@ namespace Azxc.UI.Controls
             indent = Vec2.One * 1.5f;
         }
 
-        public Button(string text, string toolTipText, T font, Vec2 position) : base(text, font, position)
+        public Button(string text, string toolTipText, T font, Vec2 position) :
+            base(text, font, position)
         {
             this.toolTipText = toolTipText;
             showToolTip = true;
@@ -49,9 +50,8 @@ namespace Azxc.UI.Controls
         {
             float toolTipIndent = 4f;
             Vec2 start = new Vec2(x + width + toolTipIndent, y);
-            MethodInfo getWidth = AccessTools.Method(typeof(T), "GetWidth");
-            float toolTipWidth = (float)getWidth.Invoke(font, new object[] { toolTipText, false });
-            Vec2 end = new Vec2(toolTipWidth + indent.x * 2, characterHeight * GetScale().y + indent.y * 2);
+            Vec2 end = new Vec2(GetWidth(toolTipText) + indent.x * 2,
+                characterHeight * GetScale().y + indent.y * 2);
 
             // Draw tooltip blending background
             Graphics.DrawRect(start, start + end, Color.Black * 0.5f, 1f);

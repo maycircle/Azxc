@@ -16,7 +16,7 @@ namespace Azxc.UI
     class WeaponsWindow : Controls.Window
     {
         private CheckBox<FancyBitmapFont> _infinityAmmo, _norecoil, _noreload, _bulletHit,
-            _rangeHack;
+            _triggerBot, _rangeHack;
 
         public WeaponsWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
             base(position, sizeMode)
@@ -45,6 +45,10 @@ namespace Azxc.UI
             _rangeHack = new CheckBox<FancyBitmapFont>("Range Hack",
                 "Weapons maximum range increased.", Azxc.core.uiManager.font);
             _rangeHack.onChecked += RangeHack_Checked; AddItem(_rangeHack);
+
+            _triggerBot = new CheckBox<FancyBitmapFont>("TriggerBot",
+                "Automatically shoot at ducks.", Azxc.core.uiManager.font);
+            _triggerBot.onChecked += TriggerBot_Checked; AddItem(_triggerBot);
         }
 
         private void InfiniteAmmo_Checked(object sender, ControlEventArgs e)
@@ -107,6 +111,12 @@ namespace Azxc.UI
         private void OnlyDucks_Checked(object sender, ControlEventArgs e)
         {
             BulletHit.trigger = typeof(Duck);
+        }
+
+        private void TriggerBot_Checked(object sender, ControlEventArgs e)
+        {
+            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            TriggerBot.HookAndToggle(checkBox.isChecked);
         }
     }
 }
