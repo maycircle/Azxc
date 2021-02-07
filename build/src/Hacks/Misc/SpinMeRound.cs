@@ -21,7 +21,10 @@ namespace Azxc.Hacks.Misc
                 Azxc.core.uiManager.AddUpdatable(_instance);
             }
             else if (!toggle && _instance != null)
+            {
                 Azxc.core.uiManager.RemoveUpdatable(_instance);
+                _instance = null;
+            }
         }
 
         public void Update()
@@ -29,13 +32,12 @@ namespace Azxc.Hacks.Misc
             if (Level.current == null)
                 return;
 
-            Duck localDuck = Profiles.activeNonSpectators.Find(x => x.duck?.isLocal ?? false)?.duck;
-            if (localDuck == null)
-                return;
-
-            localDuck.angleDegrees += 20f;
-            if (localDuck.angleDegrees >= 360.0f)
-                localDuck.angleDegrees = 0f;
+            foreach (Profile profile in Profiles.activeNonSpectators.Where(x => x.duck != null && x.localPlayer))
+            {
+                profile.duck.angleDegrees += 20f;
+                if (profile.duck.angleDegrees >= 360.0f)
+                    profile.duck.angleDegrees = 0f;
+            }
         }
     }
 }

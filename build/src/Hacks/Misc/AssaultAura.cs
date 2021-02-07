@@ -24,7 +24,10 @@ namespace Azxc.Hacks.Misc
                 Azxc.core.uiManager.AddUpdatable(_instance);
             }
             else if (!toggle && _instance != null)
+            {
                 Azxc.core.uiManager.RemoveUpdatable(_instance);
+                _instance = null;
+            }
         }
 
         public void Update()
