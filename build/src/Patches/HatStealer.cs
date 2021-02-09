@@ -10,9 +10,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Harmony;
 using DuckGame;
 
-using Azxc.Hacks.Misc;
+using Azxc.Patches.Misc;
 
-namespace Azxc.Hacks
+namespace Azxc.Patches
 {
     internal static class HatStealer
     {

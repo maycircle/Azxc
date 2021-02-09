@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using Harmony;
 using DuckGame;
 
-using Azxc.Hacks;
+using Azxc.Patches;
 
 namespace Azxc
 {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Harmony;
 using DuckGame;
 
-namespace Azxc.Hacks.Misc
+namespace Azxc.Patches.Misc
 {
     internal static class HatConverter
     {

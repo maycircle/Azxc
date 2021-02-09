@@ -7,7 +7,7 @@ using DuckGame;
 
 using Azxc.UI;
 
-namespace Azxc.Hacks.Misc
+namespace Azxc.Patches.Misc
 {
     [ForceUpdate]
     class AssaultAura : IAutoUpdate

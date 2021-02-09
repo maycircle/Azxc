@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Harmony;
 using DuckGame;
 
-namespace Azxc.Hacks
+namespace Azxc.Patches
 {
     internal static class CustomNickname
     {

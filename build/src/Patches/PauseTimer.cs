@@ -6,7 +6,7 @@ using System.Text;
 using Harmony;
 using DuckGame;
 
-namespace Azxc.Hacks
+namespace Azxc.Patches
 {
     internal static class PauseTimer
     {

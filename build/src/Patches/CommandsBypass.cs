@@ -9,7 +9,7 @@ using System.Reflection.Emit;
 using Harmony;
 using DuckGame;
 
-namespace Azxc.Hacks
+namespace Azxc.Patches
 {
     internal static class CommandsBypass
     {
