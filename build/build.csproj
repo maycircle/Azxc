@@ -109,8 +109,6 @@
     <Compile Include="src\Hacks\NoReload.cs" />
     <Compile Include="src\Hacks\PauseTimer.cs" />
     <Compile Include="src\Hacks\RangeHack.cs" />
-    <Compile Include="src\Hacks\Scanning\Format.cs" />
-    <Compile Include="src\Hacks\Scanning\Pattern.cs" />
     <Compile Include="src\Hacks\TriggerBot.cs" />
     <Compile Include="src\Main.cs" />
     <Compile Include="src\UI\Controls\Button.cs" />
