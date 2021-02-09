@@ -36,6 +36,8 @@ namespace Azxc.Hacks
                     return x.duck.isLocal;
                 return false;
             });
+            if (localProfile == null)
+                return;
             localProfile.keepSetName = !restoreOriginal;
             if (!restoreOriginal)
                 localProfile.name = customNickname;
