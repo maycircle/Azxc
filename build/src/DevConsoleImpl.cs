@@ -7,9 +7,11 @@ using System.Text.RegularExpressions;
 using Harmony;
 using DuckGame;
 
+using Azxc.Hacks;
+
 namespace Azxc
 {
-    public class DevConsoleVars
+    public class DevConsoleImpl
     {
         public static bool hooked, enabled;
 
@@ -19,15 +21,15 @@ namespace Azxc
             if (!hooked)
             {
                 Azxc.core.harmony.Patch(typeof(DevConsole).GetMethod("RunCommand"),
-                    prefix: new HarmonyMethod(typeof(DevConsoleVars), "Prefix"));
+                    prefix: new HarmonyMethod(typeof(DevConsoleImpl), "Prefix"));
                 hooked = true;
             }
         }
 
-        static void Prefix(ref string command)
+        static bool Prefix(ref string command)
         {
             if (!enabled)
-                return;
+                return true;
 
             string oldCommand = command;
             command = Regex.Replace(command, @"\[([al]?)p(\d)(:\w+)?\]", delegate(Match match)
@@ -61,6 +63,40 @@ namespace Azxc
                         return match.Value;
                 }
             });
+
+            if (command != "")
+            {
+                ConsoleCommand consoleCommand = new ConsoleCommand(command);
+                string commandName = consoleCommand.NextWord(true, false);
+                bool isCommand = false;
+                
+                if (commandName == "azxc_steal")
+                {
+                    isCommand = true;
+
+                    string who = consoleCommand.NextWord(true, false);
+                    Profile profile = DevConsole.ProfileByName(who);
+                    if (profile == null)
+                    {
+                        DevConsole.Log("No profile named " + who + ".", Color.Red);
+                        return false;
+                    }
+
+                    if (profile.team != null)
+                    {
+                        HatStealer.CheckSaveFolder();
+                        string output = "";
+                        HatStealer.SaveCustomTeam(profile.team, out output);
+                        DevConsole.Log("Saved as \"" + output + "\".", Color.Yellow);
+                    }
+                    else
+                        DevConsole.Log("Profile isn't wearing a hat right now.", Color.Yellow);
+                }
+                // So default DG commands won't run
+                if (isCommand)
+                    return false;
+            }
+            return true;
         }
     }
 }

@@ -27,11 +27,11 @@ namespace Azxc.UI
         private void InitializeComponent()
         {
             bool.TryParse(Azxc.core.config.TryGetSingle("EnableDevConsoleImpl", "True"),
-                out DevConsoleVars.enabled);
-            DevConsoleVars.HookAndToggle(DevConsoleVars.enabled);
+                out DevConsoleImpl.enabled);
+            DevConsoleImpl.HookAndToggle(DevConsoleImpl.enabled);
             _consoleImplementation = new CheckBox<FancyBitmapFont>("Console Implementation",
                 "Enable Azxc's DevConsole implementation |YELLOW|(EnableDevConsoleImpl).",
-                Azxc.core.uiManager.font, DevConsoleVars.enabled);
+                Azxc.core.uiManager.font, DevConsoleImpl.enabled);
             _consoleImplementation.onChecked += ConsoleImplementation_Checked;
             AddItem(_consoleImplementation);
 
@@ -74,7 +74,7 @@ namespace Azxc.UI
         private void ConsoleImplementation_Checked(object sender, ControlEventArgs e)
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
-            DevConsoleVars.HookAndToggle(checkBox.isChecked);
+            DevConsoleImpl.HookAndToggle(checkBox.isChecked);
             Azxc.core.config.TrySet("EnableDevConsoleImpl", checkBox.isChecked.ToString());
         }
     }

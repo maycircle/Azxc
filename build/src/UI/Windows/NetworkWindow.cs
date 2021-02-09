@@ -75,25 +75,11 @@ namespace Azxc.UI
                 EnableCustomNickname();
         }
 
-        private string DefaultHatStealerSavePath()
-        {
-            string savePath = ModLoader.GetMod<Azxc>().configuration.directory + "/HatStealer";
-            if (!Directory.Exists(savePath))
-                Directory.CreateDirectory(savePath);
-            Azxc.core.config.TrySet("HatStealerSavePath", savePath);
-            return savePath;
-        }
-
         private void HatStealer_Checked(object sender, ControlEventArgs e)
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
-
-            string savePath = Azxc.core.config.TryGetSingle("HatStealerSavePath", "");
-            if (savePath == "")
-                savePath = DefaultHatStealerSavePath();
-            else if (!Directory.Exists(savePath))
-                savePath = DefaultHatStealerSavePath();
-            HatStealer.HookAndToggle(checkBox.isChecked, savePath);
+            HatStealer.CheckSaveFolder();
+            HatStealer.HookAndToggle(checkBox.isChecked);
         }
 
         private void HatConverter_Checked(object sender, ControlEventArgs e)
