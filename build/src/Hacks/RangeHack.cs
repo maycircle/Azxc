@@ -9,8 +9,6 @@ using System.Reflection.Emit;
 using Harmony;
 using DuckGame;
 
-using Azxc.Hacks.Scanning;
-
 namespace Azxc.Hacks
 {
     internal static class RangeHack
@@ -46,34 +44,36 @@ namespace Azxc.Hacks
             FieldInfo enabled = AccessTools.Field(typeof(RangeHack), "enabled");
             MethodInfo getRange = AccessTools.Method(typeof(RangeHack), "GetRange");
             FieldInfo range = AccessTools.Field(typeof(Bullet), "range");
+            FieldInfo tracer = AccessTools.Field(typeof(Bullet), "_tracer");
 
             List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
-            Pattern ldargPattern = new Pattern(codes);
-            ldargPattern.AddInstructions(new string[]
+
+            bool foundDistance = false;
+            CodeInstruction brs = null;
+            for (int i = 0; i < codes.Count; i++)
             {
-                "ldarg.0 NULL",
-                "ldarg.3 NULL",
-                "ldfld Single range",
-                "ldarg.3 NULL",
-                "ldfld Single rangeVariation",
-                "call Single Float(Single)",
-                "sub NULL",
-                "stfld Single range"
-            });
-            Tuple<int, int> ldarg = ldargPattern.Search()[0];
+                CodeInstruction instruction = codes[i];
+                yield return instruction;
 
-            Label label1 = generator.DefineLabel();
-            Label label2 = generator.DefineLabel();
-            codes[ldarg.Item1].labels.Add(label1);
-            codes[ldarg.Item2 + 1].labels.Add(label2);
-            codes.Insert(ldarg.Item1, new CodeInstruction(OpCodes.Br_S, label2));
-            codes.Insert(ldarg.Item1, new CodeInstruction(OpCodes.Stfld, range));
-            codes.Insert(ldarg.Item1, new CodeInstruction(OpCodes.Call, getRange));
-            codes.Insert(ldarg.Item1, new CodeInstruction(OpCodes.Ldarg_0));
-            codes.Insert(ldarg.Item1, new CodeInstruction(OpCodes.Brfalse_S, label1));
-            codes.Insert(ldarg.Item1, new CodeInstruction(OpCodes.Ldsfld, enabled));
+                if (instruction.opcode == OpCodes.Stfld && (FieldInfo)instruction.operand == tracer)
+                {
+                    Label label1 = generator.DefineLabel();
+                    yield return new CodeInstruction(OpCodes.Ldsfld, enabled);
+                    yield return new CodeInstruction(OpCodes.Brfalse_S, label1);
+                    yield return new CodeInstruction(OpCodes.Ldarg_0);
+                    yield return new CodeInstruction(OpCodes.Call, getRange);
+                    yield return new CodeInstruction(OpCodes.Stfld, range);
+                    brs = new CodeInstruction(OpCodes.Br_S, generator.DefineLabel());
+                    yield return brs;
 
-            return codes.AsEnumerable();
+                    codes[i + 1].labels.Add(label1);
+                }
+                else if (instruction.opcode == OpCodes.Ldarg_S && brs != null && !foundDistance)
+                {
+                    instruction.labels.Add((Label)brs.operand);
+                    foundDistance = true;
+                }
+            }
         }
     }
 }

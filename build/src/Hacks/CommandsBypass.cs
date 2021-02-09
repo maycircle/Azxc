@@ -9,8 +9,6 @@ using System.Reflection.Emit;
 using Harmony;
 using DuckGame;
 
-using Azxc.Hacks.Scanning;
-
 namespace Azxc.Hacks
 {
     internal static class CommandsBypass
@@ -24,8 +22,18 @@ namespace Azxc.Hacks
             {
                 Azxc.core.harmony.Patch(typeof(DevConsole).GetMethod("RunCommand"),
                     transpiler: new HarmonyMethod(typeof(CommandsBypass), "Transpiler"));
+                Azxc.core.harmony.Patch(AccessTools.Method(typeof(DevConsole), "CheckCheats"),
+                    prefix: new HarmonyMethod(typeof(CommandsBypass), "Prefix"));
                 hooked = true;
             }
+        }
+
+        // CheckCheats@DevConsole
+        static bool Prefix()
+        {
+            if (enabled)
+                return false;
+            return true;
         }
 
         // RunCommand@DevConsole
@@ -34,40 +42,23 @@ namespace Azxc.Hacks
         {
             FieldInfo enabled = AccessTools.Field(typeof(CommandsBypass), "enabled");
 
-            List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
+            List<CodeInstruction> codes = instructions.ToList();
 
-            Pattern countPattern = new Pattern(codes);
-            string[] textPattern = countPattern.AddInstructions(new string[]
+            for (int i = 0; i < codes.Count; i++)
             {
-                "call Boolean get_isActive()",
-                "brtrue Label",
-                "call DuckGame.Level get_current()",
-                "isinst DuckGame.ChallengeLevel",
-                "brtrue Label?", // "?" means that this line is optional, in some cases it may
-                                 // appear and in some not
-                "call DuckGame.Level get_current()?",
-                "isinst DuckGame.ArcadeLevel?",
-                "brfalse Label"
-            });
-            int count = countPattern.Search().Count;
+                CodeInstruction instruction = codes[i];
+                yield return instruction;
 
-            for (int i = 0; i < count; i++)
-            {
-                Pattern pattern = new Pattern(codes);
-                pattern.AddInstructions(textPattern);
-                Tuple<int, int> code = pattern.Search()[i];
+                if (instruction.opcode == OpCodes.Isinst &&
+                    (Type)instruction.operand == typeof(ArcadeLevel))
+                {
+                    yield return new CodeInstruction(codes[i + 1]);
+                    yield return new CodeInstruction(codes[i + 2]) { operand = enabled };
 
-                CodeInstruction ldsfld = new CodeInstruction(codes[code.Item2 + 1]);
-                ldsfld.operand = enabled;
-                CodeInstruction brfalses = new CodeInstruction(codes[code.Item2]);
-                codes[code.Item2].opcode = OpCodes.Brtrue;
-                codes[code.Item2 + 1].labels.Clear();
-
-                codes.Insert(code.Item2, ldsfld);
-                codes.Insert(code.Item2, brfalses);
+                    codes[i + 1].opcode = OpCodes.Brtrue;
+                    codes[i + 2].labels.Clear();
+                }
             }
-
-            return codes.AsEnumerable();
         }
     }
 }

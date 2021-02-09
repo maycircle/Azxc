@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Harmony;
 using DuckGame;
 
-using Azxc.Hacks.Scanning;
 using Azxc.Hacks.Misc;
 
 namespace Azxc.Hacks
@@ -62,21 +61,21 @@ namespace Azxc.Hacks
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             MethodInfo saveCustomTeam = AccessTools.Method(typeof(HatStealer), "SaveCustomTeam");
+            MethodInfo teamDeserialize = AccessTools.Method(typeof(Team),
+                "Deserialize", new Type[] { typeof(byte[]) });
+            FieldInfo customConnection = AccessTools.Field(typeof(Team), "customConnection");
 
-            List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
-            Pattern ldargPattern = new Pattern(codes);
-            ldargPattern.AddInstructions(new string[]
+            foreach (CodeInstruction instruction in instructions)
             {
-                "ldloc.s 4 (DuckGame.NMSpecialHat)",
-                "callvirt DuckGame.NetworkConnection get_connection()",
-                "stfld DuckGame.NetworkConnection customConnection"
-            });
-            Tuple<int, int> ldarg = ldargPattern.Search()[0];
+                yield return instruction;
 
-            codes.Insert(ldarg.Item2 + 1, new CodeInstruction(OpCodes.Call, saveCustomTeam));
-            codes.Insert(ldarg.Item1, new CodeInstruction(OpCodes.Dup));
-
-            return codes.AsEnumerable();
+                if (instruction.opcode == OpCodes.Call &&
+                    (MethodInfo)instruction.operand == teamDeserialize)
+                    yield return new CodeInstruction(OpCodes.Dup);
+                else if (instruction.opcode == OpCodes.Stfld &&
+                    (FieldInfo)instruction.operand == customConnection)
+                    yield return new CodeInstruction(OpCodes.Call, saveCustomTeam);
+            }
         }
     }
 }

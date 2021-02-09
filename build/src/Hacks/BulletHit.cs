@@ -9,8 +9,6 @@ using System.Reflection.Emit;
 using Harmony;
 using DuckGame;
 
-using Azxc.Hacks.Scanning;
-
 namespace Azxc.Hacks
 {
     internal static class BulletHit
@@ -29,50 +27,30 @@ namespace Azxc.Hacks
             }
         }
 
+        static bool HitExactThing(MaterialThing thing, Bullet bullet, Vec2 hitPos)
+        {
+            Type thingType = thing.GetType();
+            if (enabled && (thingType == trigger || thingType.IsSubclassOf(trigger)))
+                return thing.DoHit(bullet, hitPos);
+            else if (!enabled)
+                return thing.DoHit(bullet, hitPos);
+            return false;
+        }
+
         // RaycastBullet@Bullet
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
             ILGenerator generator)
         {
-            FieldInfo enabled = AccessTools.Field(typeof(BulletHit), "enabled");
-            FieldInfo trigger = AccessTools.Field(typeof(BulletHit), "trigger");
+            MethodInfo doHit = AccessTools.Method(typeof(MaterialThing), nameof(MaterialThing.DoHit));
 
-            MethodInfo getType = AccessTools.Method(typeof(object), "GetType");
-            MethodInfo isAssignableFrom = AccessTools.Method(typeof(Type), "IsAssignableFrom");
-
-            List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
-
-            Pattern ldlocPattern = new Pattern(codes);
-            string[] textPattern = ldlocPattern.AddInstructions(new string[]
+            foreach (CodeInstruction instruction in instructions)
             {
-                "ldloc.s 8 (DuckGame.MaterialThing)",
-                "ldarg.0 NULL",
-                "ldarg.0 NULL",
-                "ldfld DuckGame.Vec2 currentTravel",
-                "callvirt Boolean DoHit(DuckGame.Bullet, DuckGame.Vec2)",
-                "stloc.1 NULL"
-            });
-            Tuple<int, int> ldloc = ldlocPattern.Search()[0];
-            List<CodeInstruction> doHit = codes.GetRange(ldloc.Item1, ldloc.Item2 - ldloc.Item1 + 1);
-
-            // Warning! A huge amount of CIL changes :)
-            Label label1 = generator.DefineLabel();
-            codes[ldloc.Item2 + 1].labels.Add(label1);
-            codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Brtrue, label1));
-            Label label2 = generator.DefineLabel();
-            CodeInstruction ldsfld = new CodeInstruction(OpCodes.Ldsfld, enabled);
-            ldsfld.labels.Add(label2);
-            codes.Insert(ldloc.Item1, ldsfld);
-            codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Br_S, label1));
-            codes.InsertRange(ldloc.Item1, doHit);
-            codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Brfalse, label2));
-            codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Callvirt, isAssignableFrom));
-            codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Callvirt, getType));
-            codes.Insert(ldloc.Item1, doHit[0]);
-            codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Ldsfld, trigger));
-            codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Brfalse, label2));
-            codes.Insert(ldloc.Item1, new CodeInstruction(OpCodes.Ldsfld, enabled));
-
-            return codes.AsEnumerable();
+                if (instruction.opcode == OpCodes.Callvirt && (MethodInfo)instruction.operand == doHit)
+                    yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(BulletHit),
+                        nameof(BulletHit.HitExactThing)));
+                else
+                    yield return instruction;
+            }
         }
     }
 }

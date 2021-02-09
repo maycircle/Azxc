@@ -9,8 +9,6 @@ using System.Reflection.Emit;
 using Harmony;
 using DuckGame;
 
-using Azxc.Hacks.Scanning;
-
 namespace Azxc.Hacks
 {
     internal static class InfiniteAmmo
@@ -33,37 +31,25 @@ namespace Azxc.Hacks
             ILGenerator generator)
         {
             FieldInfo enabled = AccessTools.Field(typeof(InfiniteAmmo), "enabled");
+            MethodInfo popShell = AccessTools.Method(typeof(Gun), "PopShell");
+            FieldInfo ammo = AccessTools.Field(typeof(Gun), "ammo");
 
-            List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
+            List<CodeInstruction> codes = instructions.ToList();
 
-            Pattern callvirtPattern = new Pattern(codes);
-            callvirtPattern.AddInstructions(new string[]
+            Label label1 = generator.DefineLabel();
+            for (int i = 0; i < codes.Count; i++)
             {
-                "call Void PopShell(Boolean)",
-                "ldarg.0 NULL [Label2]",
-                "ldarg.0 NULL"
-            });
-            int callvirt = callvirtPattern.Search()[0].Item1;
+                CodeInstruction instruction = codes[i];
+                yield return instruction;
 
-            CodeInstruction ldsfld = new CodeInstruction(OpCodes.Ldsfld, enabled);
-            CodeInstruction brtrue = new CodeInstruction(OpCodes.Brtrue);
-            codes.Insert(callvirt + 1, brtrue);
-            codes.Insert(callvirt + 1, ldsfld);
-
-            Pattern stfldPattern = new Pattern(codes);
-            stfldPattern.AddInstructions(new string[]
-            {
-                "stfld Int32 ammo",
-                "ldarg.0 NULL [Label1]",
-                "ldc.i4.1 NULL"
-            });
-            int stfld = stfldPattern.Search()[0].Item1;
-
-            Label label = generator.DefineLabel();
-            brtrue.operand = label;
-            codes[stfld + 1].labels.Add(label);
-
-            return codes.AsEnumerable();
+                if (instruction.opcode == OpCodes.Call && (MethodInfo)instruction.operand == popShell)
+                {
+                    yield return new CodeInstruction(OpCodes.Ldsfld, enabled);
+                    yield return new CodeInstruction(OpCodes.Brtrue, label1);
+                }
+                else if (instruction.opcode == OpCodes.Stfld && (FieldInfo)instruction.operand == ammo)
+                    codes[i + 1].labels.Add(label1);
+            }
         }
     }
 }
