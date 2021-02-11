@@ -28,7 +28,7 @@ namespace Azxc.UI
             interact = new UserInterfaceInteract();
 
             updatable = new List<IAutoUpdate>();
-            cursor = new Cursor(1f, Vec2.One);
+            cursor = new Cursor(1.1f, Vec2.One);
 
             font = new FancyBitmapFont("smallFont");
             font.scale = new Vec2(0.35f);

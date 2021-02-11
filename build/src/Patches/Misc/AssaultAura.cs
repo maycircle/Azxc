@@ -25,6 +25,8 @@ namespace Azxc.Patches.Misc
             }
             else if (!toggle && _instance != null)
             {
+                foreach (Holdable holdable in Level.current.things.OfType<Holdable>())
+                    holdable.active = true;
                 Azxc.core.uiManager.RemoveUpdatable(_instance);
                 _instance = null;
             }

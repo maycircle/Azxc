@@ -15,6 +15,7 @@ namespace Azxc.UI
     {
         private Controls.Window _killWindow, _callWindow, _giveWindow;
         private Expander<FancyBitmapFont> _killCmd, _callCmd, _giveCmd;
+        private Button<FancyBitmapFont> _skipCmd;
 
         public ConsoleWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
             base(position, sizeMode)
@@ -39,17 +40,10 @@ namespace Azxc.UI
             _giveCmd = new Expander<FancyBitmapFont>(_giveWindow, "Give", "Give something to player.",
                 Azxc.core.uiManager.font);
             _giveCmd.onExpanded += GiveCmd_Expanded; AddItem(_giveCmd);
-        }
 
-        private List<Profile> GetProfiles()
-        {
-            List<Profile> profiles = new List<Profile>();
-            foreach (Profile profile in Profiles.active)
-            {
-                if (profile != null && profile.duck != null)
-                    profiles.Add(profile);
-            }
-            return profiles;
+            _skipCmd = new Button<FancyBitmapFont>("Skip", "Skip current level.",
+                Azxc.core.uiManager.font);
+            _skipCmd.onClicked += Skip_Clicked; AddItem(_skipCmd);
         }
         
         #region Kill command
@@ -58,10 +52,10 @@ namespace Azxc.UI
             _killWindow.Clear();
             _killWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.core.uiManager.font));
 
-            List<Profile> profiles = GetProfiles();
-            if (profiles.Count > 0)
+
+            if (Profiles.activeNonSpectators.Count > 0)
             {
-                foreach (Profile profile in profiles)
+                foreach (Profile profile in Profiles.activeNonSpectators.Where(x => x.duck != null))
                 {
                     if (profile != null && profile.duck != null)
                     {
@@ -144,13 +138,12 @@ namespace Azxc.UI
             _callWindow.Clear();
             _callWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.core.uiManager.font));
 
-            List<Profile> profiles = GetProfiles();
-            if (profiles.Count == 0)
+            if (Profiles.activeNonSpectators.Count == 0)
             {
                 _callWindow.AddItem(new Label<FancyBitmapFont>("No available profiles!", Azxc.core.uiManager.font));
                 return;
             }
-            foreach (Profile profile in profiles)
+            foreach (Profile profile in Profiles.activeNonSpectators.Where(x => x.duck != null))
             {
                 if (profile != null && profile.duck != null)
                 {
@@ -222,13 +215,12 @@ namespace Azxc.UI
 
             _giveItemsWindow = GiveGetItemsWindow();
 
-            List<Profile> profiles = GetProfiles();
-            if (profiles.Count == 0)
+            if (Profiles.activeNonSpectators.Count == 0)
             {
                 _giveWindow.AddItem(new Label<FancyBitmapFont>("No available profiles!", Azxc.core.uiManager.font));
                 return;
             }
-            foreach (Profile profile in profiles)
+            foreach (Profile profile in Profiles.activeNonSpectators.Where(x => x.duck != null))
             {
                 if (profile != null && profile.duck != null)
                 {
@@ -330,5 +322,10 @@ namespace Azxc.UI
             }
         }
         #endregion
+
+        private void Skip_Clicked(object sender, ControlEventArgs e)
+        {
+            GameMode.Skip();
+        }
     }
 }
