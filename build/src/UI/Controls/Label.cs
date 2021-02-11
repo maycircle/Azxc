@@ -13,7 +13,7 @@ namespace Azxc.UI.Controls
     {
         public string text { get; set; }
         public T font { get; set; }
-        public int characterHeight { get; }
+        public int characterHeight { get; private set; }
 
         public Vec2 indent { get; set; }
 
@@ -22,7 +22,8 @@ namespace Azxc.UI.Controls
             this.text = text;
             this.font = font;
 
-            characterHeight = 7;
+            if (typeof(T) == typeof(FancyBitmapFont))
+                characterHeight = (font as FancyBitmapFont).characterHeight;
             indent = Vec2.One / 2;
         }
 
@@ -32,7 +33,8 @@ namespace Azxc.UI.Controls
             this.font = font;
             this.position = position;
 
-            characterHeight = 7;
+            if (typeof(T) == typeof(FancyBitmapFont))
+                characterHeight = (font as FancyBitmapFont).characterHeight;
             indent = Vec2.One / 2;
         }
 
@@ -42,10 +44,27 @@ namespace Azxc.UI.Controls
             return (float)getWidth.Invoke(font, new object[] { text, false });
         }
 
+        protected virtual Vec2 GetLinesSize(string text)
+        {
+            string[] lines = text.Split('\n');
+            return new Vec2(GetWidth(lines.Aggregate((longest, next) =>
+                next.Length > longest.Length ? next : longest)),
+                characterHeight * GetScale().y * lines.Length);
+        }
+
+        public bool SetCharacterHeight(int characterHeight)
+        {
+            if (this.characterHeight <= 0)
+            {
+                this.characterHeight = characterHeight;
+                return true;
+            }
+            return false;
+        }
+
         public float GetWidth()
         {
-            MethodInfo getWidth = AccessTools.Method(typeof(T), "GetWidth");
-            return (float)getWidth.Invoke(font, new object[] { text, false });
+            return GetWidth(text);
         }
 
         public virtual Vec2 GetScale()

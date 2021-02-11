@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
+using Harmony;
 using DuckGame;
 
 using Azxc.UI.Controls;
@@ -41,7 +42,7 @@ namespace Azxc.UI
                 Azxc.core.uiManager.font);
             _giveCmd.onExpanded += GiveCmd_Expanded; AddItem(_giveCmd);
 
-            _skipCmd = new Button<FancyBitmapFont>("Skip", "Skip current level.",
+            _skipCmd = new Button<FancyBitmapFont>("Skip", "Skip current level |RED|(Host only).",
                 Azxc.core.uiManager.font);
             _skipCmd.onClicked += Skip_Clicked; AddItem(_skipCmd);
         }

@@ -50,8 +50,9 @@ namespace Azxc.UI.Controls
         {
             float toolTipIndent = 4f;
             Vec2 start = new Vec2(x + width + toolTipIndent, y);
-            Vec2 end = new Vec2(GetWidth(toolTipText) + indent.x * 2,
-                characterHeight * GetScale().y + indent.y * 2);
+            Vec2 toolTipSize = GetLinesSize(toolTipText);
+            Vec2 end = new Vec2(toolTipSize.x + indent.x * 2,
+                toolTipSize.y + indent.y * 2);
 
             // Draw tooltip blending background
             Graphics.DrawRect(start, start + end, Color.Black * 0.5f, 1f);
