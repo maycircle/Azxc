@@ -30,7 +30,9 @@ namespace Azxc.UI
                 out DevConsoleImpl.enabled);
             DevConsoleImpl.HookAndToggle(DevConsoleImpl.enabled);
             _consoleImplementation = new CheckBox<FancyBitmapFont>("Console Implementation",
-                "Enable Azxc's DevConsole implementation |YELLOW|(EnableDevConsoleImpl).",
+                "Enable Azxc's DevConsole implementation: syntax, commands |YELLOW|(EnableDevConsoleImpl)." +
+                "|DGBLUE|\nSyntax examples: `[p1]`, `[lp1]`, `[ap1]`, `[p1:x]`, [p1:xp].\n" +
+                "Available commands: azxc_steal.",
                 Azxc.core.uiManager.font, DevConsoleImpl.enabled);
             _consoleImplementation.onChecked += ConsoleImplementation_Checked;
             AddItem(_consoleImplementation);
