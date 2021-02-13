@@ -14,6 +14,8 @@ namespace Azxc.UI
     internal static class KeyboardHook
     {
         public static bool hooked, enabled;
+        // Enables repeating feature (Keyboard.repeat) for Azxc
+        public static bool repeat;
 
         public static void HookAndToggle(bool toggle)
         {
@@ -24,6 +26,13 @@ namespace Azxc.UI
                     prefix: new HarmonyMethod(typeof(KeyboardHook), "PressedPrefix"));
                 Azxc.core.harmony.Patch(typeof(Keyboard).GetMethod("Down"),
                     prefix: new HarmonyMethod(typeof(KeyboardHook), "DownPrefix"));
+
+                Azxc.core.harmony.Patch(typeof(Keyboard).GetMethod("MapDown"),
+                    prefix: new HarmonyMethod(typeof(KeyboardHook), "MapDownPrefix"));
+                Azxc.core.harmony.Patch(typeof(Keyboard).GetMethod("MapPressed"),
+                    prefix: new HarmonyMethod(typeof(KeyboardHook), "MapPressedPrefix"));
+                Azxc.core.harmony.Patch(typeof(Keyboard).GetMethod("MapReleased"),
+                    prefix: new HarmonyMethod(typeof(KeyboardHook), "MapReleasedPrefix"));
                 hooked = true;
             }
         }
@@ -68,6 +77,46 @@ namespace Azxc.UI
                     return true;
 
                 __result = false;
+                return false;
+            }
+            return true;
+        }
+
+        static bool MapDownPrefix(ref bool __result, int mapping)
+        {
+            if (repeat)
+            {
+                bool ignoreCore = (bool)AccessTools.Field(typeof(Keyboard), "ignoreCore").GetValue(null);
+                __result = (ignoreCore || (!DevConsole.open && !DuckNetwork.enteringText &&
+                    !Editor.enteringText && !repeat)) && Keyboard.Down((Keys)mapping);
+                return false;
+            }
+            return true;
+        }
+
+        static bool MapPressedPrefix(ref bool __result, int mapping, bool any)
+        {
+            if (repeat)
+            {
+                bool ignoreCore = (bool)AccessTools.Field(typeof(Keyboard), "ignoreCore").GetValue(null);
+                List<Keys> repeatList = (List<Keys>)AccessTools.Field(typeof(Keyboard), "_repeatList").GetValue(null);
+                __result = (ignoreCore || (!DevConsole.open && !DuckNetwork.enteringText &&
+                    !Editor.enteringText && !repeat)) &&
+                    (Keyboard.Pressed((Keys)mapping, any) ||
+                    repeatList.Contains((Keys)mapping));
+                return false;
+            }
+            return true;
+        }
+
+        static bool MapReleasedPrefix(ref bool __result, int mapping)
+        {
+            if (repeat)
+            {
+                bool ignoreCore = (bool)AccessTools.Field(typeof(Keyboard), "ignoreCore").GetValue(null);
+                __result = (ignoreCore || (!DevConsole.open && !DuckNetwork.enteringText &&
+                    !Editor.enteringText && !repeat)) &&
+                    Keyboard.Released((Keys)mapping);
                 return false;
             }
             return true;

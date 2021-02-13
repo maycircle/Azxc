@@ -23,11 +23,9 @@ namespace Azxc.UI.Controls
         public string text { get; private set; }
         public DialogResult dialogResult { get; set; }
 
-        public InputDialog(Vec2 position, bool dialogTitle) : base(position, SizeModes.Flexible)
+        public InputDialog(Vec2 position) : base(position, SizeModes.Flexible)
         {
-            _showDialogTitle = dialogTitle;
             dialogResult = DialogResult.Idle;
-
             InitializeComponent();
         }
 
@@ -36,9 +34,12 @@ namespace Azxc.UI.Controls
             FancyBitmapFont hugeFont = new FancyBitmapFont("smallFont");
             hugeFont.scale = new Vec2(0.5f);
 
-            _dialogTitle = new Label<FancyBitmapFont>("Default title:", Azxc.core.uiManager.font);
-            if (_showDialogTitle)
+            _dialogTitle = new Label<FancyBitmapFont>("", Azxc.core.uiManager.font);
+            if (_dialogTitle.text == "")
+            {
+                _dialogTitle.text = "Default title:";
                 AddItem(_dialogTitle);
+            }
             _userInput = new Label<FancyBitmapFont>("Default text_", hugeFont); AddItem(_userInput);
         }
 
@@ -68,6 +69,7 @@ namespace Azxc.UI.Controls
 
         private void UpdateUserInput()
         {
+            Keyboard.repeat = true;
             if (Keyboard.Pressed(Keys.A, true))
             {
                 _flashingCursorFrame = 0;
@@ -104,6 +106,8 @@ namespace Azxc.UI.Controls
             _dialogTitle.text = title;
             _userInput.text = defaultText;
             Keyboard.keyString = defaultText;
+
+            KeyboardHook.repeat = true;
             Azxc.core.uiManager.inputHook = true;
 
             width = 80.0f;
@@ -118,6 +122,7 @@ namespace Azxc.UI.Controls
         public override void Close()
         {
             base.Close();
+            KeyboardHook.repeat = false;
             Azxc.core.uiManager.inputHook = false;
             Azxc.core.uiManager.forceHints = false;
             Azxc.core.uiManager.hintsText = _hintsTextBackup;
@@ -214,8 +219,7 @@ namespace Azxc.UI.Controls
         public virtual void Edit()
         {
             Vec2 position = new Vec2(Layer.HUD.width / 2, Layer.HUD.height / 2);
-            InputDialog inputDialog = new InputDialog(position,
-                !string.IsNullOrEmpty(inputDialogTitle));
+            InputDialog inputDialog = new InputDialog(position);
             inputDialog.onResult += InputDialog_Result;
             inputDialog.ShowDialog(inputDialogTitle, _shadowText);
         }
