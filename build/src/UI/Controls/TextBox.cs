@@ -16,8 +16,6 @@ namespace Azxc.UI.Controls
     {
         private Label<FancyBitmapFont> _dialogTitle, _userInput;
 
-        private bool _showDialogTitle;
-
         private string _hintsTextBackup;
 
         public string text { get; private set; }
