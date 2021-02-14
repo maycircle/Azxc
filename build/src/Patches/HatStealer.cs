@@ -24,11 +24,15 @@ namespace Azxc.Patches
             enabled = toggle;
             if (savePath != null)
                 HatStealer.savePath = savePath;
+            else
+                CheckSaveFolder();
             if (toggle && DuckNetwork.active)
             {
                 foreach (Profile profile in Profiles.active)
                 {
-                    if (!profile.localPlayer)
+                    // Saves only if profile is wearing a custom hat
+                    if (!profile.localPlayer && profile.team.hasHat &&
+                        profile.customTeams.Contains(profile.team))
                         SaveCustomTeam(profile.team);
                 }
             }
@@ -53,10 +57,10 @@ namespace Azxc.Patches
         public static void CheckSaveFolder()
         {
             string savePath = Azxc.core.config.TryGetSingle("HatStealerSavePath", "");
-            if (savePath == "")
+            if (savePath == "" || !Directory.Exists(savePath))
                 HatStealer.savePath = DefaultHatStealerSavePath();
-            else if (!Directory.Exists(savePath))
-                HatStealer.savePath = DefaultHatStealerSavePath();
+            else
+                HatStealer.savePath = savePath;
         }
 
         private static void SaveCustomTeam(Team customTeam)
@@ -96,7 +100,8 @@ namespace Azxc.Patches
         // OnMessage@DuckNetwork
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            MethodInfo saveCustomTeam = AccessTools.Method(typeof(HatStealer), "SaveCustomTeam");
+            MethodInfo saveCustomTeam = AccessTools.Method(typeof(HatStealer), "SaveCustomTeam",
+                new Type[] { typeof(Team) });
             MethodInfo teamDeserialize = AccessTools.Method(typeof(Team),
                 "Deserialize", new Type[] { typeof(byte[]) });
             FieldInfo customConnection = AccessTools.Field(typeof(Team), "customConnection");

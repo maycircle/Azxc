@@ -41,7 +41,7 @@ namespace Azxc.UI
             AddItem(new Separator());
 
             _hatStealer = new CheckBox<FancyBitmapFont>("Hat Stealer",
-                "Steal hats of other players |YELLOW|(HatStealerSavePath).", Azxc.core.uiManager.font);
+                "Steal custom hats of other players |YELLOW|(HatStealerSavePath).", Azxc.core.uiManager.font);
             _hatStealer.onChecked += HatStealer_Checked;
             AddItem(_hatStealer);
 
@@ -78,7 +78,6 @@ namespace Azxc.UI
         private void HatStealer_Checked(object sender, ControlEventArgs e)
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
-            HatStealer.CheckSaveFolder();
             HatStealer.HookAndToggle(checkBox.isChecked);
         }
 
