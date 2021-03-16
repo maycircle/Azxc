@@ -7,18 +7,16 @@ using System.Reflection;
 using Harmony;
 using DuckGame;
 
-using Azxc.Bindings;
 using Azxc.UI.Controls;
 
 namespace Azxc.UI
 {
-    public class UserInterfaceInteract : IAutoUpdate, IBinding
+    public class UserInterfaceInteract : IAutoUpdate
     {
         public Controls.Window activeWindow { get; private set; }
 
         public int selectedItem { get; private set; }
 
-        // [Binding(Keys.Enter, InputState.Pressed)]
         public void ActivateItem()
         {
             Control item = GetItem();
@@ -32,7 +30,6 @@ namespace Azxc.UI
             // DuckNetwork.core.enteringText = false;
         }
 
-        [Binding(Keys.Up, InputState.Pressed)]
         public void MoveUp()
         {
             Deselect();
@@ -44,7 +41,6 @@ namespace Azxc.UI
             Select();
         }
 
-        [Binding(Keys.Down, InputState.Pressed)]
         public void MoveDown()
         {
             Deselect();
@@ -56,21 +52,17 @@ namespace Azxc.UI
             Select();
         }
 
-        [Binding(Keys.Left, InputState.Pressed)]
         public void MoveLeft()
         {
-            if (Azxc.core.uiManager.updatable.OfType<Controls.Window>().Count() > 1)
+            if (Azxc.GetCore().GetUI().updatable.OfType<Controls.Window>().Count() > 1)
                 activeWindow.Close();
         }
 
-        [Binding(Keys.Right, InputState.Pressed)]
         public void MoveRight()
         {
-            // Pressing right works the same as activating an item
             ActivateItem();
         }
 
-        [Binding(MouseButtons.Left, InputState.Pressed)]
         public void MouseLeft()
         {
             if (InRange(GetItem()))
@@ -79,7 +71,6 @@ namespace Azxc.UI
                 MoveLeft();
         }
 
-        [Binding(MouseButtons.Right, InputState.Pressed)]
         public void MouseRight()
         {
             MoveLeft();
@@ -102,14 +93,16 @@ namespace Azxc.UI
 
         public void Update()
         {
-            if (Azxc.core.uiManager.updatable.OfType<Controls.Window>().Count() > 0)
-                activeWindow = Azxc.core.uiManager.updatable.OfType<Controls.Window>().Last();
-            else if (Azxc.core.uiManager.updatable.OfType<Controls.Window>().Count() <= 0 ||
-                !Azxc.core.uiManager.state.HasFlag(UserInterfaceState.Open))
+            if (Azxc.GetCore().GetUI().updatable.OfType<Controls.Window>().Count() > 0)
+                activeWindow = Azxc.GetCore().GetUI().updatable.OfType<Controls.Window>().Last();
+            else if (Azxc.GetCore().GetUI().updatable.OfType<Controls.Window>().Count() <= 0 ||
+                !Azxc.GetCore().GetUI().state.HasFlag(UserInterfaceState.Open))
                 return;
-                
-            BindingManager.UsedBinding(this, "MoveLeft");
-            BindingManager.UsedBinding(this, "MouseRight");
+
+            if (Keyboard.Pressed(Keys.Left))
+                MoveLeft();
+            if (Mouse.right == InputState.Pressed)
+                MouseRight();
 
             if (activeWindow.OfType<ISelect>().Count() == 0)
                 return;
@@ -117,13 +110,15 @@ namespace Azxc.UI
             selectedItem = GetSelectedItem();
             UpdateSelection();
 
-            BindingManager.UsedBinding(this, "ActivateItem");
+            if (Keyboard.Pressed(Keys.Up))
+                MoveUp();
+            if (Keyboard.Pressed(Keys.Down))
+                MoveDown();
 
-            BindingManager.UsedBinding(this, "MoveUp");
-            BindingManager.UsedBinding(this, "MoveDown");
-
-            BindingManager.UsedBinding(this, "MoveRight");
-            BindingManager.UsedBinding(this, "MouseLeft");
+            if (Keyboard.Pressed(Keys.Right))
+                MoveRight();
+            if (Mouse.left == InputState.Pressed)
+                MouseLeft();
 
             Select();
         }
@@ -183,7 +178,7 @@ namespace Azxc.UI
 
         private bool InRange(Control item)
         {
-            Cursor cursor = Azxc.core.uiManager.cursor;
+            Cursor cursor = Azxc.GetCore().GetUI().cursor;
 
             Vec2 end = item.position + item.size;
             if ((item.x <= cursor.x && item.y <= cursor.y) &&

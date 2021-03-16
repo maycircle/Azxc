@@ -26,25 +26,25 @@ namespace Azxc.UI
 
         private void InitializeComponent()
         {
-            bool.TryParse(Azxc.core.config.TryGetSingle("EnableDevConsoleImpl", "True"),
+            bool.TryParse(Azxc.GetCore().GetConfig().TryGetSingle("EnableDevConsoleImpl", "True"),
                 out DevConsoleImpl.enabled);
             DevConsoleImpl.HookAndToggle(DevConsoleImpl.enabled);
             _consoleImplementation = new CheckBox<FancyBitmapFont>("Console Implementation",
                 "Enable Azxc's DevConsole implementation: syntax, commands |YELLOW|(EnableDevConsoleImpl)." +
                 "|DGBLUE|\nSyntax examples: `[p1]`, `[lp1]`, `[ap1]`, `[p1:x]`, [p1:xp].\n" +
                 "Available commands: azxc_steal.",
-                Azxc.core.uiManager.font, DevConsoleImpl.enabled);
+                Azxc.GetCore().GetUI().font, DevConsoleImpl.enabled);
             _consoleImplementation.onChecked += ConsoleImplementation_Checked;
             AddItem(_consoleImplementation);
 
             _commandsBypass = new CheckBox<FancyBitmapFont>("Commands Bypass",
-                "Ability to call extra commands in DevConsole.", Azxc.core.uiManager.font);
+                "Ability to call extra commands in DevConsole.", Azxc.GetCore().GetUI().font);
             _commandsBypass.onChecked += CommandsBypass_Checked; AddItem(_commandsBypass);
 
             AddItem(new Separator());
 
             _lobbyTimout = new CheckBox<FancyBitmapFont>("Lobby Timeout",
-                "Kick from lobby after being AFK for 5 minutes.", Azxc.core.uiManager.font, true);
+                "Kick from lobby after being AFK for 5 minutes.", Azxc.GetCore().GetUI().font, true);
             _lobbyTimout.onChecked += LobbyTimeout_Checked; AddItem(_lobbyTimout);
         }
 
@@ -77,7 +77,7 @@ namespace Azxc.UI
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
             DevConsoleImpl.HookAndToggle(checkBox.isChecked);
-            Azxc.core.config.TrySet("EnableDevConsoleImpl", checkBox.isChecked.ToString());
+            Azxc.GetCore().GetConfig().TrySet("EnableDevConsoleImpl", checkBox.isChecked.ToString());
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Azxc.Patches
             enabled = toggle;
             if (!hooked)
             {
-                Azxc.core.harmony.Patch(AccessTools.Method(typeof(Bullet), "RaycastBullet"),
+                Azxc.GetCore().GetHarmony().Patch(AccessTools.Method(typeof(Bullet), "RaycastBullet"),
                     transpiler: new HarmonyMethod(typeof(BulletHit), "Transpiler"));
                 hooked = true;
             }

@@ -27,27 +27,27 @@ namespace Azxc.UI
         private void InitializeComponent()
         {
             _infinityAmmo = new CheckBox<FancyBitmapFont>("Infinite Ammo",
-                "Endless ammo for most weapons.", Azxc.core.uiManager.font);
+                "Endless ammo for most weapons.", Azxc.GetCore().GetUI().font);
             _infinityAmmo.onChecked += InfiniteAmmo_Checked; AddItem(_infinityAmmo);
 
             _norecoil = new CheckBox<FancyBitmapFont>("No Recoil",
-                "Disable kickback on shot.", Azxc.core.uiManager.font);
+                "Disable kickback on shot.", Azxc.GetCore().GetUI().font);
             _norecoil.onChecked += NoRecoil_Checked; AddItem(_norecoil);
 
             _noreload = new CheckBox<FancyBitmapFont>("No Reload",
-                "No delay between shots for most weapons.", Azxc.core.uiManager.font);
+                "No delay between shots for most weapons.", Azxc.GetCore().GetUI().font);
             _noreload.onChecked += NoReload_Checked; AddItem(_noreload);
 
             _bulletHit = new CheckBox<FancyBitmapFont>("Bullet Hit",
-                "Bullets fly through walls.", Azxc.core.uiManager.font);
+                "Bullets fly through walls.", Azxc.GetCore().GetUI().font);
             _bulletHit.onChecked += BulletHit_Checked; AddItem(_bulletHit);
 
             _rangeHack = new CheckBox<FancyBitmapFont>("Range Hack",
-                "Weapons maximum range increased.", Azxc.core.uiManager.font);
+                "Weapons maximum range increased.", Azxc.GetCore().GetUI().font);
             _rangeHack.onChecked += RangeHack_Checked; AddItem(_rangeHack);
 
             _triggerBot = new CheckBox<FancyBitmapFont>("TriggerBot",
-                "Automatically shoot at ducks.", Azxc.core.uiManager.font);
+                "Automatically shoot at ducks.", Azxc.GetCore().GetUI().font);
             _triggerBot.onChecked += TriggerBot_Checked; AddItem(_triggerBot);
         }
 
@@ -79,10 +79,10 @@ namespace Azxc.UI
                 Controls.Window properties = new Controls.Window(new Vec2(checkBox.x + checkBox.width + checkBox.indent.x * 3,
                     checkBox.y - 0.5f * 3), SizeModes.Flexible);
                 RadioBox<FancyBitmapFont> physicsObjects = new RadioBox<FancyBitmapFont>("Physics objects",
-                    "Bullets hit all physical objects.", Azxc.core.uiManager.font);
+                    "Bullets hit all physical objects.", Azxc.GetCore().GetUI().font);
                 physicsObjects.onChecked += PhysicsObjects_Checked;
                 RadioBox<FancyBitmapFont> onlyDucks = new RadioBox<FancyBitmapFont>("Ducks",
-                    "Bullets hit only ducks.", Azxc.core.uiManager.font);
+                    "Bullets hit only ducks.", Azxc.GetCore().GetUI().font);
                 onlyDucks.onChecked += OnlyDucks_Checked;
 
                 properties.AddItem(physicsObjects);

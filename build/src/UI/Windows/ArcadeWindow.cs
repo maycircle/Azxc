@@ -27,21 +27,21 @@ namespace Azxc.UI
         private void InitializeComponent()
         {
             _ticketsMax = new Button<FancyBitmapFont>("Tickets MAX", "Set tickets amount to 999.",
-                Azxc.core.uiManager.font);
+                Azxc.GetCore().GetUI().font);
             _ticketsMax.onClicked += TicketsMax_Clicked; AddItem(_ticketsMax);
 
             _ticketsMin = new Button<FancyBitmapFont>("Tickets MIN", "Set tickets amount to 0.",
-                Azxc.core.uiManager.font);
+                Azxc.GetCore().GetUI().font);
             _ticketsMin.onClicked += TicketsMin_Clicked; AddItem(_ticketsMin);
 
             AddItem(new Separator());
 
             _pauseTimer = new CheckBox<FancyBitmapFont>("Pause Timer",
-                "Become incredibly fast, relative to time... :)", Azxc.core.uiManager.font);
+                "Become incredibly fast, relative to time... :)", Azxc.GetCore().GetUI().font);
             _pauseTimer.onChecked += PauseTimer_Checked; AddItem(_pauseTimer);
 
             _finishChallenge = new Button<FancyBitmapFont>("Finish Challenge",
-                "Complete the challenge (Developer included).", Azxc.core.uiManager.font);
+                "Complete the challenge (Developer included).", Azxc.GetCore().GetUI().font);
             _finishChallenge.onClicked += FinishChallenge_Clicked; AddItem(_finishChallenge);
         }
 

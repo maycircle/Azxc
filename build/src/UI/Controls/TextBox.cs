@@ -7,12 +7,11 @@ using System.Reflection;
 using Harmony;
 using DuckGame;
 
-using Azxc.Bindings;
 using Azxc.UI.Events;
 
 namespace Azxc.UI.Controls
 {
-    class InputDialog : Window, IDialog, IBinding
+    class InputDialog : Window, IDialog
     {
         private Label<FancyBitmapFont> _dialogTitle, _userInput;
 
@@ -32,7 +31,7 @@ namespace Azxc.UI.Controls
             FancyBitmapFont hugeFont = new FancyBitmapFont("smallFont");
             hugeFont.scale = new Vec2(0.5f);
 
-            _dialogTitle = new Label<FancyBitmapFont>("", Azxc.core.uiManager.font);
+            _dialogTitle = new Label<FancyBitmapFont>("", Azxc.GetCore().GetUI().font);
             if (_dialogTitle.text == "")
             {
                 _dialogTitle.text = "Default title:";
@@ -41,7 +40,6 @@ namespace Azxc.UI.Controls
             _userInput = new Label<FancyBitmapFont>("Default text_", hugeFont); AddItem(_userInput);
         }
 
-        [Binding(Keys.Right, InputState.Pressed)]
         public void Accept()
         {
             if (_showFlashingCursor)
@@ -58,8 +56,8 @@ namespace Azxc.UI.Controls
             base.Update();
 
             // To prevent "accepting event" on the dialog start-up
-            if (_flashingCursorFrame != 0)
-                BindingManager.UsedBinding(this, "Accept");
+            if (_flashingCursorFrame != 0 && Keyboard.Pressed(Keys.Right))
+                Accept();
 
             UpdateUserInput();
             UpdateFlashingCursor();
@@ -106,14 +104,14 @@ namespace Azxc.UI.Controls
             Keyboard.keyString = defaultText;
 
             KeyboardHook.repeat = true;
-            Azxc.core.uiManager.inputHook = true;
+            Azxc.GetCore().GetUI().inputHook = true;
 
             width = 80.0f;
             x -= width / 2;
 
-            Azxc.core.uiManager.forceHints = true;
-            _hintsTextBackup = Azxc.core.uiManager.hintsText;
-            Azxc.core.uiManager.hintsText = "@AZXCACTIVATE@ACCEPT  @AZXCRIGHTMOUSE@@AZXCBACK@CANCEL";
+            Azxc.GetCore().GetUI().forceHints = true;
+            _hintsTextBackup = Azxc.GetCore().GetUI().hintsText;
+            Azxc.GetCore().GetUI().hintsText = "@AZXCACTIVATE@ACCEPT  @AZXCRIGHTMOUSE@@AZXCBACK@CANCEL";
             Show();
         }
 
@@ -121,9 +119,9 @@ namespace Azxc.UI.Controls
         {
             base.Close();
             KeyboardHook.repeat = false;
-            Azxc.core.uiManager.inputHook = false;
-            Azxc.core.uiManager.forceHints = false;
-            Azxc.core.uiManager.hintsText = _hintsTextBackup;
+            Azxc.GetCore().GetUI().inputHook = false;
+            Azxc.GetCore().GetUI().forceHints = false;
+            Azxc.GetCore().GetUI().hintsText = _hintsTextBackup;
         }
 
         public override void Appear()

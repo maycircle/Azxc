@@ -39,7 +39,7 @@ namespace Azxc.Patches
 
             if (!hooked)
             {
-                Azxc.core.harmony.Patch(AccessTools.Method(typeof(DuckNetwork), "OnMessage"),
+                Azxc.GetCore().GetHarmony().Patch(AccessTools.Method(typeof(DuckNetwork), "OnMessage"),
                     transpiler: new HarmonyMethod(typeof(HatStealer), "Transpiler"));
                 hooked = true;
             }
@@ -50,13 +50,13 @@ namespace Azxc.Patches
             string savePath = ModLoader.GetMod<Azxc>().configuration.directory + "/HatStealer";
             if (!Directory.Exists(savePath))
                 Directory.CreateDirectory(savePath);
-            Azxc.core.config.TrySet("HatStealerSavePath", savePath);
+            Azxc.GetCore().GetConfig().TrySet("HatStealerSavePath", savePath);
             return savePath;
         }
 
         public static void CheckSaveFolder()
         {
-            string savePath = Azxc.core.config.TryGetSingle("HatStealerSavePath", "");
+            string savePath = Azxc.GetCore().GetConfig().TryGetSingle("HatStealerSavePath", "");
             if (savePath == "" || !Directory.Exists(savePath))
                 HatStealer.savePath = DefaultHatStealerSavePath();
             else

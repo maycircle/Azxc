@@ -18,11 +18,11 @@ namespace Azxc.Patches.Misc
             if (toggle && _instance == null)
             {
                 _instance = new SpinMeRound();
-                Azxc.core.uiManager.AddUpdatable(_instance);
+                Azxc.GetCore().GetUI().AddUpdatable(_instance);
             }
             else if (!toggle && _instance != null)
             {
-                Azxc.core.uiManager.RemoveUpdatable(_instance);
+                Azxc.GetCore().GetUI().RemoveUpdatable(_instance);
                 _instance = null;
             }
         }

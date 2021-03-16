@@ -16,7 +16,7 @@ namespace Azxc.Patches
         {
             if (!hooked)
             {
-                Azxc.core.harmony.Patch(typeof(ChallengeLevel).GetMethod("Update"),
+                Azxc.GetCore().GetHarmony().Patch(typeof(ChallengeLevel).GetMethod("Update"),
                     prefix: new HarmonyMethod(typeof(PauseTimer), "Prefix"));
                 hooked = true;
             }

@@ -7,34 +7,35 @@ using System.Reflection;
 using Harmony;
 using DuckGame;
 
-using Azxc.Bindings;
 using Azxc.UI;
 
 namespace Azxc
 {
     public class AzxcCore
     {
-        public HarmonyInstance harmony;
+        private HarmonyInstance _harmony;
 
-        public Config config;
-        public BindingManager bindingManager;
-        public UserInterfaceManager uiManager;
+        private Config _config;
+        private UserInterfaceManager _uiManager;
 
         public AzxcCore()
         {
-            harmony = HarmonyInstance.Create("harmony_ultra_unique_id");
+            _harmony = HarmonyInstance.Create("harmony_ultra_unique_id");
         }
 
         public void Prepare()
         {
-            bindingManager = new BindingManager();
-            uiManager = new UserInterfaceManager(UserInterfaceState.Enabled);
-            uiManager.hintsText = "@AZXCLEFTMOUSE@@AZXCACTIVATE@ACTIVATE  @AZXCRIGHTMOUSE@@AZXCBACK@BACK";
+            _uiManager = new UserInterfaceManager(UserInterfaceState.Enabled);
+            _uiManager.hintsText = "@AZXCLEFTMOUSE@@AZXCACTIVATE@ACTIVATE  @AZXCRIGHTMOUSE@@AZXCBACK@BACK";
         }
 
         public void CreateConfig()
         {
-            config = new Config(ModLoader.GetMod<Azxc>().configuration.directory + "/config.xml");
+            _config = new Config(ModLoader.GetMod<Azxc>().configuration.directory + "/config.xml");
         }
+
+        public HarmonyInstance GetHarmony() => _harmony;
+        public Config GetConfig() => _config;
+        public UserInterfaceManager GetUI() => _uiManager;
     }
 }

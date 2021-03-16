@@ -21,13 +21,13 @@ namespace Azxc.Patches.Misc
             if (toggle && _instance == null)
             {
                 _instance = new AssaultAura();
-                Azxc.core.uiManager.AddUpdatable(_instance);
+                Azxc.GetCore().GetUI().AddUpdatable(_instance);
             }
             else if (!toggle && _instance != null)
             {
                 foreach (Holdable holdable in Level.current.things.OfType<Holdable>())
                     holdable.active = true;
-                Azxc.core.uiManager.RemoveUpdatable(_instance);
+                Azxc.GetCore().GetUI().RemoveUpdatable(_instance);
                 _instance = null;
             }
         }

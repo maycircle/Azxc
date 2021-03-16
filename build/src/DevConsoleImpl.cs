@@ -20,19 +20,15 @@ namespace Azxc
             enabled = toggle;
             if (!hooked)
             {
-                Azxc.core.harmony.Patch(typeof(DevConsole).GetMethod("RunCommand"),
+                Azxc.GetCore().GetHarmony().Patch(typeof(DevConsole).GetMethod("RunCommand"),
                     prefix: new HarmonyMethod(typeof(DevConsoleImpl), "Prefix"));
                 hooked = true;
             }
         }
 
-        static bool Prefix(ref string command)
+        private static string ReplaceVars(string command)
         {
-            if (!enabled)
-                return true;
-
-            string oldCommand = command;
-            command = Regex.Replace(command, @"\[([al]?)p(\d)(:\w+)?\]", delegate(Match match)
+            return Regex.Replace(command, @"\[([al]?)p(\d)(:\w+)?\]", delegate(Match match)
             {
                 List<Profile> profiles = Profiles.all.ToList();
                 if (match.Groups[1].Value == "a")
@@ -63,6 +59,14 @@ namespace Azxc
                         return match.Value;
                 }
             });
+        }
+
+        static bool Prefix(ref string command)
+        {
+            if (!enabled)
+                return true;
+
+            command = ReplaceVars(command);
 
             if (command != "")
             {

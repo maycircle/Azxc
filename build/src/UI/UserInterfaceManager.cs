@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Harmony;
 using DuckGame;
 
-using Azxc.Bindings;
 using Azxc.UI.Controls;
 
 namespace Azxc.UI
@@ -20,12 +19,12 @@ namespace Azxc.UI
             Graphics.screen.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend,
                 SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone,
                 null, Layer.HUD.camera.getMatrix());
-            Azxc.core.uiManager.Draw();
+            Azxc.GetCore().GetUI().Draw();
             Graphics.screen.End();
         }
     }
 
-    public class UserInterfaceManager : IAutoUpdate, IBinding
+    public class UserInterfaceManager : IAutoUpdate
     {
         private UserInterfaceCore _core;
 
@@ -59,7 +58,7 @@ namespace Azxc.UI
             _core.state = state;
 
             // So the GUI will be drawn everywhere
-            Azxc.core.harmony.Patch(typeof(Level).GetMethod("DoDraw"),
+            Azxc.GetCore().GetHarmony().Patch(typeof(Level).GetMethod("DoDraw"),
                 postfix: new HarmonyMethod(typeof(UserInterfaceManager_DoDraw), "Postfix"));
 
             // Getting Level's class constructor, so OnLevelLoad would be called each time new
@@ -67,7 +66,7 @@ namespace Azxc.UI
             ConstructorInfo ctor = typeof(Level).GetConstructor(
                 BindingFlags.Instance | BindingFlags.Public, null, CallingConventions.HasThis,
                 new Type[] { }, null);
-            Azxc.core.harmony.Patch(ctor, postfix: new HarmonyMethod(typeof(UserInterfaceManager),
+            Azxc.GetCore().GetHarmony().Patch(ctor, postfix: new HarmonyMethod(typeof(UserInterfaceManager),
                 "OnLevelLoad"));
         }
 
@@ -78,7 +77,6 @@ namespace Azxc.UI
             _resolution = __instance.camera.width / 320f;
         }
 
-        [Binding(Keys.Insert, InputState.Pressed)]
         public void Open()
         {
             if (_core.state.HasFlag(UserInterfaceState.Open))
@@ -101,7 +99,8 @@ namespace Azxc.UI
             if (!_core.state.HasFlag(UserInterfaceState.Enabled))
                 return;
 
-            BindingManager.UsedBinding(this, "Open");
+            if (Keyboard.Pressed(Keys.Insert))
+                Open();
             if (_inputHook)
                 KeyboardHook.HookAndToggle(_core.state.HasFlag(UserInterfaceState.Open));
 

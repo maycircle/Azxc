@@ -20,7 +20,7 @@ namespace Azxc.Patches
             enabled = toggle;
             if (!hooked)
             {
-                Azxc.core.harmony.Patch(typeof(Gun).GetMethod("ApplyKick"),
+                Azxc.GetCore().GetHarmony().Patch(typeof(Gun).GetMethod("ApplyKick"),
                     prefix: new HarmonyMethod(typeof(NoRecoil), "Prefix"));
                 hooked = true;
             }

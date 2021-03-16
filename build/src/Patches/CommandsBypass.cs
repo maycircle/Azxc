@@ -20,9 +20,9 @@ namespace Azxc.Patches
             enabled = toggle;
             if (!hooked)
             {
-                Azxc.core.harmony.Patch(typeof(DevConsole).GetMethod("RunCommand"),
+                Azxc.GetCore().GetHarmony().Patch(typeof(DevConsole).GetMethod("RunCommand"),
                     transpiler: new HarmonyMethod(typeof(CommandsBypass), "Transpiler"));
-                Azxc.core.harmony.Patch(AccessTools.Method(typeof(DevConsole), "CheckCheats"),
+                Azxc.GetCore().GetHarmony().Patch(AccessTools.Method(typeof(DevConsole), "CheckCheats"),
                     prefix: new HarmonyMethod(typeof(CommandsBypass), "Prefix"));
                 hooked = true;
             }

@@ -22,16 +22,16 @@ namespace Azxc.UI
             enabled = toggle;
             if (!hooked)
             {
-                Azxc.core.harmony.Patch(typeof(Keyboard).GetMethod("Pressed"),
+                Azxc.GetCore().GetHarmony().Patch(typeof(Keyboard).GetMethod("Pressed"),
                     prefix: new HarmonyMethod(typeof(KeyboardHook), "PressedPrefix"));
-                Azxc.core.harmony.Patch(typeof(Keyboard).GetMethod("Down"),
+                Azxc.GetCore().GetHarmony().Patch(typeof(Keyboard).GetMethod("Down"),
                     prefix: new HarmonyMethod(typeof(KeyboardHook), "DownPrefix"));
 
-                Azxc.core.harmony.Patch(typeof(Keyboard).GetMethod("MapDown"),
+                Azxc.GetCore().GetHarmony().Patch(typeof(Keyboard).GetMethod("MapDown"),
                     prefix: new HarmonyMethod(typeof(KeyboardHook), "MapDownPrefix"));
-                Azxc.core.harmony.Patch(typeof(Keyboard).GetMethod("MapPressed"),
+                Azxc.GetCore().GetHarmony().Patch(typeof(Keyboard).GetMethod("MapPressed"),
                     prefix: new HarmonyMethod(typeof(KeyboardHook), "MapPressedPrefix"));
-                Azxc.core.harmony.Patch(typeof(Keyboard).GetMethod("MapReleased"),
+                Azxc.GetCore().GetHarmony().Patch(typeof(Keyboard).GetMethod("MapReleased"),
                     prefix: new HarmonyMethod(typeof(KeyboardHook), "MapReleasedPrefix"));
                 hooked = true;
             }
@@ -82,6 +82,7 @@ namespace Azxc.UI
             return true;
         }
 
+        // MapDown@Keyboard
         static bool MapDownPrefix(ref bool __result, int mapping)
         {
             if (repeat)
@@ -94,6 +95,7 @@ namespace Azxc.UI
             return true;
         }
 
+        // MapPressed@Keyboard
         static bool MapPressedPrefix(ref bool __result, int mapping, bool any)
         {
             if (repeat)
@@ -109,6 +111,7 @@ namespace Azxc.UI
             return true;
         }
 
+        // MapReleased@Keyboard
         static bool MapReleasedPrefix(ref bool __result, int mapping)
         {
             if (repeat)

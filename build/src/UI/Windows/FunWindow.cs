@@ -24,11 +24,11 @@ namespace Azxc.UI
 
         private void InitializeComponent()
         {
-            _assaultAura = new CheckBox<FancyBitmapFont>("Assault Aura", Azxc.core.uiManager.font);
+            _assaultAura = new CheckBox<FancyBitmapFont>("Assault Aura", Azxc.GetCore().GetUI().font);
             _assaultAura.onChecked += WeaponAura_Checked;
             AddItem(_assaultAura);
 
-            _spinMeRound = new CheckBox<FancyBitmapFont>("Spin Me Round", Azxc.core.uiManager.font);
+            _spinMeRound = new CheckBox<FancyBitmapFont>("Spin Me Round", Azxc.GetCore().GetUI().font);
             _spinMeRound.onChecked += SpinMeRound_Checked;
             AddItem(_spinMeRound);
         }

@@ -14,19 +14,19 @@ namespace Azxc
 {
     public class Azxc : ClientMod, IAutoUpdate
     {
-        public static AzxcCore core;
+        private static AzxcCore _core;
 
         public Azxc()
         {
-            core = new AzxcCore();
+            _core = new AzxcCore();
             // Probably, in future I will create a special AutoPatcher for this
-            core.harmony.PatchAll();
-            core.Prepare();
+            _core.GetHarmony().PatchAll();
+            _core.Prepare();
         }
 
         protected override void OnPostInitialize()
         {
-            core.CreateConfig();
+            _core.CreateConfig();
 
             AutoUpdatables.Add(this);
 
@@ -54,8 +54,9 @@ namespace Azxc
 
         public void Update()
         {
-            core.bindingManager.Update();
-            core.uiManager.Update();
+            _core.GetUI().Update();
         }
+
+        public static AzxcCore GetCore() => _core;
     }
 }

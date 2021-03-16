@@ -20,9 +20,9 @@ namespace Azxc.Patches
             enabled = toggle;
             if (!hooked)
             {
-                Azxc.core.harmony.Patch(typeof(Gun).GetMethod("Fire"),
+                Azxc.GetCore().GetHarmony().Patch(typeof(Gun).GetMethod("Fire"),
                     postfix: new HarmonyMethod(typeof(NoReload), "FirePostfix"));
-                Azxc.core.harmony.Patch(typeof(Gun).GetMethod("OnHoldAction"),
+                Azxc.GetCore().GetHarmony().Patch(typeof(Gun).GetMethod("OnHoldAction"),
                     prefix: new HarmonyMethod(typeof(NoReload), "OnHoldActionPrefix"));
                 hooked = true;
             }

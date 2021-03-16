@@ -31,19 +31,19 @@ namespace Azxc.UI
             _giveWindow = new Controls.Window(position, SizeModes.Flexible);
 
             _killCmd = new Expander<FancyBitmapFont>(_killWindow, "Kill", "Kill player.",
-                Azxc.core.uiManager.font);
+                Azxc.GetCore().GetUI().font);
             _killCmd.onExpanded += KillCmd_Expanded; AddItem(_killCmd);
 
             _callCmd = new Expander<FancyBitmapFont>(_callWindow, "Call", "Call method on player.",
-                Azxc.core.uiManager.font);
+                Azxc.GetCore().GetUI().font);
             _callCmd.onExpanded += CallCmd_Expanded; AddItem(_callCmd);
 
             _giveCmd = new Expander<FancyBitmapFont>(_giveWindow, "Give", "Give something to player.",
-                Azxc.core.uiManager.font);
+                Azxc.GetCore().GetUI().font);
             _giveCmd.onExpanded += GiveCmd_Expanded; AddItem(_giveCmd);
 
             _skipCmd = new Button<FancyBitmapFont>("Skip", "Skip current level |RED|(Host only).",
-                Azxc.core.uiManager.font);
+                Azxc.GetCore().GetUI().font);
             _skipCmd.onClicked += Skip_Clicked; AddItem(_skipCmd);
         }
         
@@ -51,7 +51,7 @@ namespace Azxc.UI
         private void KillCmd_Expanded(object sender, ControlEventArgs e)
         {
             _killWindow.Clear();
-            _killWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.core.uiManager.font));
+            _killWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.GetCore().GetUI().font));
 
 
             if (Profiles.activeNonSpectators.Count > 0)
@@ -61,7 +61,7 @@ namespace Azxc.UI
                     if (profile != null && profile.duck != null)
                     {
                         Button<FancyBitmapFont> player = new Button<FancyBitmapFont>(profile.name,
-                            Azxc.core.uiManager.font);
+                            Azxc.GetCore().GetUI().font);
                         player.onClicked += KillPlayer_Clicked;
                         _killWindow.AddItem(player);
                     }
@@ -69,23 +69,25 @@ namespace Azxc.UI
             }
             else
             {
-                _killWindow.AddItem(new Label<FancyBitmapFont>("No available profiles!", Azxc.core.uiManager.font));
+                _killWindow.AddItem(new Label<FancyBitmapFont>("No available profiles!",
+                    Azxc.GetCore().GetUI().font));
             }
             _killWindow.AddItem(new Separator());
             Controls.Window ducksWindow = new Controls.Window(Vec2.Zero, SizeModes.Flexible);
 
             Button<FancyBitmapFont> all = new Button<FancyBitmapFont>("All",
-                "Kill all ducks.", Azxc.core.uiManager.font);
+                "Kill all ducks.", Azxc.GetCore().GetUI().font);
             all.onClicked += DucksAll_Clicked;
             ducksWindow.AddItem(all);
 
             Button<FancyBitmapFont> allButYou = new Button<FancyBitmapFont>("All but Local",
-                "Basically kills all ducks but local, so only works in Network or Challenge Arcades.", Azxc.core.uiManager.font);
+                "Basically kills all ducks but local, so only works in Network or Challenge Arcades.",
+                Azxc.GetCore().GetUI().font);
             allButYou.onClicked += DucksAllButLocal_Clicked;
             ducksWindow.AddItem(allButYou);
 
             Expander<FancyBitmapFont> ducks = new Expander<FancyBitmapFont>(ducksWindow, "Ducks",
-                Azxc.core.uiManager.font);
+                Azxc.GetCore().GetUI().font);
             _killWindow.AddItem(ducks);
         }
 
@@ -137,11 +139,11 @@ namespace Azxc.UI
         private void CallCmd_Expanded(object sender, ControlEventArgs e)
         {
             _callWindow.Clear();
-            _callWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.core.uiManager.font));
+            _callWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.GetCore().GetUI().font));
 
             if (Profiles.activeNonSpectators.Count == 0)
             {
-                _callWindow.AddItem(new Label<FancyBitmapFont>("No available profiles!", Azxc.core.uiManager.font));
+                _callWindow.AddItem(new Label<FancyBitmapFont>("No available profiles!", Azxc.GetCore().GetUI().font));
                 return;
             }
             foreach (Profile profile in Profiles.activeNonSpectators.Where(x => x.duck != null))
@@ -151,7 +153,7 @@ namespace Azxc.UI
                     // TOOD: Optimize this. Every iteration it creates a new copy of same window which also contains all of
                     // the "Duck" type methods as button controls for the entire time
                     Expander<FancyBitmapFont> player = new Expander<FancyBitmapFont>(CallGetMethodsWindow(profile.duck.GetType()), 
-                        profile.name, Azxc.core.uiManager.font);
+                        profile.name, Azxc.GetCore().GetUI().font);
                     player.onExpanded += ListedPlayer_Expanded;
                     _callWindow.AddItem(player);
                 }
@@ -167,7 +169,7 @@ namespace Azxc.UI
                 if (method.GetParameters().Count() == 0 && method.ReturnType == typeof(void))
                 {
                     Button<FancyBitmapFont> executor = new Button<FancyBitmapFont>(method.Name,
-                        Azxc.core.uiManager.font);
+                        Azxc.GetCore().GetUI().font);
                     executor.onClicked += CallMethod_Clicked;
                     //executors.Add(executor);
                     window.AddItem(executor);
@@ -212,13 +214,13 @@ namespace Azxc.UI
         private void GiveCmd_Expanded(object sender, ControlEventArgs e)
         {
             _giveWindow.Clear();
-            _giveWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.core.uiManager.font));
+            _giveWindow.AddItem(new Label<FancyBitmapFont>("Profiles:", Azxc.GetCore().GetUI().font));
 
             _giveItemsWindow = GiveGetItemsWindow();
 
             if (Profiles.activeNonSpectators.Count == 0)
             {
-                _giveWindow.AddItem(new Label<FancyBitmapFont>("No available profiles!", Azxc.core.uiManager.font));
+                _giveWindow.AddItem(new Label<FancyBitmapFont>("No available profiles!", Azxc.GetCore().GetUI().font));
                 return;
             }
             foreach (Profile profile in Profiles.activeNonSpectators.Where(x => x.duck != null))
@@ -226,7 +228,7 @@ namespace Azxc.UI
                 if (profile != null && profile.duck != null)
                 {
                     Expander<FancyBitmapFont> player = new Expander<FancyBitmapFont>(_giveItemsWindow,
-                        profile.name, Azxc.core.uiManager.font);
+                        profile.name, Azxc.GetCore().GetUI().font);
                     player.onExpanded += ListedPlayer_Expanded;
                     _giveWindow.AddItem(player);
                 }
@@ -264,7 +266,7 @@ namespace Azxc.UI
                     !thing.IsAbstract)
                 {
                     Button<FancyBitmapFont> executor = new Button<FancyBitmapFont>(thing.Name,
-                        Azxc.core.uiManager.font);
+                        Azxc.GetCore().GetUI().font);
                     executor.onClicked += GiveMethod_Clicked;
                     window.AddItem(executor);
                 }
@@ -276,19 +278,13 @@ namespace Azxc.UI
         private bool InheritsFrom(Type type, Type baseType)
         {
             if (type == null)
-            {
                 return false;
-            }
 
             if (baseType == null)
-            {
                 return type.IsInterface || type == typeof(object);
-            }
 
             if (baseType.IsInterface)
-            {
                 return type.GetInterfaces().Contains(baseType);
-            }
 
             Type currentType = type;
             while (currentType != null)

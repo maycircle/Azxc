@@ -20,7 +20,7 @@ namespace Azxc.Patches
             enabled = toggle;
             if (!hooked)
             {
-                Azxc.core.harmony.Patch(typeof(Gun).GetMethod("Reload"),
+                Azxc.GetCore().GetHarmony().Patch(typeof(Gun).GetMethod("Reload"),
                     transpiler: new HarmonyMethod(typeof(InfiniteAmmo), "Transpiler"));
                 hooked = true;
             }

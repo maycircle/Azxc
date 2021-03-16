@@ -39,7 +39,7 @@ namespace Azxc.UI.Controls
             isChecked = true;
             OnChecked(new ControlEventArgs(this));
             foreach (RadioBox<T> radioBox in
-                Azxc.core.uiManager.interact.activeWindow.OfType<RadioBox<T>>())
+                Azxc.GetCore().GetUI().interact.activeWindow.OfType<RadioBox<T>>())
             {
                 if (radioBox != this)
                     radioBox.isChecked = false;

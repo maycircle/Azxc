@@ -89,11 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Bindings\BindingAttribute.cs" />
-    <Compile Include="src\Bindings\BindingManager.cs" />
-    <Compile Include="src\Bindings\IAutoBinding.cs" />
-    <Compile Include="src\Bindings\IBinding.cs" />
-    <Compile Include="src\Bindings\MouseButtons.cs" />
     <Compile Include="src\Config.cs" />
     <Compile Include="src\Core.cs" />
     <Compile Include="src\DevConsoleImpl.cs" />

@@ -17,7 +17,7 @@ namespace Azxc.Patches
             enabled = toggle;
             if (!hooked)
             {
-                Azxc.core.harmony.Patch(AccessTools.Method(typeof(Duck), "UpdateHoldPosition"),
+                Azxc.GetCore().GetHarmony().Patch(AccessTools.Method(typeof(Duck), "UpdateHoldPosition"),
                     postfix: new HarmonyMethod(typeof(TriggerBot), "Postfix"));
                 hooked = true;
             }

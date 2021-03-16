@@ -62,7 +62,7 @@ namespace Azxc.UI.Controls
 
         public override void Draw()
         {
-            if (selected && showToolTip && Azxc.core.uiManager.interact.activeWindow == parent)
+            if (selected && showToolTip && Azxc.GetCore().GetUI().interact.activeWindow == parent)
                 DrawTooltip();
 
             // Draw button background

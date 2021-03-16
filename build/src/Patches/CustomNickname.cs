@@ -23,7 +23,7 @@ namespace Azxc.Patches
 
             if (!hooked)
             {
-                Azxc.core.harmony.Patch(AccessTools.Method(typeof(DuckNetwork), "PrepareProfile"),
+                Azxc.GetCore().GetHarmony().Patch(AccessTools.Method(typeof(DuckNetwork), "PrepareProfile"),
                     postfix: new HarmonyMethod(typeof(CustomNickname), "Postfix"));
                 hooked = true;
             }

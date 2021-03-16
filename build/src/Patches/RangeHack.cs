@@ -20,7 +20,7 @@ namespace Azxc.Patches
             enabled = toggle;
             if (!hooked)
             {
-                Azxc.core.harmony.Patch(AccessTools.Constructor(typeof(Bullet),
+                Azxc.GetCore().GetHarmony().Patch(AccessTools.Constructor(typeof(Bullet),
                     new Type[] { typeof(float), typeof(float), typeof(AmmoType), typeof(float),
                         typeof(Thing), typeof(bool), typeof(float), typeof(bool), typeof(bool) }),
                     transpiler: new HarmonyMethod(typeof(RangeHack), "Transpiler"));

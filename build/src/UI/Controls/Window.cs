@@ -192,12 +192,12 @@ namespace Azxc.UI.Controls
         public virtual void Show()
         {
             Load();
-            Azxc.core.uiManager.AddUpdatable(this);
+            Azxc.GetCore().GetUI().AddUpdatable(this);
         }
 
         public virtual void Close()
         {
-            Azxc.core.uiManager.RemoveUpdatable(this);
+            Azxc.GetCore().GetUI().RemoveUpdatable(this);
         }
     }
 }

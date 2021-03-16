@@ -25,18 +25,18 @@ namespace Azxc.UI
         private void InitializeComponent()
         {
             _weapons = new Expander<FancyBitmapFont>(new WeaponsWindow(position, SizeModes.Flexible),
-                "Weapons", "Weapon(s) hacks.", Azxc.core.uiManager.font); AddItem(_weapons);
+                "Weapons", "Weapon(s) hacks.", Azxc.GetCore().GetUI().font); AddItem(_weapons);
             _commands = new Expander<FancyBitmapFont>(new ConsoleWindow(position, SizeModes.Flexible),
-                "Commands", "GUI for console commands.", Azxc.core.uiManager.font); AddItem(_commands);
+                "Commands", "GUI for console commands.", Azxc.GetCore().GetUI().font); AddItem(_commands);
             _arcade = new Expander<FancyBitmapFont>(new ArcadeWindow(position, SizeModes.Flexible),
-                "Arcade", "Challenges-related stuff.", Azxc.core.uiManager.font); AddItem(_arcade);
+                "Arcade", "Challenges-related stuff.", Azxc.GetCore().GetUI().font); AddItem(_arcade);
             _network = new Expander<FancyBitmapFont>(new NetworkWindow(position, SizeModes.Flexible),
-                "Network", "(Duck)Networking-related stuff.", Azxc.core.uiManager.font); AddItem(_network);
+                "Network", "(Duck)Networking-related stuff.", Azxc.GetCore().GetUI().font); AddItem(_network);
             _fun = new Expander<FancyBitmapFont>(new FunWindow(position, SizeModes.Flexible),
                 "Fun", "Stuff to show off with. Lots of glitches, have fun :)",
-                Azxc.core.uiManager.font); AddItem(_fun);
+                Azxc.GetCore().GetUI().font); AddItem(_fun);
             _misc = new Expander<FancyBitmapFont>(new MiscWindow(position, SizeModes.Flexible),
-                "Misc", "Random stuff.", Azxc.core.uiManager.font); AddItem(_misc);
+                "Misc", "Random stuff.", Azxc.GetCore().GetUI().font); AddItem(_misc);
         }
     }
 }
