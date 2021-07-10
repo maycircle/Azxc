@@ -4,7 +4,7 @@ using Azxc.UI.Events;
 
 namespace Azxc.UI.Controls
 {
-    public interface ISelect
+    public interface ISelectable
     {
         bool selected { get; set; }
 

@@ -9,7 +9,7 @@ using DuckGame;
 
 namespace Azxc.UI.Controls
 {
-    public class Label<T> : Control, IAutoUpdate, IIndent
+    public class Label<T> : Control, IAutoUpdate, IHasIndent
     {
         public string text { get; set; }
         public T font { get; set; }

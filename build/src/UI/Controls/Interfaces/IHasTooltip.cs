@@ -4,7 +4,7 @@ using DuckGame;
 
 namespace Azxc.UI.Controls
 {
-    public interface ITooltip
+    public interface IHasTooltip
     {
         bool showToolTip { get; set; }
         string toolTipText { get; set; }

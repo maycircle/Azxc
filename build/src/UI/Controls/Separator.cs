@@ -9,7 +9,7 @@ using DuckGame;
 
 namespace Azxc.UI.Controls
 {
-    public class Separator : Control, IIndent
+    public class Separator : Control, IHasIndent
     {
         public Vec2 indent { get; set; }
 

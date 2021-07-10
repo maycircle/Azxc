@@ -75,8 +75,8 @@ namespace Azxc.UI.Controls
         private float GetLongestWidth()
         {
             Control longestItem = _items.Aggregate((longest, next) =>
-                next.width > longest.width + (longest as IIndent).indent.x ? next : longest);
-            return longestItem.width + (longestItem as IIndent).indent.x;
+                next.width > longest.width + (longest as IHasIndent).indent.x ? next : longest);
+            return longestItem.width + (longestItem as IHasIndent).indent.x;
         }
 
         private void FitToItems()
@@ -91,7 +91,7 @@ namespace Azxc.UI.Controls
                 }
                 if (item.width > longest)
                 {
-                    IIndent impl = item as IIndent;
+                    IHasIndent impl = item as IHasIndent;
                     longest = item.width + impl.indent.x;
                 }
             }
@@ -140,7 +140,7 @@ namespace Azxc.UI.Controls
                 item.x = panelPosition.x + inner.x + (GetLongestWidth() * count) - (inner.x * count);
                 item.y = panelPosition.y + CalculateHeights(stack) + (inner.y * (stack + 1));
 
-                IIndent impl = item as IIndent;
+                IHasIndent impl = item as IHasIndent;
                 item.width = GetLongestWidth() - impl.indent.x;
             }
         }

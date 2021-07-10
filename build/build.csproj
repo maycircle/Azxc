@@ -60,9 +60,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.0.0.9, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Harmony\Debug\net35\0Harmony.dll</HintPath>
+    <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lib.Harmony.1.2.0.1\lib\net45\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="DuckGame">
       <HintPath>D:\games\Steam\steamapps\common\Duck Game\DuckGame.exe</HintPath>
@@ -114,9 +113,9 @@
     <Compile Include="src\UI\Controls\Expander.cs" />
     <Compile Include="src\UI\Controls\Interfaces\IClickable.cs" />
     <Compile Include="src\UI\Controls\Interfaces\IDialog.cs" />
-    <Compile Include="src\UI\Controls\Interfaces\IIndent.cs" />
-    <Compile Include="src\UI\Controls\Interfaces\ISelect.cs" />
-    <Compile Include="src\UI\Controls\Interfaces\IToolTip.cs" />
+    <Compile Include="src\UI\Controls\Interfaces\IHasIndent.cs" />
+    <Compile Include="src\UI\Controls\Interfaces\ISelectable.cs" />
+    <Compile Include="src\UI\Controls\Interfaces\IHasTooltip.cs" />
     <Compile Include="src\UI\Controls\RadioBox.cs" />
     <Compile Include="src\UI\Controls\Separator.cs" />
     <Compile Include="src\UI\Controls\TextBox.cs" />
@@ -149,7 +148,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>REM Default path to Duck Game mod folder
-SET MODPATH=%25USERPROFILE%25\Documents\DuckGame\Mods\$(TargetName)
+SET MODPATH=%25USERPROFILE%25\AppData\Roaming\DuckGame\Mods\$(TargetName)
 
 ECHO "%25MODPATH%25"
 IF NOT EXIST "%25MODPATH%25" (

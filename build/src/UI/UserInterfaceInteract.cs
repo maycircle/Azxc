@@ -35,7 +35,7 @@ namespace Azxc.UI
             Deselect();
 
             if (selectedItem <= 0)
-                selectedItem = activeWindow.OfType<ISelect>().Count() - 1;
+                selectedItem = activeWindow.OfType<ISelectable>().Count() - 1;
             else
                 selectedItem -= 1;
             Select();
@@ -45,7 +45,7 @@ namespace Azxc.UI
         {
             Deselect();
 
-            if (selectedItem >= activeWindow.OfType<ISelect>().Count() - 1)
+            if (selectedItem >= activeWindow.OfType<ISelectable>().Count() - 1)
                 selectedItem = 0;
             else
                 selectedItem += 1;
@@ -78,9 +78,9 @@ namespace Azxc.UI
 
         public void UpdateSelection()
         {
-            foreach (Control control in activeWindow.OfType<ISelect>())
+            foreach (Control control in activeWindow.OfType<ISelectable>())
             {
-                ISelect impl = control as ISelect;
+                ISelectable impl = control as ISelectable;
                 if (InRange(control) && !impl.selected)
                 {
                     Deselect();
@@ -104,7 +104,7 @@ namespace Azxc.UI
             if (Mouse.right == InputState.Pressed)
                 MouseRight();
 
-            if (activeWindow.OfType<ISelect>().Count() == 0)
+            if (activeWindow.OfType<ISelectable>().Count() == 0)
                 return;
 
             selectedItem = GetSelectedItem();
@@ -125,14 +125,14 @@ namespace Azxc.UI
 
         private void Deselect()
         {
-            ISelect impl = GetItem() as ISelect;
+            ISelectable impl = GetItem() as ISelectable;
             impl.selected = false;
             impl.Select();
         }
 
         private void Select()
         {
-            ISelect impl = GetItem() as ISelect;
+            ISelectable impl = GetItem() as ISelectable;
             if (!impl.selected)
             {
                 impl.selected = true;
@@ -143,7 +143,7 @@ namespace Azxc.UI
         private int GetSelectedItem()
         {
             int index = 0;
-            foreach (ISelect impl in activeWindow.OfType<ISelect>())
+            foreach (ISelectable impl in activeWindow.OfType<ISelectable>())
             {
                 if (impl.selected)
                     return index;
@@ -155,7 +155,7 @@ namespace Azxc.UI
         private Control GetItem()
         {
             int index = 0;
-            foreach (Control control in activeWindow.OfType<ISelect>())
+            foreach (Control control in activeWindow.OfType<ISelectable>())
             {
                 if (index == selectedItem)
                     return control;
@@ -167,7 +167,7 @@ namespace Azxc.UI
         private int GetItemIndex(Control item)
         {
             int index = 0;
-            foreach (Control control in activeWindow.OfType<ISelect>())
+            foreach (Control control in activeWindow.OfType<ISelectable>())
             {
                 if (control == item)
                     return index;

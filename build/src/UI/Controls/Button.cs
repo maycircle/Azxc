@@ -11,7 +11,7 @@ using Azxc.UI.Events;
 
 namespace Azxc.UI.Controls
 {
-    public class Button<T> : Label<T>, IAutoUpdate, IClickable, ITooltip, ISelect
+    public class Button<T> : Label<T>, IAutoUpdate, IClickable, IHasTooltip, ISelectable
     {
         public bool showToolTip { get; set; }
         public string toolTipText { get; set; }
