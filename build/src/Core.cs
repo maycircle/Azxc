@@ -20,7 +20,7 @@ namespace Azxc
 
         public AzxcCore()
         {
-            _harmony = HarmonyInstance.Create("harmony_ultra_unique_id");
+            _harmony = HarmonyInstance.Create(typeof(Azxc).AssemblyQualifiedName);
         }
 
         public void Prepare()
