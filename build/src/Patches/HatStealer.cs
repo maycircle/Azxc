@@ -63,10 +63,10 @@ namespace Azxc.Patches
                 HatStealer.savePath = savePath;
         }
 
-        private static void SaveCustomTeam(Team customTeam)
+        public static string SaveCustomTeam(Team customTeam)
         {
-            if (!enabled || customTeam == null)
-                return;
+            if (customTeam == null)
+                throw new ArgumentNullException();
             Texture2D texture = customTeam.hat.texture.nativeObject as Texture2D;
 
             string pngFile = savePath + "/" + customTeam.name + ".png";
@@ -78,23 +78,8 @@ namespace Azxc.Patches
                 string hatFile = savePath + "/" + customTeam.name + ".hat";
                 HatConverter.ExportFromPNG(pngFile, customTeam.name, hatFile);
             }
-        }
 
-        public static void SaveCustomTeam(Team customTeam, out string output)
-        {
-            Texture2D texture = customTeam.hat.texture.nativeObject as Texture2D;
-
-            string pngFile = savePath + "/" + customTeam.name + ".png";
-            using (FileStream file = new FileStream(pngFile, FileMode.Create))
-                texture.SaveAsPng(file, texture.Width, texture.Height);
-
-            if (autoConvert)
-            {
-                string hatFile = savePath + "/" + customTeam.name + ".hat";
-                HatConverter.ExportFromPNG(pngFile, customTeam.name, hatFile);
-            }
-
-            output = customTeam.name + ".png";
+            return customTeam.name + ".png";
         }
 
         // OnMessage@DuckNetwork

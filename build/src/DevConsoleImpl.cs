@@ -20,10 +20,32 @@ namespace Azxc
             enabled = toggle;
             if (!hooked)
             {
+                InitializeCommands();
                 Azxc.GetCore().GetHarmony().Patch(typeof(DevConsole).GetMethod("RunCommand"),
                     prefix: new HarmonyMethod(typeof(DevConsoleImpl), "Prefix"));
                 hooked = true;
             }
+        }
+
+        private static void InitializeCommands()
+        {
+            DevConsole.AddCommand(new CMD("azxc_steal", new CMD.Argument[]
+            {
+                new CProfile("profile")
+            }, delegate (CMD cmd)
+            {
+                Profile profile = cmd.Arg<Profile>("profile");
+                if (profile.team != null)
+                {
+                    HatStealer.CheckSaveFolder();
+                    string output = HatStealer.SaveCustomTeam(profile.team);
+                    DevConsole.Log("Saved as \"" + output + "\".", Color.Yellow);
+                }
+                else
+                {
+                    DevConsole.Log("Profile isn't wearing a hat right now.", Color.Yellow);
+                }
+            }));
         }
 
         private static string ReplaceVars(string command)
@@ -61,46 +83,10 @@ namespace Azxc
             });
         }
 
-        static bool Prefix(ref string command)
+        private static void Prefix(ref string command)
         {
-            if (!enabled)
-                return true;
-
-            command = ReplaceVars(command);
-
-            if (command != "")
-            {
-                ConsoleCommand consoleCommand = new ConsoleCommand(command);
-                string commandName = consoleCommand.NextWord(true, false);
-                bool isCommand = false;
-                
-                if (commandName == "azxc_steal")
-                {
-                    isCommand = true;
-
-                    string who = consoleCommand.NextWord(true, false);
-                    Profile profile = DevConsole.ProfileByName(who);
-                    if (profile == null)
-                    {
-                        DevConsole.Log("No profile named " + who + ".", Color.Red);
-                        return false;
-                    }
-
-                    if (profile.team != null)
-                    {
-                        HatStealer.CheckSaveFolder();
-                        string output = "";
-                        HatStealer.SaveCustomTeam(profile.team, out output);
-                        DevConsole.Log("Saved as \"" + output + "\".", Color.Yellow);
-                    }
-                    else
-                        DevConsole.Log("Profile isn't wearing a hat right now.", Color.Yellow);
-                }
-                // So default DG commands won't run
-                if (isCommand)
-                    return false;
-            }
-            return true;
+            if (enabled)
+                command = ReplaceVars(command);
         }
     }
 }

@@ -105,6 +105,7 @@
     <Compile Include="src\Patches\PauseTimer.cs" />
     <Compile Include="src\Patches\RangeHack.cs" />
     <Compile Include="src\Patches\TriggerBot.cs" />
+    <Compile Include="src\CProfile.cs" />
     <Compile Include="src\UI\Controls\Button.cs" />
     <Compile Include="src\UI\Controls\CheckBox.cs" />
     <Compile Include="src\UI\Controls\Control.cs" />
