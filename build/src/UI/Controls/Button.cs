@@ -18,6 +18,13 @@ namespace Azxc.UI.Controls
 
         public bool selected { get; set; }
 
+        protected Button(T font) : base(font)
+        {
+            toolTipText = "";
+            showToolTip = false;
+            indent = Vec2.One * 1.5f;
+        }
+
         public Button(string text, T font) : base(text, font)
         {
             toolTipText = "";

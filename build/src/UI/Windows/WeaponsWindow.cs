@@ -18,8 +18,7 @@ namespace Azxc.UI
         private CheckBox<FancyBitmapFont> _infinityAmmo, _norecoil, _noreload, _bulletHit,
             _triggerBot, _rangeHack;
 
-        public WeaponsWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
-            base(position, sizeMode)
+        public WeaponsWindow()
         {
             InitializeComponent();
         }

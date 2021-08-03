@@ -18,8 +18,7 @@ namespace Azxc.UI
         private Button<FancyBitmapFont> _ticketsMax, _ticketsMin, _finishChallenge;
         private CheckBox<FancyBitmapFont> _pauseTimer;
 
-        public ArcadeWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
-            base(position, sizeMode)
+        public ArcadeWindow()
         {
             InitializeComponent();
         }

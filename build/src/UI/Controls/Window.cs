@@ -24,7 +24,22 @@ namespace Azxc.UI.Controls
 
         private List<Control> _items;
 
-        public Window(Vec2 position, SizeModes sizeMode = SizeModes.Static)
+        public Window()
+        {
+            position = Vec2.Zero;
+
+            size = Vec2.Zero;
+            sizeMode = SizeModes.Flexible;
+
+            panelPosition = new Vec2();
+            panelSize = new Vec2();
+            indent = Vec2.One / 2;
+            inner = (Vec2.One * 1.5f) / 2;
+
+            _items = new List<Control>();
+        }
+
+        public Window(Vec2 position, SizeModes sizeMode = SizeModes.Flexible)
         {
             this.position = position;
 

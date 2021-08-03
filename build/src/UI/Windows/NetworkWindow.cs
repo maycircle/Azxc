@@ -18,8 +18,7 @@ namespace Azxc.UI
         private CheckBox<FancyBitmapFont> _enableCustomNickname, _hatStealer, _hatConverter;
         private TextBox<FancyBitmapFont> _customNickname;
 
-        public NetworkWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
-            base(position, sizeMode)
+        public NetworkWindow()
         {
             InitializeComponent();
         }

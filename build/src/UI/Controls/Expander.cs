@@ -13,9 +13,14 @@ namespace Azxc.UI.Controls
 {
     public class Expander<T> : Button<T>
     {
-        private Window window;
+        protected Window window;
 
         private Vec2 arrowFix = new Vec2(4f, 1.6f);
+
+        protected Expander(T font) : base(font)
+        {
+            window = new Window();
+        }
 
         public Expander(Window window, string text, T font) : base(text, font)
         {

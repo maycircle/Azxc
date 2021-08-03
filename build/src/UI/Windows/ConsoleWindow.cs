@@ -18,8 +18,7 @@ namespace Azxc.UI
         private Expander<FancyBitmapFont> _killCmd, _callCmd, _giveCmd;
         private Button<FancyBitmapFont> _skipCmd;
 
-        public ConsoleWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
-            base(position, sizeMode)
+        public ConsoleWindow()
         {
             InitializeComponent();
         }

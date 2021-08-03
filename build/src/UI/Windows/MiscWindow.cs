@@ -18,8 +18,7 @@ namespace Azxc.UI
         private CheckBox<FancyBitmapFont> _commandsBypass, _lobbyTimout,
             _consoleImplementation;
 
-        public MiscWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
-            base(position, sizeMode)
+        public MiscWindow()
         {
             InitializeComponent();
         }

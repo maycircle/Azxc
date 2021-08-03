@@ -14,29 +14,26 @@ namespace Azxc.UI
 {
     class MainWindow : Controls.Window
     {
-        private Expander<FancyBitmapFont> _weapons, _commands, _arcade, _network, _fun, _misc;
-
-        public MainWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
-            base(position, sizeMode)
+        public MainWindow()
         {
             InitializeComponent();
         }
 
         private void InitializeComponent()
         {
-            _weapons = new Expander<FancyBitmapFont>(new WeaponsWindow(position, SizeModes.Flexible),
-                "Weapons", "Weapon(s) hacks.", Azxc.GetCore().GetUI().font); AddItem(_weapons);
-            _commands = new Expander<FancyBitmapFont>(new ConsoleWindow(position, SizeModes.Flexible),
-                "Commands", "GUI for console commands.", Azxc.GetCore().GetUI().font); AddItem(_commands);
-            _arcade = new Expander<FancyBitmapFont>(new ArcadeWindow(position, SizeModes.Flexible),
-                "Arcade", "Challenges-related stuff.", Azxc.GetCore().GetUI().font); AddItem(_arcade);
-            _network = new Expander<FancyBitmapFont>(new NetworkWindow(position, SizeModes.Flexible),
-                "Network", "(Duck)Networking-related stuff.", Azxc.GetCore().GetUI().font); AddItem(_network);
-            _fun = new Expander<FancyBitmapFont>(new FunWindow(position, SizeModes.Flexible),
-                "Fun", "Stuff to show off with. Lots of glitches, have fun :)",
-                Azxc.GetCore().GetUI().font); AddItem(_fun);
-            _misc = new Expander<FancyBitmapFont>(new MiscWindow(position, SizeModes.Flexible),
-                "Misc", "Random stuff.", Azxc.GetCore().GetUI().font); AddItem(_misc);
+            AddItem(new Expander<FancyBitmapFont>(new WeaponsWindow(), "Weapons",
+                "Weapon(s) hacks.", Azxc.GetCore().GetUI().font));
+            AddItem(new Expander<FancyBitmapFont>(new ConsoleWindow(), "Commands",
+                "GUI for console commands.", Azxc.GetCore().GetUI().font));
+            AddItem(new Expander<FancyBitmapFont>(new ArcadeWindow(), "Arcade",
+                "Challenges-related stuff.", Azxc.GetCore().GetUI().font));
+            AddItem(new Expander<FancyBitmapFont>(new NetworkWindow(), "Network",
+                "(Duck)Networking-related stuff.", Azxc.GetCore().GetUI().font));
+            AddItem(new Expander<FancyBitmapFont>(new FunWindow(), "Fun",
+                "Stuff to show off with. Lots of glitches, have fun :)", 
+                Azxc.GetCore().GetUI().font));
+            AddItem(new Expander<FancyBitmapFont>(new MiscWindow(), "Misc",
+                "Random stuff.", Azxc.GetCore().GetUI().font));
         }
     }
 }

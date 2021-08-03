@@ -17,6 +17,15 @@ namespace Azxc.UI.Controls
 
         public Vec2 indent { get; set; }
 
+        // Some day I will get rid of `T font`, some day...
+        protected Label(T font)
+        {
+            this.font = font;
+            if (typeof(T) == typeof(FancyBitmapFont))
+                characterHeight = (font as FancyBitmapFont).characterHeight;
+            indent = Vec2.One / 2;
+        }
+
         public Label(string text, T font)
         {
             this.text = text;

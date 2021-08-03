@@ -16,8 +16,7 @@ namespace Azxc.UI
     {
         private CheckBox<FancyBitmapFont> _assaultAura, _spinMeRound;
 
-        public FunWindow(Vec2 position, SizeModes sizeMode = SizeModes.Static) :
-            base(position, sizeMode)
+        public FunWindow()
         {
             InitializeComponent();
         }
