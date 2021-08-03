@@ -33,7 +33,7 @@ namespace Azxc.UI.Controls
 
             panelPosition = new Vec2();
             panelSize = new Vec2();
-            // This is only for pretty look, so i'll use standart value everywhere
+            // This is just for design, so I'll use standart value everywhere
             indent = Vec2.One / 2;
             inner = (Vec2.One * 1.5f) / 2;
 
@@ -150,7 +150,7 @@ namespace Azxc.UI.Controls
             if (!visible)
                 return;
 
-            // Draw windows borders
+            // Draw borders
             Graphics.DrawRect(position, position + size, Color.Black);
 
             Vec2 end = panelPosition + panelSize - indent;

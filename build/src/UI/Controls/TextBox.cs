@@ -105,13 +105,12 @@ namespace Azxc.UI.Controls
 
             KeyboardHook.repeat = true;
             Azxc.GetCore().GetUI().inputHook = true;
-
-            width = 80.0f;
-            x -= width / 2;
-
             Azxc.GetCore().GetUI().forceHints = true;
             _hintsTextBackup = Azxc.GetCore().GetUI().hintsText;
             Azxc.GetCore().GetUI().hintsText = "@AZXCACTIVATE@ACCEPT  @AZXCRIGHTMOUSE@@AZXCBACK@CANCEL";
+
+            width = 80.0f;
+            x -= width / 2;
             Show();
         }
 
