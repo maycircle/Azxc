@@ -111,12 +111,17 @@
     <Compile Include="src\UI\Controls\Control.cs" />
     <Compile Include="src\UI\Controls\Cursor.cs" />
     <Compile Include="src\UI\Controls\DialogResult.cs" />
+    <Compile Include="src\UI\Controls\AbstractExpander.cs" />
     <Compile Include="src\UI\Controls\Expander.cs" />
     <Compile Include="src\UI\Controls\Interfaces\IClickable.cs" />
     <Compile Include="src\UI\Controls\Interfaces\IDialog.cs" />
     <Compile Include="src\UI\Controls\Interfaces\IHasIndent.cs" />
     <Compile Include="src\UI\Controls\Interfaces\ISelectable.cs" />
     <Compile Include="src\UI\Controls\Interfaces\IHasTooltip.cs" />
+    <Compile Include="src\UI\Controls\Interfaces\ISelector.cs" />
+    <Compile Include="src\UI\Controls\Misc\Command.cs" />
+    <Compile Include="src\UI\Controls\Misc\CustomProfileSelector.cs" />
+    <Compile Include="src\UI\Controls\Misc\ProfileSelector.cs" />
     <Compile Include="src\UI\Controls\RadioBox.cs" />
     <Compile Include="src\UI\Controls\Separator.cs" />
     <Compile Include="src\UI\Controls\TextBox.cs" />
@@ -131,6 +136,8 @@
     <Compile Include="src\UI\UserInterfaceState.cs" />
     <Compile Include="src\UI\UserInterfaceManager.cs" />
     <Compile Include="src\UI\Windows\ArcadeWindow.cs" />
+    <Compile Include="src\UI\Windows\Commands\CallCommand.cs" />
+    <Compile Include="src\UI\Windows\Commands\GiveCommand.cs" />
     <Compile Include="src\UI\Windows\ConsoleWindow.cs" />
     <Compile Include="src\UI\Windows\FunWindow.cs" />
     <Compile Include="src\UI\Windows\MainWindow.cs" />
