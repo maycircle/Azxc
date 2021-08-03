@@ -16,6 +16,8 @@ namespace Azxc
     {
         private static AzxcCore _core;
 
+        public static AzxcCore GetCore() => _core;
+
         public Azxc()
         {
             _core = new AzxcCore();
@@ -27,12 +29,17 @@ namespace Azxc
         protected override void OnPostInitialize()
         {
             _core.CreateConfig();
+            _core.LoadConfig();
 
             AutoUpdatables.Add(this);
-
             LoadContent();
 
-            MainWindow mainWindow = new MainWindow(new Vec2(5f), SizeModes.Flexible);
+            bool.TryParse(_core.GetConfig().TryGetSingle("EnableDevConsoleImpl", "True"),
+                out DevConsoleImpl.enabled);
+            DevConsoleImpl.HookAndToggle(DevConsoleImpl.enabled);
+
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.position = new Vec2(5.0f);
             mainWindow.Show();
         }
 
@@ -56,7 +63,5 @@ namespace Azxc
         {
             _core.GetUI().Update();
         }
-
-        public static AzxcCore GetCore() => _core;
     }
 }

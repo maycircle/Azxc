@@ -13,10 +13,14 @@ namespace Azxc
 {
     public class AzxcCore
     {
-        private HarmonyInstance _harmony;
+        private readonly HarmonyInstance _harmony;
 
-        private Config _config;
+        private AzxcConfig _config;
         private UserInterfaceManager _uiManager;
+
+        public HarmonyInstance GetHarmony() => _harmony;
+        public AzxcConfig GetConfig() => _config;
+        public UserInterfaceManager GetUI() => _uiManager;
 
         public AzxcCore()
         {
@@ -31,11 +35,13 @@ namespace Azxc
 
         public void CreateConfig()
         {
-            _config = new Config(ModLoader.GetMod<Azxc>().configuration.directory + "/config.xml");
+            _config = new AzxcConfig(ModLoader.GetMod<Azxc>().configuration.directory + "/config.xml");
         }
 
-        public HarmonyInstance GetHarmony() => _harmony;
-        public Config GetConfig() => _config;
-        public UserInterfaceManager GetUI() => _uiManager;
+        public void LoadConfig()
+        {
+            if (_config == null)
+                throw new NullReferenceException("Initialize config before using it");
+        }
     }
 }

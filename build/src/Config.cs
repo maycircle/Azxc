@@ -7,25 +7,25 @@ using System.Xml;
 
 namespace Azxc
 {
-    public class Config
+    public class AzxcConfig
     {
-        private XmlDocument _doc;
-        private string _filePath;
+        private readonly XmlDocument _doc;
+        private readonly string _filePath;
 
-        public Config(string filePath)
+        public AzxcConfig(string filePath)
         {
             _filePath = filePath;
             _doc = new XmlDocument();
             if (!File.Exists(filePath))
-                CreateRoot(filePath);
+                CreateRoot();
             _doc.Load(filePath);
         }
 
-        private void CreateRoot(string filePath)
+        private void CreateRoot()
         {
-            XmlWriter writer = XmlWriter.Create(filePath);
+            XmlWriter writer = XmlWriter.Create(_filePath);
             writer.WriteStartDocument();
-            writer.WriteStartElement("ModConfig");
+            writer.WriteStartElement("AzxcConfig");
             writer.WriteEndElement();
             writer.Close();
         }
