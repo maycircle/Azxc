@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Harmony;
+﻿
 using DuckGame;
+using Harmony;
 
 namespace Azxc.Patches
 {
@@ -31,7 +26,8 @@ namespace Azxc.Patches
 
         private static void SetCustomNickname(bool restoreOriginal = false)
         {
-            Profile localProfile = Profiles.active.Find(x => {
+            Profile localProfile = Profiles.active.Find(x =>
+            {
                 if (x.duck != null)
                     return x.duck.isLocal;
                 return false;

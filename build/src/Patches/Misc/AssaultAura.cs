@@ -1,11 +1,8 @@
-﻿using System;
+﻿using Azxc.UI;
+using DuckGame;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using DuckGame;
-
-using Azxc.UI;
 
 namespace Azxc.Patches.Misc
 {

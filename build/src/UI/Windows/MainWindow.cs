@@ -1,14 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-
-using Harmony;
-using DuckGame;
-
-using Azxc.UI.Events;
 using Azxc.UI.Controls;
+using DuckGame;
 
 namespace Azxc.UI
 {
@@ -30,7 +21,7 @@ namespace Azxc.UI
             AddItem(new Expander<FancyBitmapFont>(new NetworkWindow(), "Network",
                 "(Duck)Networking-related stuff.", Azxc.GetCore().GetUI().font));
             AddItem(new Expander<FancyBitmapFont>(new FunWindow(), "Fun",
-                "Stuff to show off with. Lots of glitches, have fun :)", 
+                "Stuff to show off with. Lots of glitches, have fun :)",
                 Azxc.GetCore().GetUI().font));
             AddItem(new Expander<FancyBitmapFont>(new MiscWindow(), "Misc",
                 "Random stuff.", Azxc.GetCore().GetUI().font));

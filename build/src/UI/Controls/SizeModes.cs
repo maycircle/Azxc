@@ -1,5 +1,3 @@
-using System;
-
 namespace Azxc.UI.Controls
 {
     public enum SizeModes

@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using DuckGame;
-
-using Azxc.UI.Events;
-using Azxc.UI.Controls;
+﻿
 using Azxc.Patches;
+using Azxc.UI.Controls;
+using Azxc.UI.Events;
+using DuckGame;
 
 namespace Azxc.UI
 {
@@ -58,7 +51,7 @@ namespace Azxc.UI
             CustomNickname.HookAndToggle(true, _customNickname.inputText);
             Azxc.GetCore().GetConfig().TrySet("CustomNickname", _customNickname.inputText);
         }
-        
+
         private void EnableCustomNickname_Checked(object sender, ControlEventArgs e)
         {
             CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;

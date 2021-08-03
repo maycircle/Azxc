@@ -1,8 +1,5 @@
-using System;
-
-using DuckGame;
-
 using Azxc.UI.Controls;
+using System;
 
 namespace Azxc.UI.Events
 {

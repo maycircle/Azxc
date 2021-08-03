@@ -1,12 +1,8 @@
-﻿using System;
+﻿using DuckGame;
+using Harmony;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading;
-
-using Harmony;
-using DuckGame;
 
 namespace Azxc.UI
 {
@@ -44,7 +40,8 @@ namespace Azxc.UI
             if (enabled)
             {
                 StackTrace stackTrace = new StackTrace();
-                bool extraCall = stackTrace.GetFrames().Skip(1).Any(x => {
+                bool extraCall = stackTrace.GetFrames().Skip(1).Any(x =>
+                {
                     if (x.GetMethod().DeclaringType != null)
                         return x.GetMethod().DeclaringType.Namespace.Contains("Azxc");
                     return false;
@@ -65,7 +62,8 @@ namespace Azxc.UI
             if (enabled)
             {
                 StackTrace stackTrace = new StackTrace();
-                bool extraCall = stackTrace.GetFrames().Skip(1).Any(x => {
+                bool extraCall = stackTrace.GetFrames().Skip(1).Any(x =>
+                {
                     if (x.GetMethod().DeclaringType != null)
                         return x.GetMethod().DeclaringType.Namespace.Contains("Azxc") ||
                             // Handle Keyboard.keyString in a special way

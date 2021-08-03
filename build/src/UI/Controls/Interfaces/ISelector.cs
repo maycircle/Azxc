@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Azxc.UI.Controls
+﻿namespace Azxc.UI.Controls
 {
     interface ISelector
     {

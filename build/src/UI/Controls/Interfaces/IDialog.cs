@@ -1,6 +1,5 @@
-﻿using System;
-
-using Azxc.UI.Events;
+﻿using Azxc.UI.Events;
+using System;
 
 namespace Azxc.UI.Controls
 {

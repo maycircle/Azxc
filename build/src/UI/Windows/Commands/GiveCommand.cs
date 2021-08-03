@@ -1,14 +1,9 @@
-﻿using System;
+﻿using Azxc.UI.Controls;
+using Azxc.UI.Events;
+using DuckGame;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Harmony;
-using DuckGame;
-
-using Azxc.UI.Controls;
-using Azxc.UI.Events;
 
 namespace Azxc.UI
 {

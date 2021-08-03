@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-
-using Harmony;
-using DuckGame;
-
-using Azxc.UI.Events;
+﻿using Azxc.Patches;
 using Azxc.UI.Controls;
-using Azxc.Patches;
+using Azxc.UI.Events;
+using DuckGame;
+using Harmony;
+using System.Collections.Generic;
 
 namespace Azxc.UI
 {

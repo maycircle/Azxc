@@ -1,10 +1,8 @@
-﻿using System;
+﻿using DuckGame;
+using Harmony;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Harmony;
-using DuckGame;
 
 namespace Azxc.Patches
 {
@@ -71,7 +69,7 @@ namespace Azxc.Patches
                 Gun holdingGun = localProfile.duck.holdObject as Gun;
                 if (holdingGun.ammoType == null)
                     continue;
-                
+
                 Vec2 start = holdingGun.position;
                 Vec2 travel = new Vec2((float)Math.Cos(holdingGun.angle) *
                     holdingGun.ammoType.range * localProfile.duck.offDir,

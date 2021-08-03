@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
 
 using DuckGame;
 
@@ -15,12 +10,12 @@ namespace Azxc.UI.Controls
         public float x, y;
         public virtual Vec2 position
         {
-            get 
-            { 
-                return new Vec2(x, y); 
+            get
+            {
+                return new Vec2(x, y);
             }
-            set 
-            { 
+            set
+            {
                 x = value.x;
                 y = value.y;
             }

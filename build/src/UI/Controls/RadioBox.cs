@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-
-using Harmony;
-using DuckGame;
-
 using Azxc.UI.Events;
+using DuckGame;
+using System.Linq;
 
 namespace Azxc.UI.Controls
 {
@@ -20,7 +13,7 @@ namespace Azxc.UI.Controls
             this.isChecked = isChecked;
         }
 
-        public RadioBox(string text, string toolTipText, T font, bool isChecked = false) : 
+        public RadioBox(string text, string toolTipText, T font, bool isChecked = false) :
             base(text, toolTipText, font)
         {
             this.isChecked = isChecked;

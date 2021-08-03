@@ -1,16 +1,12 @@
-﻿using System;
+﻿using Azxc.Patches.Misc;
+using DuckGame;
+using Harmony;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Reflection;
 using System.Reflection.Emit;
-
-using Microsoft.Xna.Framework.Graphics;
-using Harmony;
-using DuckGame;
-
-using Azxc.Patches.Misc;
 
 namespace Azxc.Patches
 {
@@ -72,7 +68,7 @@ namespace Azxc.Patches
             string pngFile = savePath + "/" + customTeam.name + ".png";
             using (FileStream file = new FileStream(pngFile, FileMode.Create))
                 texture.SaveAsPng(file, texture.Width, texture.Height);
-            
+
             if (autoConvert)
             {
                 string hatFile = savePath + "/" + customTeam.name + ".hat";

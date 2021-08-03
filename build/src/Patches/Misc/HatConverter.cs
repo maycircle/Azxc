@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DuckGame;
+using Harmony;
+using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-
-using Harmony;
-using DuckGame;
 
 namespace Azxc.Patches.Misc
 {
@@ -26,7 +22,7 @@ namespace Azxc.Patches.Misc
 
             rawHat.Write(fileData.Length);
             rawHat.Write(fileData);
-            
+
             RijndaelManaged RMCrypto = new RijndaelManaged();
             RMCrypto.Key = new byte[]
             {

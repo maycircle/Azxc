@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-
-using Harmony;
-using DuckGame;
-
 using Azxc.UI.Events;
+using DuckGame;
+using System;
 
 namespace Azxc.UI.Controls
 {
@@ -22,10 +15,12 @@ namespace Azxc.UI.Controls
         public AbstractExpander(string text, T font) : base(text, font) { }
 
         public AbstractExpander(string text, string toolTipText, T font) :
-            base(text, toolTipText, font) { }
+            base(text, toolTipText, font)
+        { }
 
         public AbstractExpander(string text, string toolTipText, T font, Vec2 position) :
-            base(text, toolTipText, font, position) { }
+            base(text, toolTipText, font, position)
+        { }
 
         public override void Update()
         {

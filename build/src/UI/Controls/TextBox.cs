@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-
-using Harmony;
+﻿using Azxc.UI.Events;
 using DuckGame;
-
-using Azxc.UI.Events;
+using System;
 
 namespace Azxc.UI.Controls
 {
@@ -158,7 +151,7 @@ namespace Azxc.UI.Controls
             nullOrWhitespace = false;
         }
 
-        public TextBox(string text, string placeholderText, string toolTipText, T font) : 
+        public TextBox(string text, string placeholderText, string toolTipText, T font) :
             base(text, toolTipText, font)
         {
             this.placeholderText = placeholderText;

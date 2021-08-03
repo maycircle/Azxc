@@ -1,14 +1,11 @@
+using Azxc.UI.Controls;
+using DuckGame;
+using Harmony;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
-
-using Microsoft.Xna.Framework.Graphics;
-using Harmony;
-using DuckGame;
-
-using Azxc.UI.Controls;
 
 namespace Azxc.UI
 {
@@ -37,7 +34,8 @@ namespace Azxc.UI
         public bool inputHook
         {
             get { return _inputHook; }
-            set {
+            set
+            {
                 if (!value)
                     KeyboardHook.HookAndToggle(false);
                 _inputHook = value;

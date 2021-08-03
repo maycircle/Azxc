@@ -1,13 +1,9 @@
-﻿using System;
+﻿using Azxc.Patches;
+using DuckGame;
+using Harmony;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-
-using Harmony;
-using DuckGame;
-
-using Azxc.Patches;
 
 namespace Azxc
 {
@@ -50,7 +46,7 @@ namespace Azxc
 
         private static string ReplaceVars(string command)
         {
-            return Regex.Replace(command, @"\[([al]?)p(\d)(:\w+)?\]", delegate(Match match)
+            return Regex.Replace(command, @"\[([al]?)p(\d)(:\w+)?\]", delegate (Match match)
             {
                 List<Profile> profiles = Profiles.all.ToList();
                 if (match.Groups[1].Value == "a")

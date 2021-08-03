@@ -1,13 +1,10 @@
-﻿using System;
+﻿using DuckGame;
+using Harmony;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Reflection;
 using System.Reflection.Emit;
-
-using Harmony;
-using DuckGame;
 
 namespace Azxc.Patches
 {
