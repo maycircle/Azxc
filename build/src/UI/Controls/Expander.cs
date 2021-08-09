@@ -4,38 +4,38 @@ using System;
 
 namespace Azxc.UI.Controls
 {
-    public class Expander<T> : Button<T>
+    public class Expander : Button
     {
+        private readonly Vec2 ArrowOffset = new Vec2(4f, 1.6f);
+
         protected Window window;
 
-        private Vec2 arrowFix = new Vec2(4f, 1.6f);
-
-        protected Expander(T font) : base(font)
+        protected Expander()
         {
             window = new Window();
         }
 
-        public Expander(Window window, string text, T font) : base(text, font)
+        public Expander(Window window, string text) : base(text)
         {
             this.window = window;
         }
 
-        public Expander(Window window, string text, string toolTipText, T font) :
-            base(text, toolTipText, font)
+        public Expander(Window window, string text, string toolTipText) :
+            base(text, toolTipText)
         {
             this.window = window;
         }
 
-        public Expander(Window window, string text, string toolTipText, T font, Vec2 position) :
-            base(text, toolTipText, font, position)
+        public Expander(Window window, string text, string toolTipText, Vec2 position) :
+            base(text, toolTipText, position)
         {
             this.window = window;
         }
 
         public override void Update()
         {
-            width = GetWidth() + indent.x * 2 + 5f;
-            height = characterHeight * GetScale().y + indent.y * 2;
+            width = font.GetWidth(text) + indent.x * 2 + 5f;
+            height = font.characterHeight * font.scale.y + indent.y * 2;
         }
 
         public override void Draw()
@@ -44,7 +44,7 @@ namespace Azxc.UI.Controls
 
             Sprite arrow = new Sprite("contextArrowRight");
             arrow.scale = new Vec2(0.5f);
-            Vec2 arrowPosition = new Vec2(x + width - indent.x, y + height / 2) - arrowFix;
+            Vec2 arrowPosition = new Vec2(x + width - indent.x, y + height / 2) - ArrowOffset;
             Graphics.Draw(arrow, arrowPosition.x, arrowPosition.y, 1f);
         }
 

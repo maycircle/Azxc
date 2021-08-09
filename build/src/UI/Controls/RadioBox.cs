@@ -4,23 +4,21 @@ using System.Linq;
 
 namespace Azxc.UI.Controls
 {
-    public class RadioBox<T> : CheckBox<T>
+    public class RadioBox : CheckBox
     {
-        private Vec2 checkSize = new Vec2(3f);
-
-        public RadioBox(string text, T font, bool isChecked = false) : base(text, font)
+        public RadioBox(string text, bool isChecked = false) : base(text)
         {
             this.isChecked = isChecked;
         }
 
-        public RadioBox(string text, string toolTipText, T font, bool isChecked = false) :
-            base(text, toolTipText, font)
+        public RadioBox(string text, string toolTipText, bool isChecked = false) :
+            base(text, toolTipText)
         {
             this.isChecked = isChecked;
         }
 
-        public RadioBox(string text, string toolTipText, T font, Vec2 position,
-            bool isChecked = false) : base(text, toolTipText, font, position)
+        public RadioBox(string text, string toolTipText, Vec2 position,
+            bool isChecked = false) : base(text, toolTipText, position)
         {
             this.isChecked = isChecked;
         }
@@ -29,10 +27,13 @@ namespace Azxc.UI.Controls
         {
             if (isChecked)
                 return;
+
             isChecked = true;
             OnChecked(new ControlEventArgs(this));
-            foreach (RadioBox<T> radioBox in
-                Azxc.GetCore().GetUI().interact.activeWindow.OfType<RadioBox<T>>())
+
+            // Uncheck every other radiobox if this is checked
+            foreach (RadioBox radioBox in
+                Azxc.GetCore().GetUI().GetInteractionManager().activeWindow.OfType<RadioBox>())
             {
                 if (radioBox != this)
                     radioBox.isChecked = false;

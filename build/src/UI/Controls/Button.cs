@@ -4,36 +4,35 @@ using System;
 
 namespace Azxc.UI.Controls
 {
-    public class Button<T> : Label<T>, IAutoUpdate, IClickable, IHasTooltip, ISelectable
+    public class Button : Label, IClickable, IHasTooltip, ISelectable
     {
         public bool showToolTip { get; set; }
         public string toolTipText { get; set; }
 
-        public bool selected { get; set; }
+        public bool isSelected { get; set; }
 
-        protected Button(T font) : base(font)
+        protected Button()
         {
             toolTipText = "";
             showToolTip = false;
             indent = Vec2.One * 1.5f;
         }
 
-        public Button(string text, T font) : base(text, font)
+        public Button(string text) : base(text)
         {
             toolTipText = "";
             showToolTip = false;
             indent = Vec2.One * 1.5f;
         }
 
-        public Button(string text, string toolTipText, T font) : base(text, font)
+        public Button(string text, string toolTipText) : base(text)
         {
             this.toolTipText = toolTipText;
             showToolTip = true;
             indent = Vec2.One * 1.5f;
         }
 
-        public Button(string text, string toolTipText, T font, Vec2 position) :
-            base(text, font, position)
+        public Button(string text, string toolTipText, Vec2 position) : base(text, position)
         {
             this.toolTipText = toolTipText;
             showToolTip = true;
@@ -42,8 +41,8 @@ namespace Azxc.UI.Controls
 
         public override void Update()
         {
-            width = GetWidth() + indent.x * 2;
-            height = characterHeight * GetScale().y + indent.y * 2;
+            width = font.GetWidth(text) + indent.x * 2;
+            height = font.characterHeight * font.scale.y + indent.y * 2;
         }
 
         public virtual void DrawTooltip()
@@ -57,19 +56,22 @@ namespace Azxc.UI.Controls
             // Draw tooltip blending background
             Graphics.DrawRect(start, start + end, Color.Black * 0.5f, 1f);
             // Draw tooltip text
-            DrawText(toolTipText, start + indent, Color.White, new Depth(1.0f), true);
+            font.Draw(toolTipText, start + indent, Color.White, new Depth(1.0f), true);
         }
 
         public override void Draw()
         {
-            if (selected && showToolTip && Azxc.GetCore().GetUI().interact.activeWindow == parent)
+            if (isSelected && showToolTip &&
+                Azxc.GetCore().GetUI().GetInteractionManager().activeWindow == parent)
+            {
                 DrawTooltip();
+            }
 
             // Draw button background
             Graphics.DrawRect(position, position + size,
-                selected ? Color.DarkSlateGray : new Color(17, 39, 39), 0.5f);
+                isSelected ? Color.DarkSlateGray : new Color(17, 39, 39), 0.5f);
             // Draw button text
-            DrawText(text, position + indent, Color.White, new Depth(1.0f), true);
+            font.Draw(text, position + indent, Color.White, new Depth(1.0f), true);
         }
 
         public virtual void Click()

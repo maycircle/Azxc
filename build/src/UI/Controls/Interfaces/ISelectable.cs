@@ -5,7 +5,7 @@ namespace Azxc.UI.Controls
 {
     public interface ISelectable
     {
-        bool selected { get; set; }
+        bool isSelected { get; set; }
 
         event EventHandler<ControlEventArgs> onSelected;
 

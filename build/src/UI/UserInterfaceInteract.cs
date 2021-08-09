@@ -18,9 +18,6 @@ namespace Azxc.UI
 
             IClickable impl = item as IClickable;
             impl.Click();
-
-            // Disabled due to its poor realization
-            // DuckNetwork.core.enteringText = false;
         }
 
         public void MoveUp()
@@ -47,7 +44,7 @@ namespace Azxc.UI
 
         public void MoveLeft()
         {
-            if (Azxc.GetCore().GetUI().updatable.OfType<Controls.Window>().Count() > 1)
+            if (Azxc.GetCore().GetUI().GetUpdatable().OfType<Controls.Window>().Count() > 1)
                 activeWindow.Close();
         }
 
@@ -74,11 +71,11 @@ namespace Azxc.UI
             foreach (Control control in activeWindow.OfType<ISelectable>())
             {
                 ISelectable impl = control as ISelectable;
-                if (InRange(control) && !impl.selected)
+                if (InRange(control) && !impl.isSelected)
                 {
                     Deselect();
                     selectedItem = GetItemIndex(control);
-                    impl.selected = true;
+                    impl.isSelected = true;
                     break;
                 }
             }
@@ -86,10 +83,9 @@ namespace Azxc.UI
 
         public void Update()
         {
-            if (Azxc.GetCore().GetUI().updatable.OfType<Controls.Window>().Count() > 0)
-                activeWindow = Azxc.GetCore().GetUI().updatable.OfType<Controls.Window>().Last();
-            else if (Azxc.GetCore().GetUI().updatable.OfType<Controls.Window>().Count() <= 0 ||
-                !Azxc.GetCore().GetUI().state.HasFlag(UserInterfaceState.Open))
+            if (Azxc.GetCore().GetUI().GetUpdatable().OfType<Controls.Window>().Count() > 0)
+                activeWindow = Azxc.GetCore().GetUI().GetUpdatable().OfType<Controls.Window>().Last();
+            else if (!Azxc.GetCore().GetUI().GetState().HasFlag(UserInterfaceState.Open))
                 return;
 
             if (Keyboard.Pressed(Keys.Left))
@@ -119,16 +115,16 @@ namespace Azxc.UI
         private void Deselect()
         {
             ISelectable impl = GetItem() as ISelectable;
-            impl.selected = false;
+            impl.isSelected = false;
             impl.Select();
         }
 
         private void Select()
         {
             ISelectable impl = GetItem() as ISelectable;
-            if (!impl.selected)
+            if (!impl.isSelected)
             {
-                impl.selected = true;
+                impl.isSelected = true;
                 impl.Select();
             }
         }
@@ -138,7 +134,7 @@ namespace Azxc.UI
             int index = 0;
             foreach (ISelectable impl in activeWindow.OfType<ISelectable>())
             {
-                if (impl.selected)
+                if (impl.isSelected)
                     return index;
                 index += 1;
             }

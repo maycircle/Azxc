@@ -28,6 +28,7 @@ namespace Azxc
             AutoUpdatables.Add(this);
             LoadContent();
 
+            // Enable DevConsole Implementation on start-up
             bool.TryParse(_core.GetConfig().TryGetSingle("EnableDevConsoleImpl", "True"),
                 out DevConsoleImpl.enabled);
             DevConsoleImpl.HookAndToggle(DevConsoleImpl.enabled);

@@ -39,7 +39,7 @@ namespace Azxc
             return _doc.GetElementsByTagName(elementName)?.Item(0);
         }
 
-        public string TryGetSingle(string elementName, string defaultValue)
+        public string TryGetSingle(string elementName, string defaultValue = "")
         {
             XmlNodeList nodeList = _doc.GetElementsByTagName(elementName);
             if (nodeList.Count == 0)

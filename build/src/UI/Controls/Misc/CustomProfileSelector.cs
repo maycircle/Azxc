@@ -6,12 +6,11 @@ using System.Linq;
 
 namespace Azxc.UI.Controls.Misc
 {
-    class CustomProfileSelector<T> : Expander<T>, ISelector
+    class CustomProfileSelector : Expander, ISelector
     {
-        private Button<T> _selected;
+        private Button _selectedItem;
 
-        public CustomProfileSelector(string text, string toolTipText, T font) :
-            base(font)
+        public CustomProfileSelector(string text, string toolTipText)
         {
             this.text = text;
             this.toolTipText = toolTipText;
@@ -27,17 +26,17 @@ namespace Azxc.UI.Controls.Misc
         {
             window = new Window();
 
-            window.AddItem(new Label<T>("Profiles:", font));
+            window.AddItem(new Label("Profiles:"));
             if (Profiles.activeNonSpectators.Count == 0)
             {
-                window.AddItem(new Label<T>("No available profiles!", font));
+                window.AddItem(new Label("No available profiles!"));
                 return;
             }
             foreach (Profile profile in Profiles.activeNonSpectators.Where(x => x.duck != null))
             {
                 if (profile != null && profile.duck != null)
                 {
-                    Button<T> player = new Button<T>(profile.name, font);
+                    Button player = new Button(profile.name);
                     player.onClicked += Player_Clicked;
                     window.AddItem(player);
                 }
@@ -50,7 +49,7 @@ namespace Azxc.UI.Controls.Misc
         {
             foreach (Profile profile in Profiles.all)
             {
-                if (profile.name == _selected.text && profile.duck != null)
+                if (profile.name == _selectedItem.text && profile.duck != null)
                     return profile;
             }
 
@@ -65,7 +64,7 @@ namespace Azxc.UI.Controls.Misc
 
         private void Player_Clicked(object sender, ControlEventArgs e)
         {
-            _selected = (Button<T>)e.item;
+            _selectedItem = (Button)e.item;
             OnCommandRun(e);
         }
     }

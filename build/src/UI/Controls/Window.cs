@@ -9,15 +9,15 @@ namespace Azxc.UI.Controls
 {
     public class Window : Control, IEnumerable<Control>, IAutoUpdate
     {
+        private List<Control> _items;
+
+        private Vec2 _panelPosition;
+        private Vec2 _panelSize;
+
         public SizeModes sizeMode { get; }
 
         public Vec2 indent;
         public Vec2 inner;
-
-        private Vec2 panelPosition;
-        private Vec2 panelSize;
-
-        private List<Control> _items;
 
         public Window()
         {
@@ -26,8 +26,8 @@ namespace Azxc.UI.Controls
             size = Vec2.Zero;
             sizeMode = SizeModes.Flexible;
 
-            panelPosition = new Vec2();
-            panelSize = new Vec2();
+            _panelPosition = new Vec2();
+            _panelSize = new Vec2();
             indent = Vec2.One / 2;
             inner = (Vec2.One * 1.5f) / 2;
 
@@ -41,8 +41,8 @@ namespace Azxc.UI.Controls
             size = Vec2.Zero;
             this.sizeMode = sizeMode;
 
-            panelPosition = new Vec2();
-            panelSize = new Vec2();
+            _panelPosition = new Vec2();
+            _panelSize = new Vec2();
             // This is just for design, so I'll use standart value everywhere
             indent = Vec2.One / 2;
             inner = (Vec2.One * 1.5f) / 2;
@@ -137,8 +137,8 @@ namespace Azxc.UI.Controls
 
         public virtual void Update()
         {
-            panelPosition = position + indent * 2;
-            panelSize = size - indent * 2;
+            _panelPosition = position + indent * 2;
+            _panelSize = size - indent * 2;
 
             for (int i = 0; i < _items.Count; i++)
             {
@@ -147,8 +147,8 @@ namespace Azxc.UI.Controls
                 int count = (i / 24);
 
                 Control item = _items[i];
-                item.x = panelPosition.x + inner.x + (GetLongestWidth() * count) - (inner.x * count);
-                item.y = panelPosition.y + CalculateHeights(stack) + (inner.y * (stack + 1));
+                item.x = _panelPosition.x + inner.x + (GetLongestWidth() * count) - (inner.x * count);
+                item.y = _panelPosition.y + CalculateHeights(stack) + (inner.y * (stack + 1));
 
                 IHasIndent impl = item as IHasIndent;
                 item.width = GetLongestWidth() - impl.indent.x;
@@ -157,15 +157,15 @@ namespace Azxc.UI.Controls
 
         public override void Draw()
         {
-            if (!visible)
+            if (!isVisible)
                 return;
 
             // Draw borders
             Graphics.DrawRect(position, position + size, Color.Black);
 
-            Vec2 end = panelPosition + panelSize - indent;
+            Vec2 end = _panelPosition + _panelSize - indent;
             end.y += indent.y / 2;
-            Graphics.DrawRect(panelPosition - indent, end,
+            Graphics.DrawRect(_panelPosition - indent, end,
                 Color.DarkSlateGray, 0.1f, false, 0.5f);
 
             foreach (Control item in _items)

@@ -4,33 +4,33 @@ using System;
 
 namespace Azxc.UI.Controls
 {
-    public class CheckBox<T> : Button<T>
+    public class CheckBox : Button
     {
         public bool isChecked { get; set; }
 
         private Vec2 checkSize = new Vec2(3f);
 
-        public CheckBox(string text, T font, bool isChecked = false) : base(text, font)
+        public CheckBox(string text, bool isChecked = false) : base(text)
         {
             this.isChecked = isChecked;
         }
 
-        public CheckBox(string text, string toolTipText, T font, bool isChecked = false) :
-            base(text, toolTipText, font)
+        public CheckBox(string text, string toolTipText, bool isChecked = false) :
+            base(text, toolTipText)
         {
             this.isChecked = isChecked;
         }
 
-        public CheckBox(string text, string toolTipText, T font, Vec2 position,
-            bool isChecked = false) : base(text, toolTipText, font, position)
+        public CheckBox(string text, string toolTipText, Vec2 position,
+            bool isChecked = false) : base(text, toolTipText, position)
         {
             this.isChecked = isChecked;
         }
 
         public override void Update()
         {
-            width = GetWidth() + indent.x * 2 + checkSize.x + 2f;
-            height = characterHeight * GetScale().y + indent.y * 2;
+            width = font.GetWidth(text) + indent.x * 2 + checkSize.x + 2f;
+            height = font.characterHeight * font.scale.y + indent.y * 2;
         }
 
         public override void Draw()

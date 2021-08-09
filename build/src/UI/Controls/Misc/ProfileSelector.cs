@@ -5,17 +5,16 @@ using System.Linq;
 
 namespace Azxc.UI.Controls.Misc
 {
-    class ProfileSelector<T, U> : Expander<T>, ISelector where U : Command
+    class ProfileSelector<T> : Expander, ISelector where T : Command
     {
-        private AbstractExpander<T, U> _selected;
+        private AbstractExpander<T> _selectedItem;
 
-        public ProfileSelector(string text, T font) : base(font)
+        public ProfileSelector(string text)
         {
             this.text = text;
         }
 
-        public ProfileSelector(string text, string toolTipText, T font) :
-            base(font)
+        public ProfileSelector(string text, string toolTipText)
         {
             this.text = text;
             this.toolTipText = toolTipText;
@@ -26,17 +25,17 @@ namespace Azxc.UI.Controls.Misc
         {
             window = new Window();
 
-            window.AddItem(new Label<T>("Profiles:", font));
+            window.AddItem(new Label("Profiles:"));
             if (Profiles.activeNonSpectators.Count == 0)
             {
-                window.AddItem(new Label<T>("No available profiles!", font));
+                window.AddItem(new Label("No available profiles!"));
                 return;
             }
             foreach (Profile profile in Profiles.activeNonSpectators.Where(x => x.duck != null))
             {
                 if (profile != null && profile.duck != null)
                 {
-                    AbstractExpander<T, U> player = new AbstractExpander<T, U>(profile.name, font);
+                    AbstractExpander<T> player = new AbstractExpander<T>(profile.name);
                     player.onExpanded += Player_Expanded;
                     window.AddItem(player);
                 }
@@ -49,7 +48,7 @@ namespace Azxc.UI.Controls.Misc
         {
             foreach (Profile profile in Profiles.all)
             {
-                if (profile.name == _selected.text && profile.duck != null)
+                if (profile.name == _selectedItem.text && profile.duck != null)
                     return profile;
             }
 
@@ -58,9 +57,9 @@ namespace Azxc.UI.Controls.Misc
 
         private void Player_Expanded(object sender, ControlEventArgs e)
         {
-            AbstractExpander<T, U> item = (AbstractExpander<T, U>)e.item;
+            AbstractExpander<T> item = (AbstractExpander<T>)e.item;
             ((Command)item.window).AddSelector(this);
-            _selected = item;
+            _selectedItem = item;
         }
     }
 }

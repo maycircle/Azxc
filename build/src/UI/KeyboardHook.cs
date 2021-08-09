@@ -34,9 +34,12 @@ namespace Azxc.UI
         }
 
         // Down@Keyboard
+        /// <summary>
+        /// Filters out player controls, such as WASD, Jump and Escape menu, but
+        /// passes Azxc's calls.
+        /// </summary>
         static bool DownPrefix(ref bool __result)
         {
-            // Mainly hooks player controls, such as WASD, Jump and Escape menu
             if (enabled)
             {
                 StackTrace stackTrace = new StackTrace();

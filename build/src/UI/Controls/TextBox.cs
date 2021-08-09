@@ -6,7 +6,7 @@ namespace Azxc.UI.Controls
 {
     class InputDialog : Window, IDialog
     {
-        private Label<FancyBitmapFont> _dialogTitle, _userInput;
+        private Label _dialogTitle, _userInput;
 
         private string _hintsTextBackup;
 
@@ -24,13 +24,16 @@ namespace Azxc.UI.Controls
             FancyBitmapFont hugeFont = new FancyBitmapFont("smallFont");
             hugeFont.scale = new Vec2(0.5f);
 
-            _dialogTitle = new Label<FancyBitmapFont>("", Azxc.GetCore().GetUI().font);
+            _dialogTitle = new Label(string.Empty);
             if (_dialogTitle.text == "")
             {
                 _dialogTitle.text = "Default title:";
                 AddItem(_dialogTitle);
             }
-            _userInput = new Label<FancyBitmapFont>("Default text_", hugeFont); AddItem(_userInput);
+
+            _userInput = new Label("Default text_");
+            _userInput.font = hugeFont;
+            AddItem(_userInput);
         }
 
         public void Accept()
@@ -79,17 +82,6 @@ namespace Azxc.UI.Controls
             }
         }
 
-        public void ThrowResult()
-        {
-            OnResult(new ControlEventArgs(this));
-        }
-
-        public event EventHandler<ControlEventArgs> onResult;
-        protected void OnResult(ControlEventArgs e)
-        {
-            onResult?.Invoke(this, e);
-        }
-
         public void ShowDialog(string title, string defaultText)
         {
             _dialogTitle.text = title;
@@ -97,7 +89,8 @@ namespace Azxc.UI.Controls
             Keyboard.keyString = defaultText;
 
             KeyboardHook.repeat = true;
-            Azxc.GetCore().GetUI().inputHook = true;
+            Azxc.GetCore().GetUI().SetKeyboardLock(true);
+
             Azxc.GetCore().GetUI().forceHints = true;
             _hintsTextBackup = Azxc.GetCore().GetUI().hintsText;
             Azxc.GetCore().GetUI().hintsText = "@AZXCACTIVATE@ACCEPT  @AZXCRIGHTMOUSE@@AZXCBACK@CANCEL";
@@ -110,8 +103,10 @@ namespace Azxc.UI.Controls
         public override void Close()
         {
             base.Close();
+
             KeyboardHook.repeat = false;
-            Azxc.GetCore().GetUI().inputHook = false;
+            Azxc.GetCore().GetUI().SetKeyboardLock(false);
+
             Azxc.GetCore().GetUI().forceHints = false;
             Azxc.GetCore().GetUI().hintsText = _hintsTextBackup;
         }
@@ -121,9 +116,20 @@ namespace Azxc.UI.Controls
             if (Keyboard.keyString != _userInput.text)
                 Keyboard.keyString = _userInput.text;
         }
+
+        public void ThrowResult()
+        {
+            OnResult(new ControlEventArgs(this));
+        }
+
+        public event EventHandler<ControlEventArgs> onResult;
+        protected void OnResult(ControlEventArgs e)
+        {
+            onResult?.Invoke(this, e);
+        }
     }
 
-    public class TextBox<T> : Button<T>
+    public class TextBox : Button
     {
         private string _shadowText;
 
@@ -138,21 +144,21 @@ namespace Azxc.UI.Controls
 
         public bool nullOrWhitespace { get; set; }
 
-        public TextBox(string text, T font) : base(text, font)
+        public TextBox(string text) : base(text)
         {
             _shadowText = text;
             nullOrWhitespace = false;
         }
 
-        public TextBox(string text, string placeholderText, T font) : base(text, font)
+        public TextBox(string text, string placeholderText) : base(text)
         {
             this.placeholderText = placeholderText;
             _shadowText = text;
             nullOrWhitespace = false;
         }
 
-        public TextBox(string text, string placeholderText, string toolTipText, T font) :
-            base(text, toolTipText, font)
+        public TextBox(string text, string placeholderText, string toolTipText) :
+            base(text, toolTipText)
         {
             this.placeholderText = placeholderText;
             _shadowText = text;
@@ -161,11 +167,11 @@ namespace Azxc.UI.Controls
 
         public override void Update()
         {
-            float textWidth = GetWidth() + indent.x * 2;
-            float placeholderTextWidth = GetWidth(placeholderText) + indent.x * 2;
+            float textWidth = font.GetWidth(text) + indent.x * 2;
+            float placeholderTextWidth = font.GetWidth(placeholderText) + indent.x * 2;
 
             width = textWidth >= placeholderTextWidth ? textWidth : placeholderTextWidth;
-            height = characterHeight * GetScale().y + indent.y * 2;
+            height = font.characterHeight * font.scale.y + indent.y * 2;
         }
 
         public override void Draw()
@@ -178,30 +184,23 @@ namespace Azxc.UI.Controls
                 0.9f, false, border);
 
             if (!string.IsNullOrEmpty(_shadowText) &&
-                GetWidth(_shadowText) + 2.0f >= width)
+                font.GetWidth(_shadowText) + 2.0f >= width)
             {
                 text = "";
                 // Draw "..." in case if input is too long
-                DrawText("...", position + indent, Color.Gray, new Depth(1.0f), true);
+                font.Draw("...", position + indent, Color.Gray, new Depth(1.0f), true);
             }
             else if ((!nullOrWhitespace && string.IsNullOrEmpty(_shadowText)) ||
                 (nullOrWhitespace && string.IsNullOrWhiteSpace(_shadowText)))
             {
                 text = "";
                 // Draw placeholder text
-                DrawText(placeholderText, position + indent, Color.Gray, new Depth(1.0f), true);
+                font.Draw(placeholderText, position + indent, Color.Gray, new Depth(1.0f), true);
             }
             else
                 text = _shadowText;
 
             base.Draw();
-        }
-
-        public override void Click()
-        {
-            base.Click();
-
-            Edit();
         }
 
         public virtual void Edit()
@@ -223,6 +222,13 @@ namespace Azxc.UI.Controls
         protected void OnTextChanged(ControlEventArgs e)
         {
             onTextChanged?.Invoke(this, e);
+        }
+
+        public override void Click()
+        {
+            base.Click();
+
+            Edit();
         }
     }
 }

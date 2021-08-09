@@ -30,23 +30,10 @@ namespace Azxc.UI
         public string hintsText { get; set; }
         public bool forceHints { get; set; }
 
-        private bool _inputHook;
-        public bool inputHook
-        {
-            get { return _inputHook; }
-            set
-            {
-                if (!value)
-                    KeyboardHook.HookAndToggle(false);
-                _inputHook = value;
-            }
-        }
+        public bool isKeyboardLocked { get; private set; }
 
         // Short-cuts
 
-        public UserInterfaceInteract interact => _core.interact;
-        public UserInterfaceState state => _core.state;
-        public List<IAutoUpdate> updatable => _core.updatable;
         public Cursor cursor => _core.cursor;
         public FancyBitmapFont font => _core.font;
 
@@ -87,7 +74,7 @@ namespace Azxc.UI
                 _core.state |= UserInterfaceState.Open;
                 _core.state &= ~UserInterfaceState.Freeze;
 
-                foreach (Control control in _core.updatable.OfType<Control>())
+                foreach (Control control in _core.GetUpdatable().OfType<Control>())
                     control.Appear();
             }
         }
@@ -99,8 +86,6 @@ namespace Azxc.UI
 
             if (Keyboard.Pressed(Keys.Insert))
                 Open();
-            if (_inputHook)
-                KeyboardHook.HookAndToggle(_core.state.HasFlag(UserInterfaceState.Open));
 
             bool freezed = _core.state.HasFlag(UserInterfaceState.Freeze);
 
@@ -112,7 +97,7 @@ namespace Azxc.UI
                 _core.cursor.Update();
             }
 
-            foreach (IAutoUpdate item in _core.updatable)
+            foreach (IAutoUpdate item in _core.GetUpdatable())
             {
                 if (!freezed || Attribute.IsDefined(item.GetType(), typeof(ForceUpdateAttribute)))
                     item.Update();
@@ -157,18 +142,28 @@ namespace Azxc.UI
                 DrawHints();
             _core.cursor.Draw();
 
-            foreach (Control control in _core.updatable.OfType<Control>())
+            foreach (Control control in _core.GetUpdatable().OfType<Control>())
                 control.Draw();
+        }
+
+        public UserInterfaceInteract GetInteractionManager() => _core.interact;
+        public UserInterfaceState GetState() => _core.state;
+        public List<IAutoUpdate> GetUpdatable() => _core.GetUpdatable();
+
+        public void SetKeyboardLock(bool state)
+        {
+            KeyboardHook.HookAndToggle(state && _core.state.HasFlag(UserInterfaceState.Open));
+            isKeyboardLocked = state;
         }
 
         public void AddUpdatable(IAutoUpdate updatable)
         {
-            _core.updatable.Add(updatable);
+            _core.AddUpdatable(updatable);
         }
 
         public void RemoveUpdatable(IAutoUpdate updatable)
         {
-            _core.updatable.Remove(updatable);
+            _core.RemoveUpdatable(updatable);
         }
     }
 }

@@ -4,7 +4,8 @@ namespace Azxc
 {
     public class CProfile : CMD.Argument
     {
-        public CProfile(string name, bool optional = false) : base(name, optional)
+        public CProfile(string name, bool optional = false) :
+            base(name, optional)
         { }
 
         public override object Parse(string name)

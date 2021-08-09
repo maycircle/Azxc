@@ -35,20 +35,20 @@ namespace Azxc.UI.Controls
             }
         }
 
-        public bool visible { get; set; }
+        public bool isVisible { get; set; }
 
         public Control()
         {
-            this.position = Vec2.Zero;
-            this.size = Vec2.Zero;
-            visible = true;
+            position = Vec2.Zero;
+            size = Vec2.Zero;
+            isVisible = true;
         }
 
         public Control(Vec2 position, Vec2 size)
         {
             this.position = position;
             this.size = size;
-            visible = true;
+            isVisible = true;
         }
 
         public virtual void Draw()
