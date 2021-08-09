@@ -111,7 +111,6 @@
     <Compile Include="src\UI\Controls\Control.cs" />
     <Compile Include="src\UI\Controls\Cursor.cs" />
     <Compile Include="src\UI\Controls\DialogResult.cs" />
-    <Compile Include="src\UI\Controls\AbstractExpander.cs" />
     <Compile Include="src\UI\Controls\Expander.cs" />
     <Compile Include="src\UI\Controls\Interfaces\IClickable.cs" />
     <Compile Include="src\UI\Controls\Interfaces\IDialog.cs" />
@@ -119,6 +118,7 @@
     <Compile Include="src\UI\Controls\Interfaces\ISelectable.cs" />
     <Compile Include="src\UI\Controls\Interfaces\IHasTooltip.cs" />
     <Compile Include="src\UI\Controls\Interfaces\ISelector.cs" />
+	<Compile Include="src\UI\Controls\Misc\AbstractExpander.cs" />
     <Compile Include="src\UI\Controls\Misc\Command.cs" />
     <Compile Include="src\UI\Controls\Misc\CustomProfileSelector.cs" />
     <Compile Include="src\UI\Controls\Misc\ProfileSelector.cs" />
