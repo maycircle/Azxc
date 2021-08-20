@@ -12,19 +12,18 @@ namespace Azxc.UI
 
         private void InitializeComponent()
         {
-            AddItem(new Expander<FancyBitmapFont>(new WeaponsWindow(), "Weapons",
-                "Weapon(s) hacks.", Azxc.GetCore().GetUI().font));
-            AddItem(new Expander<FancyBitmapFont>(new ConsoleWindow(), "Commands",
-                "GUI for console commands.", Azxc.GetCore().GetUI().font));
-            AddItem(new Expander<FancyBitmapFont>(new ArcadeWindow(), "Arcade",
-                "Challenges-related stuff.", Azxc.GetCore().GetUI().font));
-            AddItem(new Expander<FancyBitmapFont>(new NetworkWindow(), "Network",
-                "(Duck)Networking-related stuff.", Azxc.GetCore().GetUI().font));
-            AddItem(new Expander<FancyBitmapFont>(new FunWindow(), "Fun",
-                "Stuff to show off with. Lots of glitches, have fun :)",
-                Azxc.GetCore().GetUI().font));
-            AddItem(new Expander<FancyBitmapFont>(new MiscWindow(), "Misc",
-                "Random stuff.", Azxc.GetCore().GetUI().font));
+            AddItem(new Expander(new WeaponsWindow(), "Weapons",
+                "Weapon(s) hacks."));
+            AddItem(new Expander(new ConsoleWindow(), "Commands",
+                "GUI for console commands."));
+            AddItem(new Expander(new ArcadeWindow(), "Arcade",
+                "Challenges-related stuff."));
+            AddItem(new Expander(new NetworkWindow(), "Network",
+                "(Duck)Networking-related stuff."));
+            AddItem(new Expander(new FunWindow(), "Fun",
+                "Stuff to show off with. Lots of glitches, have fun :)"));
+            AddItem(new Expander(new MiscWindow(), "Misc",
+                "Random stuff."));
         }
     }
 }

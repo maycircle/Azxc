@@ -9,8 +9,7 @@ namespace Azxc.UI
 {
     class MiscWindow : Controls.Window
     {
-        private CheckBox<FancyBitmapFont> _commandsBypass, _lobbyTimout,
-            _consoleImplementation;
+        private CheckBox _commandsBypass, _lobbyTimout, _consoleImplementation;
 
         public MiscWindow()
         {
@@ -22,34 +21,32 @@ namespace Azxc.UI
             bool.TryParse(Azxc.GetCore().GetConfig().TryGetSingle("EnableDevConsoleImpl", "True"),
                 out DevConsoleImpl.enabled);
             DevConsoleImpl.HookAndToggle(DevConsoleImpl.enabled);
-            _consoleImplementation = new CheckBox<FancyBitmapFont>("Console Implementation",
+            _consoleImplementation = new CheckBox("Console Implementation",
                 "Enable Azxc's DevConsole implementation: syntax, commands |YELLOW|(EnableDevConsoleImpl)." +
                 "|DGBLUE|\nSyntax examples: `[p1]`, `[lp1]`, `[ap1]`, `[p1:x]`, [p1:xp].\n" +
                 "Available commands: azxc_steal.",
-                Azxc.GetCore().GetUI().font, DevConsoleImpl.enabled);
+                DevConsoleImpl.enabled);
             _consoleImplementation.onChecked += ConsoleImplementation_Checked;
             AddItem(_consoleImplementation);
 
-            _commandsBypass = new CheckBox<FancyBitmapFont>("Commands Bypass",
-                "Ability to call extra commands in DevConsole.", Azxc.GetCore().GetUI().font);
+            _commandsBypass = new CheckBox("Commands Bypass", "Ability to call extra commands in DevConsole.");
             _commandsBypass.onChecked += CommandsBypass_Checked; AddItem(_commandsBypass);
 
             AddItem(new Separator());
 
-            _lobbyTimout = new CheckBox<FancyBitmapFont>("Lobby Timeout",
-                "Kick from lobby after being AFK for 5 minutes.", Azxc.GetCore().GetUI().font, true);
+            _lobbyTimout = new CheckBox("Lobby Timeout", "Kick from lobby after being AFK for 5 minutes.", true);
             _lobbyTimout.onChecked += LobbyTimeout_Checked; AddItem(_lobbyTimout);
         }
 
         private void CommandsBypass_Checked(object sender, ControlEventArgs e)
         {
-            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            CheckBox checkBox = sender as CheckBox;
             CommandsBypass.HookAndToggle(checkBox.isChecked);
         }
 
         private void LobbyTimeout_Checked(object sender, ControlEventArgs e)
         {
-            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            CheckBox checkBox = sender as CheckBox;
 
             FieldInfo showTimeout = AccessTools.Field(typeof(TeamSelect2), "_afkShowTimeout");
             FieldInfo maxTimeout = AccessTools.Field(typeof(TeamSelect2), "_afkMaxTimeout");
@@ -68,7 +65,7 @@ namespace Azxc.UI
 
         private void ConsoleImplementation_Checked(object sender, ControlEventArgs e)
         {
-            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            CheckBox checkBox = sender as CheckBox;
             DevConsoleImpl.HookAndToggle(checkBox.isChecked);
             Azxc.GetCore().GetConfig().TrySet("EnableDevConsoleImpl", checkBox.isChecked.ToString());
         }

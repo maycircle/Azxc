@@ -28,11 +28,11 @@ namespace Azxc.UI
 
             foreach (Type thing in thingTypes)
             {
-                if (InheritsFrom(thing, typeof(Holdable)) && Editor.HasConstructorParameter(thing) &&
+                if (InheritsFrom(thing, typeof(Holdable)) &&
+                    Editor.HasConstructorParameter(thing) &&
                     !thing.IsAbstract)
                 {
-                    Button<FancyBitmapFont> executor = new Button<FancyBitmapFont>(thing.Name,
-                        Azxc.GetCore().GetUI().font);
+                    Button executor = new Button(thing.Name);
                     executor.onClicked += GiveMethod_Clicked;
                     AddItem(executor);
                 }
@@ -66,12 +66,12 @@ namespace Azxc.UI
 
         private void GiveMethod_Clicked(object sender, ControlEventArgs e)
         {
+            Button button = sender as Button;
+            List<Type> thingTypes = GiveGetEditorThings();
+
             Profile selectedProfile = (Profile)_selectors[0].GetValue();
             if (selectedProfile == null)
                 return;
-
-            Button<FancyBitmapFont> button = e.item as Button<FancyBitmapFont>;
-            List<Type> thingTypes = GiveGetEditorThings();
 
             foreach (Type thing in thingTypes)
             {
@@ -87,7 +87,6 @@ namespace Azxc.UI
         private List<Type> GiveGetEditorThings()
         {
             List<Type> thingTypes;
-            // Copied straight from Duck Game source code :P
             if (MonoMain.moddingEnabled)
                 thingTypes = ManagedContent.Things.Types.ToList<Type>();
             else

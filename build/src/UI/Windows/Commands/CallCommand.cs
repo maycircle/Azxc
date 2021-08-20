@@ -19,16 +19,15 @@ namespace Azxc.UI
             {
                 if (method.GetParameters().Count() == 0 && method.ReturnType == typeof(void))
                 {
-                    Button<FancyBitmapFont> executor = new Button<FancyBitmapFont>(method.Name,
-                        Azxc.GetCore().GetUI().font);
+                    Button executor = new Button(method.Name);
                     executor.onClicked += CallMethod_Clicked;
                     AddItem(executor);
                 }
             }
             Sort(delegate (Control x, Control y)
             {
-                Button<FancyBitmapFont> bx = x as Button<FancyBitmapFont>;
-                Button<FancyBitmapFont> by = y as Button<FancyBitmapFont>;
+                Button bx = x as Button;
+                Button by = y as Button;
                 if (bx.text == null && by.text == null) return 0;
                 else if (bx.text == null) return -1;
                 else if (by.text == null) return 1;
@@ -42,7 +41,7 @@ namespace Azxc.UI
             if (selectedProfile == null)
                 return;
 
-            Button<FancyBitmapFont> button = e.item as Button<FancyBitmapFont>;
+            Button button = sender as Button;
             foreach (MethodInfo method in typeof(Duck).GetMethods())
             {
                 if (method.Name == button.text)
@@ -51,7 +50,8 @@ namespace Azxc.UI
                     {
                         method.Invoke(selectedProfile.duck, null);
                     }
-                    catch { }
+                    catch
+                    { }
                 }
             }
         }

@@ -8,8 +8,8 @@ namespace Azxc.UI
 {
     class NetworkWindow : Controls.Window
     {
-        private CheckBox<FancyBitmapFont> _enableCustomNickname, _hatStealer, _hatConverter;
-        private TextBox<FancyBitmapFont> _customNickname;
+        private CheckBox _enableCustomNickname, _hatStealer, _hatConverter;
+        private TextBox _customNickname;
 
         public NetworkWindow()
         {
@@ -18,30 +18,29 @@ namespace Azxc.UI
 
         private void InitializeComponent()
         {
-            _enableCustomNickname = new CheckBox<FancyBitmapFont>("Enable custom nickname",
-                "Change your displaying name |RED|(Switching generally doesn't work in online game).",
-                Azxc.GetCore().GetUI().font);
+            _enableCustomNickname = new CheckBox("Enable custom nickname",
+                "Change your displaying name |RED|(Switching generally doesn't work in online game).");
             _enableCustomNickname.onChecked += EnableCustomNickname_Checked;
             AddItem(_enableCustomNickname);
 
-            _customNickname = new TextBox<FancyBitmapFont>(Azxc.GetCore().GetConfig().TryGetSingle("CustomNickname", ""),
-                "Custom nickname...", "|YELLOW|(CustomNickname).", Azxc.GetCore().GetUI().font);
+            _customNickname = new TextBox(Azxc.GetCore().GetConfig().TryGetSingle("CustomNickname"),
+                "Custom nickname...", "|YELLOW|(CustomNickname).");
             _customNickname.inputDialogTitle = "Custom nickname:";
             _customNickname.onTextChanged += CustomNickname_TextChanged;
             AddItem(_customNickname);
 
             AddItem(new Separator());
 
-            _hatStealer = new CheckBox<FancyBitmapFont>("Hat Stealer",
-                "Steal custom hats of other players |YELLOW|(HatStealerSavePath).", Azxc.GetCore().GetUI().font);
+            _hatStealer = new CheckBox("Hat Stealer",
+                "Steal custom hats of other players |YELLOW|(HatStealerSavePath).");
             _hatStealer.onChecked += HatStealer_Checked;
             AddItem(_hatStealer);
 
             bool.TryParse(Azxc.GetCore().GetConfig().TryGetSingle("EnableHatConverter", "False"),
                 out HatStealer.autoConvert);
-            _hatConverter = new CheckBox<FancyBitmapFont>("Hat Converter",
+            _hatConverter = new CheckBox("Hat Converter",
                 "Automatically convert PNG images to Duck Game's HAT files |YELLOW|(EnableHatConverter).",
-                Azxc.GetCore().GetUI().font, HatStealer.autoConvert);
+                HatStealer.autoConvert);
             _hatConverter.onChecked += HatConverter_Checked;
             AddItem(_hatConverter);
         }
@@ -54,7 +53,7 @@ namespace Azxc.UI
 
         private void EnableCustomNickname_Checked(object sender, ControlEventArgs e)
         {
-            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            CheckBox checkBox = sender as CheckBox;
             if (checkBox.isChecked && !string.IsNullOrEmpty(_customNickname.inputText))
                 EnableCustomNickname();
             else if (!checkBox.isChecked)
@@ -69,13 +68,13 @@ namespace Azxc.UI
 
         private void HatStealer_Checked(object sender, ControlEventArgs e)
         {
-            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            CheckBox checkBox = sender as CheckBox;
             HatStealer.HookAndToggle(checkBox.isChecked);
         }
 
         private void HatConverter_Checked(object sender, ControlEventArgs e)
         {
-            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            CheckBox checkBox = sender as CheckBox;
             HatStealer.autoConvert = checkBox.isChecked;
             Azxc.GetCore().GetConfig().TrySet("EnableHatConverter", checkBox.isChecked.ToString());
         }

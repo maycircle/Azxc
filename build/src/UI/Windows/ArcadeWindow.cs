@@ -9,8 +9,8 @@ namespace Azxc.UI
 {
     class ArcadeWindow : Controls.Window
     {
-        private Button<FancyBitmapFont> _ticketsMax, _ticketsMin, _finishChallenge;
-        private CheckBox<FancyBitmapFont> _pauseTimer;
+        private Button _ticketsMax, _ticketsMin, _finishChallenge;
+        private CheckBox _pauseTimer;
 
         public ArcadeWindow()
         {
@@ -19,22 +19,20 @@ namespace Azxc.UI
 
         private void InitializeComponent()
         {
-            _ticketsMax = new Button<FancyBitmapFont>("Tickets MAX", "Set tickets amount to 999.",
-                Azxc.GetCore().GetUI().font);
+            _ticketsMax = new Button("Tickets MAX", "Set tickets amount to 999.");
             _ticketsMax.onClicked += TicketsMax_Clicked; AddItem(_ticketsMax);
 
-            _ticketsMin = new Button<FancyBitmapFont>("Tickets MIN", "Set tickets amount to 0.",
-                Azxc.GetCore().GetUI().font);
+            _ticketsMin = new Button("Tickets MIN", "Set tickets amount to 0.");
             _ticketsMin.onClicked += TicketsMin_Clicked; AddItem(_ticketsMin);
 
             AddItem(new Separator());
 
-            _pauseTimer = new CheckBox<FancyBitmapFont>("Pause Timer",
-                "Become incredibly fast, relative to time... :)", Azxc.GetCore().GetUI().font);
+            _pauseTimer = new CheckBox("Pause Timer",
+                "Become incredibly fast, relative to time... :)");
             _pauseTimer.onChecked += PauseTimer_Checked; AddItem(_pauseTimer);
 
-            _finishChallenge = new Button<FancyBitmapFont>("Finish Challenge",
-                "Complete the challenge (Developer included).", Azxc.GetCore().GetUI().font);
+            _finishChallenge = new Button("Finish Challenge",
+                "Complete the challenge (Developer included).");
             _finishChallenge.onClicked += FinishChallenge_Clicked; AddItem(_finishChallenge);
         }
 
@@ -50,7 +48,7 @@ namespace Azxc.UI
 
         private void PauseTimer_Checked(object sender, ControlEventArgs e)
         {
-            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            CheckBox checkBox = sender as CheckBox;
 
             PauseTimer.enabled = checkBox.isChecked;
             if (ChallengeLevel.timer != null && checkBox.isChecked)

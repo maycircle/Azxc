@@ -8,7 +8,7 @@ namespace Azxc.UI
 {
     class FunWindow : Controls.Window
     {
-        private CheckBox<FancyBitmapFont> _assaultAura, _spinMeRound;
+        private CheckBox _assaultAura, _spinMeRound;
 
         public FunWindow()
         {
@@ -17,24 +17,24 @@ namespace Azxc.UI
 
         private void InitializeComponent()
         {
-            _assaultAura = new CheckBox<FancyBitmapFont>("Assault Aura", Azxc.GetCore().GetUI().font);
+            _assaultAura = new CheckBox("Assault Aura");
             _assaultAura.onChecked += WeaponAura_Checked;
             AddItem(_assaultAura);
 
-            _spinMeRound = new CheckBox<FancyBitmapFont>("Spin Me Round", Azxc.GetCore().GetUI().font);
+            _spinMeRound = new CheckBox("Spin Me Round");
             _spinMeRound.onChecked += SpinMeRound_Checked;
             AddItem(_spinMeRound);
         }
 
         private void WeaponAura_Checked(object sender, ControlEventArgs e)
         {
-            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            CheckBox checkBox = sender as CheckBox;
             AssaultAura.Toggle(checkBox.isChecked);
         }
 
         private void SpinMeRound_Checked(object sender, ControlEventArgs e)
         {
-            CheckBox<FancyBitmapFont> checkBox = e.item as CheckBox<FancyBitmapFont>;
+            CheckBox checkBox = sender as CheckBox;
             SpinMeRound.Toggle(checkBox.isChecked);
         }
     }
