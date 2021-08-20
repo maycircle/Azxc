@@ -27,7 +27,8 @@ namespace Azxc.UI
 
         private static float _resolution;
 
-        public string hintsText { get; set; }
+        private BitmapFont _hintsFont;
+        public string hintsText { get; private set; }
         public bool forceHints { get; set; }
 
         public bool isKeyboardLocked { get; private set; }
@@ -37,10 +38,23 @@ namespace Azxc.UI
         public Cursor cursor => _core.cursor;
         public FancyBitmapFont font => _core.font;
 
+        public UserInterfaceInteract GetInteractionManager() => _core.interact;
+        public UserInterfaceState GetState() => _core.state;
+        public List<IAutoUpdate> GetUpdatable() => _core.GetUpdatable();
+
+        private static void OnLevelLoad(Level __instance)
+        {
+            // Due to problems with UI scaling, it will calculate a (mostly) perfect resolution for
+            // interface
+            _resolution = __instance.camera.width / 320f;
+        }
+
         public UserInterfaceManager(UserInterfaceState state)
         {
             _core = new UserInterfaceCore();
             _core.state = state;
+
+            _hintsFont = new BitmapFont("biosFont", 8);
 
             // So the GUI will be drawn everywhere
             Azxc.GetCore().GetHarmony().Patch(typeof(Level).GetMethod("DoDraw"),
@@ -53,13 +67,6 @@ namespace Azxc.UI
                 new Type[] { }, null);
             Azxc.GetCore().GetHarmony().Patch(ctor, postfix: new HarmonyMethod(typeof(UserInterfaceManager),
                 "OnLevelLoad"));
-        }
-
-        private static void OnLevelLoad(Level __instance)
-        {
-            // Due to problems with UI scaling, it will calculate a (mostly) perfect resolution for
-            // interface
-            _resolution = __instance.camera.width / 320f;
         }
 
         public void Open()
@@ -116,21 +123,18 @@ namespace Azxc.UI
 
         public void DrawHints()
         {
-            BitmapFont bitmapFont = new BitmapFont("biosFont", 8);
-            float width = bitmapFont.GetWidth(hintsText);
-            // BitmapFont's GetWidth method doesn't calculate right spriteScale field change, so I
-            // calculate the full width at scale 1x, and then just multiply it by new scale (knowing
-            // that scale and spriteScale are equal)
+            float width = _hintsFont.GetWidth(hintsText);
+
             Vec2 scale = new Vec2(0.5f);
-            bitmapFont.scale = scale;
-            bitmapFont.spriteScale = scale;
+            _hintsFont.scale = scale;
+            _hintsFont.spriteScale = scale;
             width *= scale.x;
 
-            Vec2 cornerIndent = new Vec2(15.0f, bitmapFont.height * 2.0f);
+            Vec2 cornerIndent = new Vec2(45.0f, _hintsFont.height * 2.0f);
             Vec2 position = new Vec2(Layer.HUD.width - width - cornerIndent.x,
-                Layer.HUD.height - bitmapFont.height - cornerIndent.y);
+                Layer.HUD.height - _hintsFont.height - cornerIndent.y);
 
-            bitmapFont.DrawOutline(hintsText, position, Color.White, Color.Black, 0.8f);
+            _hintsFont.DrawOutline(hintsText, position, Color.White, Color.Black, 0.8f);
         }
 
         public void Draw()
@@ -146,9 +150,10 @@ namespace Azxc.UI
                 control.Draw();
         }
 
-        public UserInterfaceInteract GetInteractionManager() => _core.interact;
-        public UserInterfaceState GetState() => _core.state;
-        public List<IAutoUpdate> GetUpdatable() => _core.GetUpdatable();
+        public void SetHintsText(string text)
+        {
+            hintsText = text;
+        }
 
         public void SetKeyboardLock(bool state)
         {

@@ -24,7 +24,7 @@ namespace Azxc
         public void Prepare()
         {
             _uiManager = new UserInterfaceManager(UserInterfaceState.Enabled);
-            _uiManager.hintsText = "@AZXCLEFTMOUSE@@AZXCACTIVATE@ACTIVATE  @AZXCRIGHTMOUSE@@AZXCBACK@BACK";
+            _uiManager.SetHintsText(UserInterfaceCore.DefaultHintsText);
         }
 
         public void CreateConfig()

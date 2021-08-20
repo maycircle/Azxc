@@ -6,6 +6,9 @@ namespace Azxc.UI
 {
     public class UserInterfaceCore
     {
+        public const string DefaultHintsText = "@AZXCLEFTMOUSE@@AZXCACTIVATE@ACTIVATE  @AZXCRIGHTMOUSE@@AZXCBACK@BACK";
+        public const string DialogHintsText = "@AZXCACTIVATE@ACCEPT  @AZXCRIGHTMOUSE@@AZXCBACK@CANCEL";
+
         // Controls that needed to be auto-updated
         private List<IAutoUpdate> _updatable;
 

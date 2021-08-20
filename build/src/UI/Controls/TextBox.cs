@@ -8,7 +8,7 @@ namespace Azxc.UI.Controls
     {
         private Label _dialogTitle, _userInput;
 
-        private string _hintsTextBackup;
+        private string _oldHintsText;
 
         public string text { get; private set; }
         public DialogResult dialogResult { get; set; }
@@ -92,8 +92,8 @@ namespace Azxc.UI.Controls
             Azxc.GetCore().GetUI().SetKeyboardLock(true);
 
             Azxc.GetCore().GetUI().forceHints = true;
-            _hintsTextBackup = Azxc.GetCore().GetUI().hintsText;
-            Azxc.GetCore().GetUI().hintsText = "@AZXCACTIVATE@ACCEPT  @AZXCRIGHTMOUSE@@AZXCBACK@CANCEL";
+            _oldHintsText = Azxc.GetCore().GetUI().hintsText;
+            Azxc.GetCore().GetUI().SetHintsText(UserInterfaceCore.DialogHintsText);
 
             width = 80.0f;
             x -= width / 2;
@@ -108,7 +108,7 @@ namespace Azxc.UI.Controls
             Azxc.GetCore().GetUI().SetKeyboardLock(false);
 
             Azxc.GetCore().GetUI().forceHints = false;
-            Azxc.GetCore().GetUI().hintsText = _hintsTextBackup;
+            Azxc.GetCore().GetUI().SetHintsText(_oldHintsText);
         }
 
         public override void Appear()
@@ -180,7 +180,7 @@ namespace Azxc.UI.Controls
             Vec2 end = new Vec2(x + width, y + height + 0.1f);
 
             float border = 0.5f;
-            Graphics.DrawRect(start, end, selected ? new Color(59, 109, 79) : new Color(39, 69, 49),
+            Graphics.DrawRect(start, end, isSelected ? new Color(59, 109, 79) : new Color(39, 69, 49),
                 0.9f, false, border);
 
             if (!string.IsNullOrEmpty(_shadowText) &&
