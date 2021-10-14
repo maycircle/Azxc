@@ -8,6 +8,8 @@ namespace Azxc.Patches
 {
     internal static class TriggerBot
     {
+        private static float _pressActionFrame;
+
         public static bool hooked, enabled;
 
         public static void HookAndToggle(bool toggle)
@@ -28,6 +30,7 @@ namespace Azxc.Patches
 
             int steps = (int)Math.Ceiling(length);
             float singleStep = length / steps;
+
             do
             {
                 steps--;
@@ -41,18 +44,20 @@ namespace Azxc.Patches
                 foreach (MaterialThing thing in collisionList)
                 {
                     if (thing is Duck && (except == null || thing != except))
+                    {
                         return true;
+                    }
                     else if (thing is Block && (ammoType == null ||
                         ammoType.penetration < thing.thickness))
+                    {
                         return false;
+                    }
                 }
             }
             while (steps > 0);
 
             return false;
         }
-
-        private static float _pressActionFrame;
 
         // UpdateHoldPosition@Duck
         static void Postfix(Duck __instance)
@@ -66,6 +71,7 @@ namespace Azxc.Patches
                 if (localProfile.duck == null || localProfile.duck.holdObject == null ||
                     !(localProfile.duck.holdObject is Gun))
                     continue;
+
                 Gun holdingGun = localProfile.duck.holdObject as Gun;
                 if (holdingGun.ammoType == null)
                     continue;
@@ -83,6 +89,7 @@ namespace Azxc.Patches
                     holdingGun.PressAction();
                     _pressActionFrame = 0;
                 }
+
                 _pressActionFrame += Maths.IncFrameTimer();
             }
         }

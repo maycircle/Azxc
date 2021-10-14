@@ -28,6 +28,7 @@ namespace Azxc.UI.Controls
 
             _panelPosition = new Vec2();
             _panelSize = new Vec2();
+
             indent = Vec2.One / 2;
             inner = (Vec2.One * 1.5f) / 2;
 
@@ -43,7 +44,7 @@ namespace Azxc.UI.Controls
 
             _panelPosition = new Vec2();
             _panelSize = new Vec2();
-            // This is just for design, so I'll use standart value everywhere
+
             indent = Vec2.One / 2;
             inner = (Vec2.One * 1.5f) / 2;
 
@@ -58,17 +59,6 @@ namespace Azxc.UI.Controls
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _items.GetEnumerator();
-        }
-
-        public void Load()
-        {
-            OnLoad(new ControlEventArgs(this));
-        }
-
-        public event EventHandler<ControlEventArgs> onLoad;
-        protected void OnLoad(ControlEventArgs e)
-        {
-            onLoad?.Invoke(this, e);
         }
 
         private float CalculateHeights(int index)
@@ -106,12 +96,13 @@ namespace Azxc.UI.Controls
                 }
             }
 
+            // Calculate amount of stacks of controls
             int count = (_items.Count / 24) + 1;
             width = count * longest + indent.x * 4;
             if (_items.Count > 24)
                 width -= indent.x * count;
 
-            // TODO: Optimize this code, probably, one day...
+            // Resize window to match the height of all controls
             float sumHeight = 0f;
             if (count > 1)
             {
@@ -187,6 +178,17 @@ namespace Azxc.UI.Controls
             _items.Remove(item);
             if (sizeMode == SizeModes.Flexible)
                 FitToItems();
+        }
+
+        public void Load()
+        {
+            OnLoad(new ControlEventArgs(this));
+        }
+
+        public event EventHandler<ControlEventArgs> onLoad;
+        protected void OnLoad(ControlEventArgs e)
+        {
+            onLoad?.Invoke(this, e);
         }
 
         public virtual void Clear()

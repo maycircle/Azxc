@@ -20,20 +20,24 @@ namespace Azxc.UI
         private void InitializeComponent()
         {
             _ticketsMax = new Button("Tickets MAX", "Set tickets amount to 999.");
-            _ticketsMax.onClicked += TicketsMax_Clicked; AddItem(_ticketsMax);
+            _ticketsMax.onClicked += TicketsMax_Clicked;
+            AddItem(_ticketsMax);
 
             _ticketsMin = new Button("Tickets MIN", "Set tickets amount to 0.");
-            _ticketsMin.onClicked += TicketsMin_Clicked; AddItem(_ticketsMin);
+            _ticketsMin.onClicked += TicketsMin_Clicked;
+            AddItem(_ticketsMin);
 
             AddItem(new Separator());
 
             _pauseTimer = new CheckBox("Pause Timer",
                 "Become incredibly fast, relative to time... :)");
-            _pauseTimer.onChecked += PauseTimer_Checked; AddItem(_pauseTimer);
+            _pauseTimer.onChecked += PauseTimer_Checked;
+            AddItem(_pauseTimer);
 
             _finishChallenge = new Button("Finish Challenge",
                 "Complete the challenge (Developer included).");
-            _finishChallenge.onClicked += FinishChallenge_Clicked; AddItem(_finishChallenge);
+            _finishChallenge.onClicked += FinishChallenge_Clicked;
+            AddItem(_finishChallenge);
         }
 
         private void TicketsMax_Clicked(object sender, ControlEventArgs e)
@@ -59,7 +63,6 @@ namespace Azxc.UI
             PauseTimer.Hook();
         }
 
-        // This code right here, officer
         private void FinishChallenge_Clicked(object sender, ControlEventArgs e)
         {
             if (ChallengeLevel.running)

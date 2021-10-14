@@ -64,6 +64,17 @@ namespace Azxc.UI
             return false;
         }
 
+        // Check if it is valid to spawn a `Thing`
+        private List<Type> GiveGetEditorThings()
+        {
+            List<Type> thingTypes;
+            if (MonoMain.moddingEnabled)
+                thingTypes = ManagedContent.Things.Types.ToList<Type>();
+            else
+                thingTypes = Editor.GetSubclasses(typeof(Thing)).ToList<Type>();
+            return thingTypes;
+        }
+
         private void GiveMethod_Clicked(object sender, ControlEventArgs e)
         {
             Button button = sender as Button;
@@ -82,16 +93,6 @@ namespace Azxc.UI
                     selectedProfile.duck.GiveHoldable(thingToGive);
                 }
             }
-        }
-
-        private List<Type> GiveGetEditorThings()
-        {
-            List<Type> thingTypes;
-            if (MonoMain.moddingEnabled)
-                thingTypes = ManagedContent.Things.Types.ToList<Type>();
-            else
-                thingTypes = Editor.GetSubclasses(typeof(Thing)).ToList<Type>();
-            return thingTypes;
         }
     }
 }

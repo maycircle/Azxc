@@ -26,7 +26,8 @@ namespace Azxc.UI
             AddItem(new ProfileSelector<GiveCommand>("Give", "Give item to player."));
 
             _skipCmd = new Button("Skip", "Skip current level |RED|(Host only).");
-            _skipCmd.onClicked += Skip_Clicked; AddItem(_skipCmd);
+            _skipCmd.onClicked += Skip_Clicked;
+            AddItem(_skipCmd);
         }
 
         private void KillCommand_Expanded(object sender, ControlEventArgs e)

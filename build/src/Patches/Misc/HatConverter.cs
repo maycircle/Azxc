@@ -39,6 +39,7 @@ namespace Azxc.Patches.Misc
                 {
                     using (BinaryWriter binaryWriter = new BinaryWriter(cryptoStream))
                         binaryWriter.Write(rawHat.GetBytes());
+
                     encrypted = encrypted.AddRangeToArray(memoryStream.ToArray());
                 }
             }
@@ -64,8 +65,9 @@ namespace Azxc.Patches.Misc
 
         public static long GetIdentifier(Image hatImage)
         {
-            // Taken from QuackHead. 630430777029345 is for hats that have cape; 402965919293045
-            // is for hats that don't have cape
+            // Taken from QuackHead.
+            // 630430777029345 - hats that have cape;
+            // 402965919293045 - hats that don't have cape 
             return hatImage.Width == 96 ? 630430777029345L : 402965919293045L;
         }
     }

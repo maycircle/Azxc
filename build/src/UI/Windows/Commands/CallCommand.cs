@@ -24,6 +24,7 @@ namespace Azxc.UI
                     AddItem(executor);
                 }
             }
+
             Sort(delegate (Control x, Control y)
             {
                 Button bx = x as Button;

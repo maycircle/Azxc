@@ -1,5 +1,4 @@
-﻿
-using DuckGame;
+﻿using DuckGame;
 using Harmony;
 
 namespace Azxc.Patches
@@ -32,8 +31,10 @@ namespace Azxc.Patches
                     return x.duck.isLocal;
                 return false;
             });
+
             if (localProfile == null)
                 return;
+
             localProfile.keepSetName = !restoreOriginal;
             if (!restoreOriginal)
                 localProfile.name = customNickname;

@@ -22,6 +22,7 @@ namespace Azxc.Patches
                 HatStealer.savePath = savePath;
             else
                 CheckSaveFolder();
+
             if (toggle && DuckNetwork.active)
             {
                 foreach (Profile profile in Profiles.active)
@@ -29,7 +30,9 @@ namespace Azxc.Patches
                     // Saves only if profile is wearing a custom hat
                     if (!profile.localPlayer && profile.team.hasHat &&
                         profile.customTeams.Contains(profile.team))
+                    {
                         SaveCustomTeam(profile.team);
+                    }
                 }
             }
 
@@ -46,6 +49,7 @@ namespace Azxc.Patches
             string savePath = ModLoader.GetMod<Azxc>().configuration.directory + "/HatStealer";
             if (!Directory.Exists(savePath))
                 Directory.CreateDirectory(savePath);
+
             Azxc.GetCore().GetConfig().TrySet("HatStealerSavePath", savePath);
             return savePath;
         }
@@ -63,6 +67,7 @@ namespace Azxc.Patches
         {
             if (customTeam == null)
                 throw new ArgumentNullException();
+
             Texture2D texture = customTeam.hat.texture.nativeObject as Texture2D;
 
             string pngFile = savePath + "/" + customTeam.name + ".png";
@@ -93,10 +98,14 @@ namespace Azxc.Patches
 
                 if (instruction.opcode == OpCodes.Call &&
                     (MethodInfo)instruction.operand == teamDeserialize)
+                {
                     yield return new CodeInstruction(OpCodes.Dup);
+                }
                 else if (instruction.opcode == OpCodes.Stfld &&
                     (FieldInfo)instruction.operand == customConnection)
+                {
                     yield return new CodeInstruction(OpCodes.Call, saveCustomTeam);
+                }
             }
         }
     }

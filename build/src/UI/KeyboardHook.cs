@@ -6,7 +6,9 @@ using System.Linq;
 
 namespace Azxc.UI
 {
-    // Hooks and cancels game keyboard input
+    /// <summary>
+    /// Hooks and cancels game keyboard input.
+    /// </summary>
     internal static class KeyboardHook
     {
         public static bool hooked, enabled;

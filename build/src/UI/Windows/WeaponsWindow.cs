@@ -18,22 +18,28 @@ namespace Azxc.UI
         private void InitializeComponent()
         {
             _infinityAmmo = new CheckBox("Infinite Ammo", "Endless ammo for most weapons.");
-            _infinityAmmo.onChecked += InfiniteAmmo_Checked; AddItem(_infinityAmmo);
+            _infinityAmmo.onChecked += InfiniteAmmo_Checked;
+            AddItem(_infinityAmmo);
 
             _norecoil = new CheckBox("No Recoil", "Disable kickback on shot.");
-            _norecoil.onChecked += NoRecoil_Checked; AddItem(_norecoil);
+            _norecoil.onChecked += NoRecoil_Checked;
+            AddItem(_norecoil);
 
             _noreload = new CheckBox("No Reload", "No delay between shots for most weapons.");
-            _noreload.onChecked += NoReload_Checked; AddItem(_noreload);
+            _noreload.onChecked += NoReload_Checked;
+            AddItem(_noreload);
 
             _bulletHit = new CheckBox("Bullet Hit", "Bullets fly through walls.");
-            _bulletHit.onChecked += BulletHit_Checked; AddItem(_bulletHit);
+            _bulletHit.onChecked += BulletHit_Checked;
+            AddItem(_bulletHit);
 
             _rangeHack = new CheckBox("Range Hack", "Weapons maximum range increased.");
-            _rangeHack.onChecked += RangeHack_Checked; AddItem(_rangeHack);
+            _rangeHack.onChecked += RangeHack_Checked;
+            AddItem(_rangeHack);
 
             _triggerBot = new CheckBox("TriggerBot", "Automatically shoot at ducks.");
-            _triggerBot.onChecked += TriggerBot_Checked; AddItem(_triggerBot);
+            _triggerBot.onChecked += TriggerBot_Checked;
+            AddItem(_triggerBot);
         }
 
         private void InfiniteAmmo_Checked(object sender, ControlEventArgs e)

@@ -41,9 +41,13 @@ namespace Azxc.Patches
 
             foreach (CodeInstruction instruction in instructions)
             {
-                if (instruction.opcode == OpCodes.Callvirt && (MethodInfo)instruction.operand == doHit)
-                    yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(BulletHit),
-                        nameof(BulletHit.HitExactThing)));
+                if (instruction.opcode == OpCodes.Callvirt &&
+                    (MethodInfo)instruction.operand == doHit)
+                {
+                    yield return new CodeInstruction(OpCodes.Call,
+                        AccessTools.Method(typeof(BulletHit),
+                            nameof(BulletHit.HitExactThing)));
+                }
                 else
                     yield return instruction;
             }

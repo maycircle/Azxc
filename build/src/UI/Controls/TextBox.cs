@@ -8,6 +8,9 @@ namespace Azxc.UI.Controls
     {
         private Label _dialogTitle, _userInput;
 
+        private float _flashingCursorFrame;
+        private bool _showFlashingCursor;
+
         private string _oldHintsText;
 
         public string text { get; private set; }
@@ -36,17 +39,6 @@ namespace Azxc.UI.Controls
             AddItem(_userInput);
         }
 
-        public void Accept()
-        {
-            if (_showFlashingCursor)
-                text = _userInput.text.Remove(_userInput.text.Length - 1);
-            else
-                text = _userInput.text;
-            dialogResult = DialogResult.Accept;
-        }
-
-        private float _flashingCursorFrame;
-        private bool _showFlashingCursor;
         public override void Update()
         {
             base.Update();
@@ -98,6 +90,15 @@ namespace Azxc.UI.Controls
             width = 80.0f;
             x -= width / 2;
             Show();
+        }
+
+        public void Accept()
+        {
+            if (_showFlashingCursor)
+                text = _userInput.text.Remove(_userInput.text.Length - 1);
+            else
+                text = _userInput.text;
+            dialogResult = DialogResult.Accept;
         }
 
         public override void Close()

@@ -1,5 +1,4 @@
-﻿
-using DuckGame;
+﻿using DuckGame;
 using Harmony;
 
 namespace Azxc.Patches

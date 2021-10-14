@@ -29,13 +29,16 @@ namespace Azxc.UI
             _consoleImplementation.onChecked += ConsoleImplementation_Checked;
             AddItem(_consoleImplementation);
 
-            _commandsBypass = new CheckBox("Commands Bypass", "Ability to call extra commands in DevConsole.");
-            _commandsBypass.onChecked += CommandsBypass_Checked; AddItem(_commandsBypass);
+            _commandsBypass = new CheckBox("Commands Bypass",
+                "Ability to call extra commands in DevConsole |RED|(Requires restart to disable).");
+            _commandsBypass.onChecked += CommandsBypass_Checked;
+            AddItem(_commandsBypass);
 
             AddItem(new Separator());
 
             _lobbyTimout = new CheckBox("Lobby Timeout", "Kick from lobby after being AFK for 5 minutes.", true);
-            _lobbyTimout.onChecked += LobbyTimeout_Checked; AddItem(_lobbyTimout);
+            _lobbyTimout.onChecked += LobbyTimeout_Checked;
+            AddItem(_lobbyTimout);
         }
 
         private void CommandsBypass_Checked(object sender, ControlEventArgs e)

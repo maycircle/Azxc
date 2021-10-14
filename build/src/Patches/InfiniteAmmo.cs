@@ -44,7 +44,9 @@ namespace Azxc.Patches
                     yield return new CodeInstruction(OpCodes.Brtrue, label1);
                 }
                 else if (instruction.opcode == OpCodes.Stfld && (FieldInfo)instruction.operand == ammo)
+                {
                     codes[i + 1].labels.Add(label1);
+                }
             }
         }
     }

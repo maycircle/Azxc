@@ -6,9 +6,9 @@ namespace Azxc.UI.Controls
 {
     public class CheckBox : Button
     {
-        public bool isChecked { get; set; }
+        private readonly Vec2 CheckSize = new Vec2(3f);
 
-        private Vec2 checkSize = new Vec2(3f);
+        public bool isChecked { get; set; }
 
         public CheckBox(string text, bool isChecked = false) : base(text)
         {
@@ -29,7 +29,7 @@ namespace Azxc.UI.Controls
 
         public override void Update()
         {
-            width = font.GetWidth(text) + indent.x * 2 + checkSize.x + 2f;
+            width = font.GetWidth(text) + indent.x * 2 + CheckSize.x + 2f;
             height = font.characterHeight * font.scale.y + indent.y * 2;
         }
 
@@ -37,16 +37,16 @@ namespace Azxc.UI.Controls
         {
             base.Draw();
 
-            Vec2 start = new Vec2(x + width - checkSize.x - indent.x,
-                y + height / 2 - checkSize.y / 2);
+            Vec2 start = new Vec2(x + width - CheckSize.x - indent.x,
+                y + height / 2 - CheckSize.y / 2);
 
             float border = 0.5f;
 
-            Graphics.DrawRect(start, start + checkSize, Color.White, 1f, false, border);
+            Graphics.DrawRect(start, start + CheckSize, Color.White, 1f, false, border);
             if (isChecked)
             {
                 Graphics.DrawRect(start + new Vec2(border * 2),
-                    start + checkSize - new Vec2(border * 2), Color.White, 1f);
+                    start + CheckSize - new Vec2(border * 2), Color.White, 1f);
             }
         }
 

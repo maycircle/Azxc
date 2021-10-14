@@ -1,5 +1,4 @@
-﻿
-using Azxc.Patches;
+﻿using Azxc.Patches;
 using Azxc.UI.Controls;
 using Azxc.UI.Events;
 using DuckGame;

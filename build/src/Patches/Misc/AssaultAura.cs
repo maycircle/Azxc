@@ -24,6 +24,7 @@ namespace Azxc.Patches.Misc
             {
                 foreach (Holdable holdable in Level.current.things.OfType<Holdable>())
                     holdable.active = true;
+
                 Azxc.GetCore().GetUI().RemoveUpdatable(_instance);
                 _instance = null;
             }
@@ -44,8 +45,8 @@ namespace Azxc.Patches.Misc
                 Holdable current = holdableThings.ElementAt(i);
                 if (current is RagdollPart && ((RagdollPart)current).doll == localDuck.ragdoll)
                     continue;
-                current.active = false; // Disable things usability
-                // current.velocity = Vec2.Zero; // Disable things randomly clipping (keep usability)
+
+                current.active = false;
 
                 Vec2 position = localDuck.ragdoll == null ? localDuck.position : localDuck.ragdoll.position;
                 position.x += (float)Math.Cos(_degrees + 360.0f / i) * _radius;

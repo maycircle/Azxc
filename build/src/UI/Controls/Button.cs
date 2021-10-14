@@ -32,7 +32,8 @@ namespace Azxc.UI.Controls
             indent = Vec2.One * 1.5f;
         }
 
-        public Button(string text, string toolTipText, Vec2 position) : base(text, position)
+        public Button(string text, string toolTipText, Vec2 position) :
+            base(text, position)
         {
             this.toolTipText = toolTipText;
             showToolTip = true;
